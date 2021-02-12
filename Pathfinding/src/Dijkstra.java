@@ -52,7 +52,7 @@ public class Dijkstra {
 	//BOOLEANS
 	private boolean solving = false;
 	//UTIL
-	Node[][] map;
+	static Node[][] map;
 	Algorithm Alg = new Algorithm();
 	Random r = new Random();
 	//SLIDERS
