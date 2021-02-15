@@ -369,8 +369,10 @@ public class Dijkstra {
 		
 		public void paintComponent(Graphics g) {	//REPAINT
 			super.paintComponent(g);
+			setBackground(Color.white);
 			for(int x = 0; x < cells; x++) {	//PAINT EACH NODE IN THE GRID
 				for(int y = 0; y < cells; y++) {
+					System.out.println(map[x][y].getType());
 					switch(map[x][y].getType()) {
 						case 0:
 							g.setColor(Color.GREEN);
