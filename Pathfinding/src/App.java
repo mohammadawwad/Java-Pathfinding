@@ -26,7 +26,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class App implements ActionListener, ChangeListener {
+public class App {
 
     //Speed Slider Values
     static final int minSpdSlider = 0;             
@@ -65,15 +65,52 @@ public class App implements ActionListener, ChangeListener {
     JSlider speedSlider;
     static Node[][] map;
 
-    App() {
+    
+    public static void main(String[] args) {
+        new App();
+    }
+
+    //Constructor 
+    public App(){
+        cleanMap();
+        initGUI();
+    }
+
+    //Loops through to reset every box
+    public void cleanMap(){
+        for(int x = 0; x > 20; x++){
+            for(int y = 0; y > 20; y++){
+                Node current = map[x][y];
+                current.setType(3);
+            }
+        }
+        System.out.println("Map Has Been Cleaned...");
+    }
+
+    // Updates Canvas
+    //update() is a reserved word
+    public void updateGrid() {
+        CSIZE = MSIZE / cells;
+        mapCanvas.repaint();
+    }
+
+    // Generates New Map
+    public void newMap() {
+        CSIZE = MSIZE / cells;
+        mapCanvas.repaint();
+    }
+
+
+
+    public void initGUI(){
         System.out.println("________Starting_______");
+        cleanMap();
         frame = new JFrame("Java Pathfinding");
         panel = new JPanel();
         popup = new JOptionPane();
 
         // Project Icon
-        Image icon = Toolkit.getDefaultToolkit()
-                .getImage("C:/Users/Mohammad/Documents/GitHub/Java-Pathfinding/Pathfinding/src/icon.png");
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:/Users/Mohammad/Documents/GitHub/Java-Pathfinding/Pathfinding/src/icon.png");
         frame.setIconImage(icon);
 
         // Buttons
@@ -89,14 +126,16 @@ public class App implements ActionListener, ChangeListener {
 
         // Action listners For Buttons
         button3.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 // Generate New Map
-                Map.newMap();
+                newMap();
                 System.out.println("Generated New Map");
             }
         });
 
         button5.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 // Credits pop up message
                 JOptionPane.showMessageDialog(frame,
@@ -106,7 +145,19 @@ public class App implements ActionListener, ChangeListener {
             }
         });
 
-        speedSlider.addChangeListener(this);
+        
+        //For slider use
+        speedSlider.addChangeListener(new ChangeListener(){
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                // Get Value of Slider
+                JSlider slider = (JSlider)e.getSource();
+                if (!slider.getValueIsAdjusting()) {
+                        System.out.println("Slider Pos: " + slider.getValue());
+                }
+            }
+        });
+
 
         // Turn on labels at major tick marks.
         speedSlider.setMajorTickSpacing(10);
@@ -139,6 +190,7 @@ public class App implements ActionListener, ChangeListener {
             }
         });
 
+
         // Menu Bar for Controls
         panel.add(button1);
         panel.add(button2);
@@ -164,8 +216,9 @@ public class App implements ActionListener, ChangeListener {
 
     }
 
+
     // Creates Grid Canvas
-    public static class Map extends JPanel implements MouseListener, MouseMotionListener {
+    public class Map extends JPanel implements MouseListener, MouseMotionListener {
 
         public Map() {
             addMouseListener(this);
@@ -180,15 +233,18 @@ public class App implements ActionListener, ChangeListener {
                 // goes through loop to create boxes on
                 for (int y = 0; y < cells; y++) {
 
-                    // Generates Wall if Number is under 3
+                    // Generates Random Walls
                     // int randomNum = (int) (Math.random() * 10); // 0 to 9
                     // if (randomNum < 3) {
                     // g.setColor(Color.BLACK);
                     // } else {
                     // g.setColor(Color.WHITE);
                     // }
-                    System.out.println(map[x][y]);
-                    switch (map[x][y].getType()) {
+
+                    //Constructor error here on map[x][y]
+                    //System.out.println(map[x][y]);
+                    int value = map[x][y].getType();
+                    switch (value) {
                         case 0:
                             g.setColor(Color.GREEN);
                             break;
@@ -216,21 +272,10 @@ public class App implements ActionListener, ChangeListener {
                     g.setColor(Color.BLACK);
                     g.drawRect(x * CSIZE, y * CSIZE, CSIZE, CSIZE);
                 }
-
             }
         }
 
-        // Updates Canvas
-        public void update() {
-            CSIZE = MSIZE / cells;
-            mapCanvas.repaint();
-        }
 
-        // Generates New Map
-        public static void newMap() {
-            CSIZE = MSIZE / cells;
-            mapCanvas.repaint();
-        }
 
         // Mouse Handlers
         @Override
@@ -241,9 +286,8 @@ public class App implements ActionListener, ChangeListener {
                 Node current = map[x][y];
                 if ((tool == 2 || tool == 3) && (current.getType() != 0 && current.getType() != 1))
                     current.setType(tool);
-                update();
-            } catch (Exception z) {
-            }
+                updateGrid();
+            } catch (Exception z) {}
         }
 
         @Override
@@ -283,38 +327,31 @@ public class App implements ActionListener, ChangeListener {
                             current.setType(tool);
                         break;
                 }
-                update();
+                updateGrid();
                 System.out.println("Type: " + current.getType());
-            } catch (Exception z) {
-            } // EXCEPTION HANDLER
+            } catch (Exception z) {} // EXCEPTION HANDLER
         }
 
         @Override
-        public void mouseMoved(MouseEvent e) {
-        }
-
+        public void mouseMoved(MouseEvent e) {}
         @Override
-        public void mouseClicked(MouseEvent e) {
-        }
-
+        public void mouseClicked(MouseEvent e) {}
         @Override
-        public void mouseReleased(MouseEvent e) {
-        }
-
+        public void mouseReleased(MouseEvent e) {}
         @Override
-        public void mouseEntered(MouseEvent e) {
-        }
-
+        public void mouseEntered(MouseEvent e) {}
         @Override
-        public void mouseExited(MouseEvent e) {
-        }
+        public void mouseExited(MouseEvent e) {}
 
     }
 
 
     class Node {
-		
-		// 0 = start, 1 = finish, 4 = checked, 5 = finalpath
+		// Box Types
+		// 0 = start 
+        // 1 = finish
+        // 4 = checked
+        // 5 = finalpath
 		private int boxType = 0;
 		private int hops;
 		private int x;
@@ -323,55 +360,35 @@ public class App implements ActionListener, ChangeListener {
 		private int lastY;
 		private double dToEnd = 0;
 	
-		public Node(int type, int x, int y) {	//CONSTRUCTOR
+        //CONSTRUCTOR
+		public Node(int type, int x, int y) {	
 			boxType = type;
 			this.x = x;
 			this.y = y;
 			hops = -1;
 		}
 		
-		public double getEuclidDist() {		//CALCULATES THE EUCLIDIAN DISTANCE TO THE FINISH NODE
+        //CALCULATES THE EUCLIDIAN DISTANCE TO THE FINISH NODE
+		public double getEuclidDist() {		
 			int xdif = Math.abs(x-finishx);
 			int ydif = Math.abs(y-finishy);
 			dToEnd = Math.sqrt((xdif*xdif)+(ydif*ydif));
 			return dToEnd;
 		}
 		
-		public int getX() {return x;}		//GET METHODS
+        //Getting Methods 
+		public int getX() {return x;}		
 		public int getY() {return y;}
 		public int getLastX() {return lastX;}
 		public int getLastY() {return lastY;}
 		public int getType() {return boxType;}
 		public int getHops() {return hops;}
 		
-		public void setType(int type) {boxType = type;}		//SET METHODS
+        //Setting Methods 
+		public void setType(int type) {boxType = type;}		
 		public void setLastNode(int x, int y) {lastX = x; lastY = y;}
 		public void setHops(int hops) {this.hops = hops;}
 	}
-
- 
-
-
-
-    //For slider use
-    @Override
-    public void stateChanged(ChangeEvent e) {
-        // Get Value of Slider
-        JSlider slider = (JSlider)e.getSource();
-        if (!slider.getValueIsAdjusting()) {
-                System.out.println("Slider Pos: " + slider.getValue());
-        }
-    }
-
-
-    @Override
-    public void actionPerformed(ActionEvent e) {}
-
-
-	public static void main(String[] args) {
-        new App();
-    }
-
 
 
 }
