@@ -55,7 +55,11 @@ public class App {
     private int algo = 0;
     private String[] tools = { "Start", "Wall", "Erase", "Finish" };
     private String[] algoPicker = { "A*", "Dijkstra" };
-
+        
+    // drop down list
+    JComboBox dropDown = new JComboBox(algoPicker);
+    JComboBox toolBx = new JComboBox(tools);
+    
     // intitalizing
     public static Map mapCanvas;
     JFrame frame;
@@ -78,12 +82,16 @@ public class App {
 
     //Loops through to reset every box
     public void cleanMap(){
-        for(int x = 0; x > 20; x++){
-            for(int y = 0; y > 20; y++){
-                Node current = map[x][y];
-                current.setType(3);
-            }
-        }
+        finishx = -1;	//RESET THE START AND FINISH
+		finishy = -1;
+		startx = -1;
+		starty = -1;
+		map = new Node[cells][cells];	//CREATE NEW MAP OF NODES
+		for(int x = 0; x < cells; x++) {
+			for(int y = 0; y < cells; y++) {
+				map[x][y] = new Node(3,x,y);	//SET ALL NODES TO EMPTY
+			}
+		}
         System.out.println("Map Has Been Cleaned...");
     }
 
@@ -104,7 +112,6 @@ public class App {
 
     public void initGUI(){
         System.out.println("________Starting_______");
-        cleanMap();
         frame = new JFrame("Java Pathfinding");
         panel = new JPanel();
         popup = new JOptionPane();
@@ -158,22 +165,6 @@ public class App {
             }
         });
 
-
-        // Turn on labels at major tick marks.
-        speedSlider.setMajorTickSpacing(10);
-        speedSlider.setMinorTickSpacing(5);
-        speedSlider.setPaintTicks(true);
-        speedSlider.setPaintLabels(true);
-
-        // creatig Spead labels
-        labels.put(minSpdSlider, new JLabel("slow"));
-        labels.put(maxSpdSlider, new JLabel("fast"));
-        speedSlider.setLabelTable(labels);
-
-        // drop down list
-        JComboBox dropDown = new JComboBox(algoPicker);
-        JComboBox toolBx = new JComboBox(tools);
-
         dropDown.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -190,6 +181,16 @@ public class App {
             }
         });
 
+        // Turn on labels at major tick marks.
+        speedSlider.setMajorTickSpacing(10);
+        speedSlider.setMinorTickSpacing(5);
+        speedSlider.setPaintTicks(true);
+        speedSlider.setPaintLabels(true);
+
+        // creatig Spead labels
+        labels.put(minSpdSlider, new JLabel("slow"));
+        labels.put(maxSpdSlider, new JLabel("fast"));
+        speedSlider.setLabelTable(labels);
 
         // Menu Bar for Controls
         panel.add(button1);
@@ -226,23 +227,16 @@ public class App {
         }
 
         public void paintComponent(Graphics g) {
-            super.paintComponent(g); // paint parent's background
+            super.paintComponent(g); 
+
+            // paint parent's background
             setBackground(Color.white);
+
             // Creates Grid of boxes
+            // goes through loop to create boxes on
             for (int x = 0; x < cells; x++) {
-                // goes through loop to create boxes on
                 for (int y = 0; y < cells; y++) {
 
-                    // Generates Random Walls
-                    // int randomNum = (int) (Math.random() * 10); // 0 to 9
-                    // if (randomNum < 3) {
-                    // g.setColor(Color.BLACK);
-                    // } else {
-                    // g.setColor(Color.WHITE);
-                    // }
-
-                    //Constructor error here on map[x][y]
-                    //System.out.println(map[x][y]);
                     int value = map[x][y].getType();
                     switch (value) {
                         case 0:
@@ -263,8 +257,6 @@ public class App {
                         case 5:
                             g.setColor(Color.YELLOW);
                             break;
-                        default:
-                            g.setColor(Color.WHITE);
                     }
 
                     // Draws and Colours the boxes
