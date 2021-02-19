@@ -89,7 +89,7 @@ public class App {
 		map = new Node[cells][cells];	//CREATE NEW MAP OF NODES
 		for(int x = 0; x < cells; x++) {
 			for(int y = 0; y < cells; y++) {
-				map[x][y] = new Node(3,x,y);	//SET ALL NODES TO EMPTY
+				map[x][y] = new Node(2,x,y);	//SET ALL NODES TO EMPTY
 			}
 		}
         System.out.println("Map Has Been Cleaned...");
@@ -249,7 +249,7 @@ public class App {
                             g.setColor(Color.WHITE);
                             break;
                         case 3:
-                            g.setColor(Color.WHITE);
+                            g.setColor(Color.RED);
                             break;
                         case 4:
                             g.setColor(Color.CYAN);
@@ -257,6 +257,8 @@ public class App {
                         case 5:
                             g.setColor(Color.YELLOW);
                             break;
+                        default:
+                            g.setColor(Color.WHITE);
                     }
 
                     // Draws and Colours the boxes
@@ -276,7 +278,7 @@ public class App {
                 int x = e.getX() / CSIZE;
                 int y = e.getY() / CSIZE;
                 Node current = map[x][y];
-                if ((tool == 2 || tool == 3) && (current.getType() != 0 && current.getType() != 1))
+                if ((tool == 1 || tool == 2) && (current.getType() != 0 && current.getType() != 3))
                     current.setType(tool);
                 updateGrid();
             } catch (Exception z) {}
@@ -291,9 +293,9 @@ public class App {
                 Node current = map[x][y];
                 switch (tool) {
                     case 0: { // START NODE
-                        if (current.getType() != 2) { // IF NOT WALL
+                        if (current.getType() != 1) { // IF NOT WALL
                             if (startx > -1 && starty > -1) { // IF START EXISTS SET IT TO EMPTY
-                                map[startx][starty].setType(3);
+                                map[startx][starty].setType(2);
                                 map[startx][starty].setHops(-1);
                             }
                             current.setHops(0);
@@ -304,13 +306,13 @@ public class App {
                         }
                         break;
                     }
-                    case 1: {// FINISH NODE
-                        if (current.getType() != 2) { // IF NOT WALL
+                    case 3: {// FINISH NODE
+                        if (current.getType() != 1) { // IF NOT WALL
                             if (finishx > -1 && finishy > -1) // IF FINISH EXISTS SET IT TO EMPTY
-                                map[finishx][finishy].setType(3);
+                                map[finishx][finishy].setType(2);
                             finishx = x; // SET THE FINISH X AND Y
                             finishy = y;
-                            current.setType(1); // SET THE NODE CLICKED TO BE FINISH
+                            current.setType(3); // SET THE NODE CLICKED TO BE FINISH
                         }
                         break;
                     }
