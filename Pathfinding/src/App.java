@@ -68,6 +68,7 @@ public class App {
     Hashtable<Integer, JLabel> labels;
     JSlider speedSlider;
     static Node[][] map;
+    public int test;
 
     
     public static void main(String[] args) {
@@ -132,6 +133,13 @@ public class App {
         mapCanvas = new Map();
 
         // Action listners For Buttons
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
+
         button3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -303,6 +311,7 @@ public class App {
                             starty = y;
                             // sets the clicked box to become the START Node
                             current.setType(0);
+                            test(startx, starty);
                         }
                         break;
                     }
@@ -340,10 +349,66 @@ public class App {
     }
 
 
+
+
+
+
+
+    //Algorithims Class For Implementing Pathfinding
+    public void test(int startx, int starty){
+        Node current = map[startx][starty];
+
+        if(current.getType() == 0){
+            System.out.println("Start Node is at: " + startx + "," + starty);
+            int topY = starty - 1;
+            int bottomY = starty + 1;
+            int rightX = startx + 1;
+            int leftX = startx - 1;
+
+            Node exploreT = map[startx][topY];
+            Node exploreB = map[startx][bottomY];
+            Node exploreL = map[leftX][starty];
+            Node exploreR = map[rightX][starty];
+
+            for(int done = 0; done < 4; done++){
+            if(current.getType() == 0){
+
+                if(exploreT.getType() == 2)
+                    exploreT.setType(4);
+                if(exploreB.getType() == 2)
+                    exploreB.setType(4);
+                if(exploreL.getType() == 2)
+                    exploreL.setType(4);
+                if(exploreR.getType() == 2)
+                    exploreR.setType(4);
+            }
+           
+        }
+    }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     class Node {
 		// Box Types
 		// 0 = start 
-        // 1 = finish
+        // 1 = wall
+        // 2 = erase
+        // 4 = finish
         // 4 = checked
         // 5 = finalpath
 		private int boxType = 0;
