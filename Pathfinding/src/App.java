@@ -139,10 +139,9 @@ public class App {
 
         // Buttons
         JButton button1 = new JButton("Start");
-        JButton button2 = new JButton("Reset");
-        JButton button3 = new JButton("Generate Map");
-        JButton button4 = new JButton("Clear Map");
-        JButton button5 = new JButton("Credits");
+        JButton button2 = new JButton("Generate Map");
+        JButton button3 = new JButton("Clear Map");
+        JButton button4 = new JButton("Credits");
         // Slider
         speedSlider = new JSlider(JSlider.HORIZONTAL, minSpdSlider, maxSpdSlider, initSpdSlider);
         labels = new Hashtable<>();
@@ -157,7 +156,7 @@ public class App {
         });
 
         //Generate new Map button
-        button3.addActionListener(new ActionListener() {
+        button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 genNewMap();
@@ -166,7 +165,7 @@ public class App {
         });
 
         //Clean Map Button
-        button4.addActionListener(new ActionListener() {
+        button3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 newMap();
@@ -175,7 +174,7 @@ public class App {
         });
 
         //Credits Button
-        button5.addActionListener(new ActionListener() {
+        button4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(frame,
@@ -230,10 +229,9 @@ public class App {
         panel.add(button2);
         panel.add(toolBx);
         panel.add(button3);
-        panel.add(button4);
         panel.add(speedSlider);
         panel.add(dropDown);
-        panel.add(button5);
+        panel.add(button4);
 
         panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
         panel.setLayout(new GridLayout(0, 1));
