@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Hashtable;
+import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -69,6 +70,7 @@ public class App {
     JSlider speedSlider;
     static Node[][] map;
     public int test;
+    public Random ran;
 
     
     public static void main(String[] args) {
@@ -103,12 +105,26 @@ public class App {
         mapCanvas.repaint();
     }
 
-    // Generates New Map
+    // Creates New Map
     public void newMap() {
         CSIZE = MSIZE / cells;
         mapCanvas.repaint();
     }
 
+    // Generates Map with Random walls
+    public void genNewMap(){
+			Node current;
+            cleanMap();
+            for(int i = 0; i < (cells * cells) * .4; i++){
+                int ranX = (int) (Math.random() * 20);
+                int ranY = (int) (Math.random() * 20);
+				int x = ranX;
+				int y = ranY;
+				current = map[x][y];	//FIND A RANDOM NODE IN THE GRID
+			    current.setType(1);	//SET NODE TO BE A WALL
+            }
+        System.out.println("Random Map Has Been Generated");
+    }
 
 
     public void initGUI(){
@@ -140,19 +156,28 @@ public class App {
             }
         });
 
+        //Generate new Map button
         button3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Generate New Map
-                newMap();
-                System.out.println("Generated New Map");
+                genNewMap();
+                updateGrid();
             }
         });
 
+        //Clean Map Button
+        button4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                newMap();
+                cleanMap();
+            }
+        });
+
+        //Credits Button
         button5.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Credits pop up message
                 JOptionPane.showMessageDialog(frame,
                         "                        Pathfinding Project \n                       Mohammad Awwad",
                         "Credits", JOptionPane.PLAIN_MESSAGE);
