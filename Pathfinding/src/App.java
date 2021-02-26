@@ -334,7 +334,7 @@ public class App {
                             starty = y;
                             // sets the clicked box to become the START Node
                             current.setType(0);
-                            test(startx, starty);
+                            //test(startx, starty); this is used for testing to see available slots
                         }
                         break;
                     }
@@ -377,42 +377,49 @@ public class App {
 
 
 
-    //Algorithims Class For Implementing Pathfinding
-    public void test(int startx, int starty){
-        Node current = map[startx][starty];
+    // //Algorithims Class For Implementing Pathfinding
+    // public void test(int startx, int starty){
+    //     Node current = map[startx][starty];
 
-        if(current.getType() == 0){
-            System.out.println("Start Node is at: " + startx + "," + starty);
-            int topY = starty - 1;
-            int bottomY = starty + 1;
-            int rightX = startx + 1;
-            int leftX = startx - 1;
+    //     if(current.getType() == 0){
+    //         System.out.println("Start Node is at: " + startx + "," + starty);
+    //         int topY = starty - 1;
+    //         int bottomY = starty + 1;
+    //         int rightX = startx + 1;
+    //         int leftX = startx - 1;
 
-            Node exploreT = map[startx][topY];
-            Node exploreB = map[startx][bottomY];
-            Node exploreL = map[leftX][starty];
-            Node exploreR = map[rightX][starty];
+    //         Node exploreT = map[startx][topY];
+    //         Node exploreB = map[startx][bottomY];
+    //         Node exploreL = map[leftX][starty];
+    //         Node exploreR = map[rightX][starty];
 
-            for(int done = 0; done < 4; done++){
-            if(current.getType() == 0){
+    //         for(int done = 0; done < 4; done++){
+    //         if(current.getType() == 0){
 
-                if(exploreT.getType() == 2)
-                    exploreT.setType(4);
-                if(exploreB.getType() == 2)
-                    exploreB.setType(4);
-                if(exploreL.getType() == 2)
-                    exploreL.setType(4);
-                if(exploreR.getType() == 2)
-                    exploreR.setType(4);
-            }
+    //             if(exploreT.getType() == 2)
+    //                 exploreT.setType(4);
+    //             if(exploreB.getType() == 2)
+    //                 exploreB.setType(4);
+    //             if(exploreL.getType() == 2)
+    //                 exploreL.setType(4);
+    //             if(exploreR.getType() == 2)
+    //                 exploreR.setType(4);
+    //         }
            
-        }
+    //     }
+    // }
+    // }
+
+
+
+    public class Algorithim{
+        //what Ill need                - Order
+        //Dijkstra algo                -5 (last since i only need one algo to start testing)
+        //A* algo                      -3       
+        //queing method                -1 
+        //serching method              -2
+        //backtracking method          -4
     }
-    }
-
-
-
-
 
 
 
