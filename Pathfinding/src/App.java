@@ -13,6 +13,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Random;
 
@@ -61,6 +62,9 @@ public class App {
     JComboBox dropDown = new JComboBox(algoPicker);
     JComboBox toolBx = new JComboBox(tools);
     
+    
+    public boolean start = false;
+
     // intitalizing
     public static Map mapCanvas;
     JFrame frame;
@@ -71,6 +75,7 @@ public class App {
     static Node[][] map;
     public int test;
     public Random ran;
+    public Algorithm algorithm = new Algorithm();
 
     
     public static void main(String[] args) {
@@ -126,6 +131,20 @@ public class App {
         System.out.println("Random Map Has Been Generated");
     }
 
+    //starts searching for end node
+    public void startFind(){
+        //start = true;
+        if(start)
+        switch(algo){
+            case 0:
+                algorithm.Astar();
+                break;
+            case 1:
+                algorithm.Dijkstra();
+                break;
+        }
+    }
+
 
     public void initGUI(){
         System.out.println("________Starting_______");
@@ -151,7 +170,10 @@ public class App {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                System.out.println("Starting Search");
+                //Checks if both the start and finish exist
+                if((startx > -1 && starty > -1) && (finishx > 1 && finishy > -1))
+                    startFind();
             }
         });
 
@@ -412,24 +434,45 @@ public class App {
 
 
 
-    public class Algorithim{
+    class Algorithm{
         //what Ill need                - Order
         //Dijkstra algo                -5 (last since i only need one algo to start testing)
         //A* algo                      -3       
         //queing method                -1 
         //serching method              -2
         //backtracking method          -4
+
+        public void Dijkstra(){
+
+        }
+
+        public void Astar(){
+
+        }
+
+        public ArrayList<Node> que(ArrayList<Node> sort){
+            return sort;
+
+        }
+
+        public ArrayList<Node> exploreNearby(Node current, int hops) {
+            return null;
+
+        }
+
+        public void explore(){
+
+        }
+
+        public void backtrack(){
+
+        }
+
+        public void searchNode(){
+
+        }
+
     }
-
-
-
-
-
-
-
-
-
-
 
 
 
