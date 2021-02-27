@@ -76,7 +76,8 @@ public class App {
     public int test;
     public Random ran;
     public Algorithm algorithm = new Algorithm();
-
+    public int check = 0;
+    public int length = 0;
     
     public static void main(String[] args) {
         new App();
@@ -349,7 +350,7 @@ public class App {
                         if (current.getType() != 1) { // IF NOT WALL
                             if (startx > -1 && starty > -1) { // IF START EXISTS SET IT TO EMPTY
                                 map[startx][starty].setType(2);
-                                map[startx][starty].setHops(-1);
+                                map[startx][starty].setHops(-1); //-1 reperesent the start node location
                             }
                             current.setHops(0);
                             startx = x;
@@ -450,26 +451,48 @@ public class App {
 
         }
 
-        public ArrayList<Node> que(ArrayList<Node> sort){
-            return sort;
+        //que is needed for A star only as A star is based of searching 
+        //the closest node to the finish
+        // public ArrayList<Node> que(ArrayList<Node> sort){
+        //     return sort;
 
-        }
+        // }
 
         public ArrayList<Node> exploreNearby(Node current, int hops) {
             return null;
 
         }
 
-        public void explore(){
+        //Backtracjing so it can draw the correct path
+        public void backtrack(int lastX, int lastY, int hops){
+            length = hops;
+			while(hops > 1) {	
+				Node current = map[lastX][lastY];
+                //sets it to the final path
+				current.setType(5);
+				lastX = current.getLastX();
+				lastY = current.getLastY();
+				hops--;
+			}
+			start = false;
+		}
+        
 
-        }
-
-        public void backtrack(){
-
-        }
-
-        public void searchNode(){
-
+        //Explores nearby nodes
+        public void searchNode(Node current, int lastX, int lastY, int hops){
+            if((current.getType() != 1) && (current.getType() != 4)){
+                //search
+                System.out.println("Searching For END Node");
+                current.setType(5);
+            }
+            else if(current.getType() == 4){
+                //start backtracking
+                System.out.println("FInish Node Found");
+            }
+            //Keeping track of the nodes and the distance
+            current.setLastNode(lastX, lastY);
+            current.setHops(hops);
+            check++;
         }
 
     }
@@ -500,13 +523,6 @@ public class App {
 			hops = -1;
 		}
 		
-        //CALCULATES THE EUCLIDIAN DISTANCE TO THE FINISH NODE
-		public double getEuclidDist() {		
-			int xdif = Math.abs(x-finishx);
-			int ydif = Math.abs(y-finishy);
-			dToEnd = Math.sqrt((xdif*xdif)+(ydif*ydif));
-			return dToEnd;
-		}
 		
         //Getting Methods 
 		public int getX() {return x;}		
@@ -523,7 +539,8 @@ public class App {
 	}
 
 
-}
+
 
 
     
+}
