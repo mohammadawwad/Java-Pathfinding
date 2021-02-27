@@ -30,23 +30,23 @@ import javax.swing.event.ChangeListener;
 
 public class App {
 
-    //Speed Slider Values
-    static final int minSpdSlider = 0;             
+    // Speed Slider Values
+    static final int minSpdSlider = 0;
     static final int maxSpdSlider = 30;
     static final int initSpdSlider = 15;
     public static int sliderValue = 15;
-    //Sets frame height and width
-    public static final int frameHeight  = 1000;    
-    public static final int frameWidth = 1000;     
-    //Sets canvas grid height and width
-    public static final int canvasHeight  = 1000;   
-    public static final int canvasWidth = 1000;   
-    //grid dimensions 20x20  
-    private static int cells = 20; 
+    // Sets frame height and width
+    public static final int frameHeight = 1000;
+    public static final int frameWidth = 1000;
+    // Sets canvas grid height and width
+    public static final int canvasHeight = 1000;
+    public static final int canvasWidth = 1000;
+    // grid dimensions 20x20
+    private static int cells = 20;
     private final int HEIGHT = 650;
     private final static int MSIZE = 600;
-    //Canvas Size
-    private static int CSIZE = MSIZE / cells; 
+    // Canvas Size
+    private static int CSIZE = MSIZE / cells;
     int mouseX = -10;
     int mouseY = -10;
     private static int startx = -1;
@@ -57,12 +57,11 @@ public class App {
     private int algo = 0;
     private String[] tools = { "Start", "Wall", "Erase", "Finish" };
     private String[] algoPicker = { "A*", "Dijkstra" };
-        
+
     // drop down list
     JComboBox dropDown = new JComboBox(algoPicker);
     JComboBox toolBx = new JComboBox(tools);
-    
-    
+
     public boolean start = false;
 
     // intitalizing
@@ -75,37 +74,38 @@ public class App {
     static Node[][] map;
     public int test;
     public Random ran;
-    public Algorithm algorithm = new Algorithm();
+    // Algorithm algorithm = new Algorithm();
+    Algorithm Algorithms = new Algorithm();
     public int check = 0;
     public int length = 0;
-    
+
     public static void main(String[] args) {
         new App();
     }
 
-    //Constructor 
-    public App(){
+    // Constructor
+    public App() {
         cleanMap();
         initGUI();
     }
 
-    //Loops through to reset every box
-    public void cleanMap(){
-        finishx = -1;	//RESET THE START AND FINISH
-		finishy = -1;
-		startx = -1;
-		starty = -1;
-		map = new Node[cells][cells];	//CREATE NEW MAP OF NODES
-		for(int x = 0; x < cells; x++) {
-			for(int y = 0; y < cells; y++) {
-				map[x][y] = new Node(2,x,y);	//SET ALL NODES TO EMPTY
-			}
-		}
+    // Loops through to reset every box
+    public void cleanMap() {
+        finishx = -1; // RESET THE START AND FINISH
+        finishy = -1;
+        startx = -1;
+        starty = -1;
+        map = new Node[cells][cells]; // CREATE NEW MAP OF NODES
+        for (int x = 0; x < cells; x++) {
+            for (int y = 0; y < cells; y++) {
+                map[x][y] = new Node(2, x, y); // SET ALL NODES TO EMPTY
+            }
+        }
         System.out.println("Map Has Been Cleaned...");
     }
 
     // Updates Canvas
-    //update() is a reserved word
+    // update() is a reserved word
     public void updateGrid() {
         CSIZE = MSIZE / cells;
         mapCanvas.repaint();
@@ -118,43 +118,42 @@ public class App {
     }
 
     // Generates Map with Random walls
-    public void genNewMap(){
-			Node current;
-            cleanMap();
-            for(int i = 0; i < (cells * cells) * .4; i++){
-                int ranX = (int) (Math.random() * 20);
-                int ranY = (int) (Math.random() * 20);
-				int x = ranX;
-				int y = ranY;
-				current = map[x][y];	//FIND A RANDOM NODE IN THE GRID
-			    current.setType(1);	//SET NODE TO BE A WALL
-            }
+    public void genNewMap() {
+        Node current;
+        cleanMap();
+        for (int i = 0; i < (cells * cells) * .4; i++) {
+            int ranX = (int) (Math.random() * 20);
+            int ranY = (int) (Math.random() * 20);
+            int x = ranX;
+            int y = ranY;
+            current = map[x][y]; // FIND A RANDOM NODE IN THE GRID
+            current.setType(1); // SET NODE TO BE A WALL
+        }
         System.out.println("Random Map Has Been Generated");
     }
 
-    //starts searching for end node
-    public void startFind(){
-        //start = true;
-        if(start)
-        switch(algo){
-            case 0:
-                algorithm.Astar();
-                break;
-            case 1:
-                algorithm.Dijkstra();
-                break;
-        }
+    // starts searching for end node
+    public void startFind() {
+        if (start)
+            switch (algo) {
+                case 0:
+                    Algorithms.Astar();
+                    break;
+                case 1:
+                    Algorithms.Dijkstra();
+                    break;
+            }
     }
 
-
-    public void initGUI(){
+    public void initGUI() {
         System.out.println("________Starting_______");
         frame = new JFrame("Java Pathfinding");
         panel = new JPanel();
         popup = new JOptionPane();
 
         // Project Icon
-        Image icon = Toolkit.getDefaultToolkit().getImage("C:/Users/Mohammad/Documents/GitHub/Java-Pathfinding/Pathfinding/src/icon.png");
+        Image icon = Toolkit.getDefaultToolkit()
+                .getImage("C:/Users/Mohammad/Documents/GitHub/Java-Pathfinding/Pathfinding/src/icon.png");
         frame.setIconImage(icon);
 
         // Buttons
@@ -172,13 +171,14 @@ public class App {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Starting Search");
-                //Checks if both the start and finish exist
-                if((startx > -1 && starty > -1) && (finishx > 1 && finishy > -1))
-                    startFind();
+                // Checks if both the start and finish exist
+                // if((startx > -1 && starty > -1) && (finishx > 1 && finishy > -1))
+                start = true;
+                startFind();
             }
         });
 
-        //Generate new Map button
+        // Generate new Map button
         button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -187,7 +187,7 @@ public class App {
             }
         });
 
-        //Clean Map Button
+        // Clean Map Button
         button3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -196,7 +196,7 @@ public class App {
             }
         });
 
-        //Credits Button
+        // Credits Button
         button4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -207,15 +207,14 @@ public class App {
             }
         });
 
-        
-        //For slider use
-        speedSlider.addChangeListener(new ChangeListener(){
+        // For slider use
+        speedSlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
                 // Get Value of Slider
-                JSlider slider = (JSlider)e.getSource();
+                JSlider slider = (JSlider) e.getSource();
                 if (!slider.getValueIsAdjusting()) {
-                        System.out.println("Slider Pos: " + slider.getValue());
+                    System.out.println("Slider Pos: " + slider.getValue());
                 }
             }
         });
@@ -223,8 +222,9 @@ public class App {
         dropDown.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                algo = dropDown.getSelectedIndex();
                 // changes algo box
+                algo = dropDown.getSelectedIndex();
+                System.out.println(algo);
             }
         });
 
@@ -271,7 +271,6 @@ public class App {
 
     }
 
-
     // Creates Grid Canvas
     public class Map extends JPanel implements MouseListener, MouseMotionListener {
 
@@ -281,7 +280,7 @@ public class App {
         }
 
         public void paintComponent(Graphics g) {
-            super.paintComponent(g); 
+            super.paintComponent(g);
 
             // paint parent's background
             setBackground(Color.white);
@@ -309,7 +308,7 @@ public class App {
                             g.setColor(Color.CYAN);
                             break;
                         case 5:
-                            g.setColor(Color.YELLOW);
+                            g.setColor(Color.MAGENTA);
                             break;
                         default:
                             g.setColor(Color.WHITE);
@@ -323,8 +322,6 @@ public class App {
             }
         }
 
-
-
         // Mouse Handlers
         @Override
         public void mouseDragged(MouseEvent e) {
@@ -335,7 +332,8 @@ public class App {
                 if ((tool == 1 || tool == 2) && (current.getType() != 0 && current.getType() != 3))
                     current.setType(tool);
                 updateGrid();
-            } catch (Exception z) {}
+            } catch (Exception z) {
+            }
         }
 
         @Override
@@ -350,14 +348,14 @@ public class App {
                         if (current.getType() != 1) { // IF NOT WALL
                             if (startx > -1 && starty > -1) { // IF START EXISTS SET IT TO EMPTY
                                 map[startx][starty].setType(2);
-                                map[startx][starty].setHops(-1); //-1 reperesent the start node location
+                                map[startx][starty].setHops(-1); // -1 reperesent the start node location
                             }
                             current.setHops(0);
                             startx = x;
                             starty = y;
                             // sets the clicked box to become the START Node
                             current.setType(0);
-                            //test(startx, starty); this is used for testing to see available slots
+                            // test(startx, starty); this is used for testing to see available slots
                         }
                         break;
                     }
@@ -378,73 +376,66 @@ public class App {
                 }
                 updateGrid();
                 System.out.println("Type: " + current.getType());
-            } catch (Exception z) {} // EXCEPTION HANDLER
+            } catch (Exception z) {
+            } // EXCEPTION HANDLER
         }
 
         @Override
-        public void mouseMoved(MouseEvent e) {}
+        public void mouseMoved(MouseEvent e) {
+        }
+
         @Override
-        public void mouseClicked(MouseEvent e) {}
+        public void mouseClicked(MouseEvent e) {
+        }
+
         @Override
-        public void mouseReleased(MouseEvent e) {}
+        public void mouseReleased(MouseEvent e) {
+        }
+
         @Override
-        public void mouseEntered(MouseEvent e) {}
+        public void mouseEntered(MouseEvent e) {
+        }
+
         @Override
-        public void mouseExited(MouseEvent e) {}
+        public void mouseExited(MouseEvent e) {
+        }
 
     }
 
+    class Algorithm {
+        // what Ill need - Order
+        // Dijkstra algo -5 (last since i only need one algo to start testing)
+        // A* algo -3
+        // queing method -1
+        // serching method -2
+        // backtracking method -4
 
-
-
-
-
-
-    // //Algorithims Class For Implementing Pathfinding
-    // public void test(int startx, int starty){
-    //     Node current = map[startx][starty];
-
-    //     if(current.getType() == 0){
-    //         System.out.println("Start Node is at: " + startx + "," + starty);
-    //         int topY = starty - 1;
-    //         int bottomY = starty + 1;
-    //         int rightX = startx + 1;
-    //         int leftX = startx - 1;
-
-    //         Node exploreT = map[startx][topY];
-    //         Node exploreB = map[startx][bottomY];
-    //         Node exploreL = map[leftX][starty];
-    //         Node exploreR = map[rightX][starty];
-
-    //         for(int done = 0; done < 4; done++){
-    //         if(current.getType() == 0){
-
-    //             if(exploreT.getType() == 2)
-    //                 exploreT.setType(4);
-    //             if(exploreB.getType() == 2)
-    //                 exploreB.setType(4);
-    //             if(exploreL.getType() == 2)
-    //                 exploreL.setType(4);
-    //             if(exploreR.getType() == 2)
-    //                 exploreR.setType(4);
-    //         }
-           
-    //     }
-    // }
-    // }
-
-
-
-    class Algorithm{
-        //what Ill need                - Order
-        //Dijkstra algo                -5 (last since i only need one algo to start testing)
-        //A* algo                      -3       
-        //queing method                -1 
-        //serching method              -2
-        //backtracking method          -4
-
-        public void Dijkstra(){
-
+        public void Dijkstra() {
+            System.out.println("Dijkstra");
+            ArrayList<Node> priority = new ArrayList<Node>(); // CREATE A PRIORITY QUE
+            priority.add(map[startx][starty]); // ADD THE START TO THE QUE
+            while (start) {
+                if (priority.size() <= 0) { // IF THE QUE IS 0 THEN NO PATH CAN BE FOUND
+                    start = false;
+                    System.out.println("Cant Find Path");
+                    break;
+                }
+                int hops = priority.get(0).getHops() + 1; // INCREMENT THE HOPS VARIABLE
+                ArrayList<Node> explored = exploreNearby(priority.get(0), hops); // CREATE AN ARRAYLIST OF NODES THAT
+                                                                                 // WERE EXPLORED
+                if (explored.size() > 0) {
+                    priority.remove(0); // REMOVE THE NODE FROM THE QUE
+                    priority.addAll(explored); // ADD ALL THE NEW NODES TO THE QUE
+                    updateGrid();
+                    try {
+                        Thread.sleep(30);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+				} else {	//IF NO NODES WERE EXPLORED THEN JUST REMOVE THE NODE FROM THE QUE
+					priority.remove(0);
+				}
+			}
         }
 
         public void Astar(){
@@ -459,8 +450,30 @@ public class App {
         // }
 
         public ArrayList<Node> exploreNearby(Node current, int hops) {
-            return null;
+            ArrayList<Node> explored = new ArrayList<Node>();	//LIST OF NODES THAT HAVE BEEN EXPLORED return null;
+            //for loop to check all nodes surrounding the current node
+            //setting to -1 since that represents the home node
+            System.out.println("Exploring Nearby");
+            int xAxis;
+            int yAxis;
+            for(xAxis = -1; xAxis <= 1; xAxis++){
+                for(yAxis = -1; yAxis <= 1; yAxis++){
+                    int x = current.getX() + xAxis;
+                    int y = current.getY() + yAxis;
+                    //checks to see if blocks are in the grid
+                    if((x > -1) && (x < cells) && (y > -1) && (y < cells)){
+                        Node nearby = map[x][y];
+                        //check if its not a wall
+                        if((nearby.getHops() == -1 || nearby.getHops() > 1) && (nearby.getType() != 1)){
+                            //call the searching method
+                            searchNode(nearby, current.getX(), current.getY(), hops);
+                            explored.add(nearby);// adding all nearby nodes that arnt walls to list
+                        }
 
+                    }
+                }
+            }
+            return explored; //returning the list value
         }
 
         //Backtracjing so it can draw the correct path
@@ -469,7 +482,8 @@ public class App {
 			while(hops > 1) {	
 				Node current = map[lastX][lastY];
                 //sets it to the final path
-				current.setType(5);
+                System.out.println("BackTracking");
+				current.setType(4);
 				lastX = current.getLastX();
 				lastY = current.getLastY();
 				hops--;
@@ -480,19 +494,21 @@ public class App {
 
         //Explores nearby nodes
         public void searchNode(Node current, int lastX, int lastY, int hops){
-            if((current.getType() != 1) && (current.getType() != 4)){
+            if(current.getType() != 0 && current.getType() != 3){
                 //search
                 System.out.println("Searching For END Node");
                 current.setType(5);
             }
-            else if(current.getType() == 4){
-                //start backtracking
-                System.out.println("FInish Node Found");
-            }
+            
             //Keeping track of the nodes and the distance
             current.setLastNode(lastX, lastY);
             current.setHops(hops);
             check++;
+            if(current.getType() == 3){
+                //start backtracking
+                System.out.println("FInish Node Found");
+                backtrack(current.getLastX(), current.getLastY(), hops);
+            }
         }
 
     }
