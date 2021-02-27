@@ -305,10 +305,10 @@ public class App {
                             g.setColor(Color.RED);
                             break;
                         case 4:
-                            g.setColor(Color.CYAN);
+                            g.setColor(Color.PINK);
                             break;
                         case 5:
-                            g.setColor(Color.MAGENTA);
+                            g.setColor(Color.CYAN);
                             break;
                         default:
                             g.setColor(Color.WHITE);
@@ -506,7 +506,7 @@ public class App {
             check++;
             if(current.getType() == 3){
                 //start backtracking
-                System.out.println("FInish Node Found");
+                System.out.println("Finish Node Found");
                 backtrack(current.getLastX(), current.getLastY(), hops);
             }
         }
