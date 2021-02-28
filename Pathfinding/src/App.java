@@ -450,27 +450,39 @@ public class App {
         // }
 
         public ArrayList<Node> exploreNearby(Node current, int hops) {
-            ArrayList<Node> explored = new ArrayList<Node>();	//LIST OF NODES THAT HAVE BEEN EXPLORED return null;
+            //list of nodes that have been explored
+            ArrayList<Node> explored = new ArrayList<Node>();	
             //for loop to check all nodes surrounding the current node
             //setting to -1 since that represents the home node
             System.out.println("Exploring Nearby");
             int xAxis;
             int yAxis;
-            for(xAxis = -1; xAxis <= 1; xAxis++){
-                for(yAxis = -1; yAxis <= 1; yAxis++){
-                    int x = current.getX() + xAxis;
-                    int y = current.getY() + yAxis;
-                    //checks to see if blocks are in the grid
-                    if((x > -1) && (x < cells) && (y > -1) && (y < cells)){
-                        Node nearby = map[x][y];
-                        //check if its not a wall
-                        if((nearby.getHops() == -1 || nearby.getHops() > hops) && (nearby.getType() != 1)){
-                            //call the searching method
-                            searchNode(nearby, current.getX(), current.getY(), hops);
-                            explored.add(nearby);// adding all nearby nodes that arnt walls to list
-                        }
 
+            //seperate loops to avoid diagonal movements
+            for(xAxis = -1; xAxis <= 1; xAxis++){
+                int x = current.getX() + xAxis;
+                //checks to see if next X bloxk is in the grid
+                if(x > -1 && x < cells){
+                    Node nearby = map[x][current.getY()];
+                    if((nearby.getHops() == -1 || nearby.getHops() > hops) && (nearby.getType() != 1)){
+                        //call the searching method
+                        searchNode(nearby, current.getX(), current.getY(), hops);
+                        explored.add(nearby);// adding all nearby nodes that arnt walls to list
                     }
+                }
+            }
+            for(yAxis = -1; yAxis <= 1; yAxis++){
+                int y = current.getY() + yAxis;
+                //checks to see if next Y block is in the Grid
+                if(y > -1 && y < cells){
+                    Node nearby = map[current.getX()][y];
+                    //check if its not a wall
+                    if((nearby.getHops() == -1 || nearby.getHops() > hops) && (nearby.getType() != 1)){
+                        //call the searching method
+                        searchNode(nearby, current.getX(), current.getY(), hops);
+                        explored.add(nearby);// adding all nearby nodes that arnt walls to list
+                    }
+
                 }
             }
             return explored; //returning the list value
