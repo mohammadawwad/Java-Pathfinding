@@ -305,7 +305,7 @@ public class App {
                             g.setColor(Color.RED);
                             break;
                         case 4:
-                            g.setColor(Color.PINK);
+                            g.setColor(Color.ORANGE);
                             break;
                         case 5:
                             g.setColor(Color.CYAN);
@@ -464,7 +464,7 @@ public class App {
                     if((x > -1) && (x < cells) && (y > -1) && (y < cells)){
                         Node nearby = map[x][y];
                         //check if its not a wall
-                        if((nearby.getHops() == -1 || nearby.getHops() > 1) && (nearby.getType() != 1)){
+                        if((nearby.getHops() == -1 || nearby.getHops() > hops) && (nearby.getType() != 1)){
                             //call the searching method
                             searchNode(nearby, current.getX(), current.getY(), hops);
                             explored.add(nearby);// adding all nearby nodes that arnt walls to list
@@ -476,22 +476,7 @@ public class App {
             return explored; //returning the list value
         }
 
-        //Backtracjing so it can draw the correct path
-        public void backtrack(int lastX, int lastY, int hops){
-            length = hops;
-			while(hops > 1) {	
-				Node current = map[lastX][lastY];
-                //sets it to the final path
-                System.out.println("BackTracking");
-				current.setType(4);
-				lastX = current.getLastX();
-				lastY = current.getLastY();
-				hops--;
-			}
-			start = false;
-		}
         
-
         //Explores nearby nodes
         public void searchNode(Node current, int lastX, int lastY, int hops){
             if(current.getType() != 0 && current.getType() != 3){
@@ -510,6 +495,23 @@ public class App {
                 backtrack(current.getLastX(), current.getLastY(), hops);
             }
         }
+
+        //Backtracjing so it can draw the correct path
+        public void backtrack(int lastX, int lastY, int hops){
+            length = hops;
+			while(hops > 1) {	
+				Node current = map[lastX][lastY];
+                //sets it to the final path
+                System.out.println("BackTracking");
+				current.setType(4);
+				lastX = current.getLastX();
+				lastY = current.getLastY();
+				hops--;
+			}
+			start = false;
+		}
+        
+
 
     }
 
