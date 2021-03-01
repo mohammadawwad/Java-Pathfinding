@@ -134,7 +134,7 @@ public class App {
 
     // starts searching for end node
     public void startFind() {
-        if (start)
+        if (start){
             switch (algo) {
                 case 0:
                     Algorithms.Astar();
@@ -143,6 +143,14 @@ public class App {
                     Algorithms.Dijkstra();
                     break;
             }
+        }  
+        //Allows us to see algorithm
+        while(!start){
+            try {
+                Thread.sleep(1);
+            } catch(Exception e) {}
+        }
+        startFind();
     }
 
     public void initGUI() {
@@ -171,12 +179,11 @@ public class App {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Starting Search");
-                // Checks if both the start and finish exist
-                // if((startx > -1 && starty > -1) && (finishx > 1 && finishy > -1))
+                //sets boolean to true allowing algorithim to
                 start = true;
-                startFind();
             }
         });
+        
 
         // Generate new Map button
         button2.addActionListener(new ActionListener() {
@@ -269,7 +276,10 @@ public class App {
         mapCanvas.setPreferredSize(new Dimension(canvasHeight, canvasWidth));
         frame.getContentPane().add(mapCanvas);
 
+        startFind();
     }
+
+    
 
     // Creates Grid Canvas
     public class Map extends JPanel implements MouseListener, MouseMotionListener {
@@ -412,30 +422,37 @@ public class App {
 
         public void Dijkstra() {
             System.out.println("Dijkstra");
+            updateGrid();
             ArrayList<Node> priority = new ArrayList<Node>(); // CREATE A PRIORITY QUE
             priority.add(map[startx][starty]); // ADD THE START TO THE QUE
+            updateGrid();
             while (start) {
                 if (priority.size() <= 0) { // IF THE QUE IS 0 THEN NO PATH CAN BE FOUND
                     start = false;
                     System.out.println("Cant Find Path");
+                    updateGrid();
                     break;
                 }
                 int hops = priority.get(0).getHops() + 1; // INCREMENT THE HOPS VARIABLE
                 ArrayList<Node> explored = exploreNearby(priority.get(0), hops); // CREATE AN ARRAYLIST OF NODES THAT
                                                                                  // WERE EXPLORED
                 if (explored.size() > 0) {
+                    updateGrid();
                     priority.remove(0); // REMOVE THE NODE FROM THE QUE
                     priority.addAll(explored); // ADD ALL THE NEW NODES TO THE QUE
                     updateGrid();
                     try {
                         Thread.sleep(30);
+                        updateGrid();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
 				} else {	//IF NO NODES WERE EXPLORED THEN JUST REMOVE THE NODE FROM THE QUE
 					priority.remove(0);
+                    updateGrid();
 				}
 			}
+            updateGrid();
         }
 
         public void Astar(){
@@ -480,7 +497,7 @@ public class App {
                     if((nearby.getHops() == -1 || nearby.getHops() > hops) && (nearby.getType() != 1)){
                         //call the searching method
                         searchNode(nearby, current.getX(), current.getY(), hops);
-                        explored.add(nearby);// adding all nearby nodes that arnt walls to list
+                        explored.add(nearby);// adding all nearby nodes that arnt walls to lis
                     }
 
                 }
