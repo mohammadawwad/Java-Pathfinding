@@ -32,19 +32,18 @@ public class App {
 
     // Speed Slider Values
     static final int minSpdSlider = 0;
-    static final int maxSpdSlider = 30;
-    static final int initSpdSlider = 15;
-    public static int sliderValue = 15;
+    static final int maxSpdSlider = 60;
+    static final int initSpdSlider = 30;
+    public static int sliderValue = 30;
     // Sets frame height and width
-    public static final int frameHeight = 1000;
-    public static final int frameWidth = 1000;
+    public static final int frameHeight = 1200;
+    public static final int frameWidth = 1200;
     // Sets canvas grid height and width
-    public static final int canvasHeight = 1000;
-    public static final int canvasWidth = 1000;
+    public static final int canvasHeight = 701;
+    public static final int canvasWidth = 701;
     // grid dimensions 20x20
-    private static int cells = 20;
-    private final int HEIGHT = 650;
-    private final static int MSIZE = 600;
+    private static int cells = 50;
+    private final static int MSIZE = 700;
     // Canvas Size
     private static int CSIZE = MSIZE / cells;
     int mouseX = -10;
@@ -122,11 +121,9 @@ public class App {
         Node current;
         cleanMap();
         for (int i = 0; i < (cells * cells) * .4; i++) {
-            int ranX = (int) (Math.random() * 20);
-            int ranY = (int) (Math.random() * 20);
-            int x = ranX;
-            int y = ranY;
-            current = map[x][y]; // FIND A RANDOM NODE IN THE GRID
+            int ranX = (int) (Math.random() * cells);
+            int ranY = (int) (Math.random() * cells);
+            current = map[ranX][ranY]; // FIND A RANDOM NODE IN THE GRID
             current.setType(1); // SET NODE TO BE A WALL
         }
         System.out.println("Random Map Has Been Generated");
@@ -137,7 +134,7 @@ public class App {
         if (start){
             switch (algo) {
                 case 0:
-                    Algorithms.Astar();
+                    Algorithms.AStar();
                     break;
                 case 1:
                     Algorithms.Dijkstra();
@@ -220,6 +217,7 @@ public class App {
             public void stateChanged(ChangeEvent e) {
                 // Get Value of Slider
                 JSlider slider = (JSlider) e.getSource();
+                sliderValue = slider.getValue();
                 if (!slider.getValueIsAdjusting()) {
                     System.out.println("Slider Pos: " + slider.getValue());
                 }
@@ -250,14 +248,14 @@ public class App {
         speedSlider.setPaintLabels(true);
 
         // creatig Spead labels
-        labels.put(minSpdSlider, new JLabel("slow"));
-        labels.put(maxSpdSlider, new JLabel("fast"));
+        labels.put(minSpdSlider, new JLabel("Fast"));
+        labels.put(maxSpdSlider, new JLabel("Slow"));
         speedSlider.setLabelTable(labels);
 
         // Menu Bar for Controls
+        panel.add(toolBx);
         panel.add(button1);
         panel.add(button2);
-        panel.add(toolBx);
         panel.add(button3);
         panel.add(speedSlider);
         panel.add(dropDown);
@@ -273,7 +271,7 @@ public class App {
         frame.setVisible(true);
 
         // adds grid canvas to the frame last so that menu bar loads on top
-        mapCanvas.setPreferredSize(new Dimension(canvasHeight, canvasWidth));
+        mapCanvas.setPreferredSize(new Dimension(canvasWidth, canvasHeight));
         frame.getContentPane().add(mapCanvas);
 
         startFind();
@@ -422,14 +420,14 @@ public class App {
 
         public void Dijkstra() {
             System.out.println("Dijkstra");
-            updateGrid();
             ArrayList<Node> priority = new ArrayList<Node>(); // CREATE A PRIORITY QUE
             priority.add(map[startx][starty]); // ADD THE START TO THE QUE
-            updateGrid();
             while (start) {
                 if (priority.size() <= 0) { // IF THE QUE IS 0 THEN NO PATH CAN BE FOUND
                     start = false;
                     System.out.println("Cant Find Path");
+                    JOptionPane.showMessageDialog(frame, "             No Path Found \n        Map Will be Cleared ");
+                    cleanMap();
                     updateGrid();
                     break;
                 }
@@ -437,34 +435,92 @@ public class App {
                 ArrayList<Node> explored = exploreNearby(priority.get(0), hops); // CREATE AN ARRAYLIST OF NODES THAT
                                                                                  // WERE EXPLORED
                 if (explored.size() > 0) {
-                    updateGrid();
                     priority.remove(0); // REMOVE THE NODE FROM THE QUE
                     priority.addAll(explored); // ADD ALL THE NEW NODES TO THE QUE
-                    updateGrid();
                     try {
-                        Thread.sleep(30);
+                        Thread.sleep(sliderValue);
                         updateGrid();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
 				} else {	//IF NO NODES WERE EXPLORED THEN JUST REMOVE THE NODE FROM THE QUE
 					priority.remove(0);
-                    updateGrid();
 				}
 			}
-            updateGrid();
         }
 
-        public void Astar(){
+        //Similar to Dijkstra Just has a sort queing method to search in the direction of the end Finish Node
+		public void AStar() {
+			ArrayList<Node> priority = new ArrayList<Node>();
+			priority.add(map[startx][starty]);
+			while(start) {
+				if(priority.size() <= 0) {
+					start = false;
+                    System.out.println("Cant Find Path");
+                    JOptionPane.showMessageDialog(frame, "             No Path Found \n        Map Will be Cleared ");
+                    cleanMap();
+                    updateGrid();
+					break;
+				}
+				int hops = priority.get(0).getHops() + 1;
+				ArrayList<Node> explored = exploreNearby(priority.get(0),hops);
+				if(explored.size() > 0) {
+					priority.remove(0);
+					priority.addAll(explored);
+                    try {
+                        Thread.sleep(sliderValue);
+                        updateGrid();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+				} else {
+					priority.remove(0);
+				}
+				sortPri(priority);
+			}
+		}
+		
+		//public ArrayList<Node> sortQue(ArrayList<Node> sort) {	//SORT PRIORITY QUE
+			// int c = 0;
+			// while(c < sort.size()) {
+			// 	int sm = c;
+			// 	for(int i = c+1; i < sort.size(); i++) {
+			// 		if(sort.get(i).getEDistance()+sort.get(i).getHops() < sort.get(sm).getEDistance()+sort.get(sm).getHops())
+			// 			sm = i;
+			// 	}
+			// 	if(c != sm) {
+			// 		Node temp = sort.get(c);
+			// 		sort.set(c, sort.get(sm));
+			// 		sort.set(sm, temp);
+			// 	}	
+			// 	c++;
+			// }
+			// return sort;
+		//}
+        public ArrayList<Node> sortPri(ArrayList<Node> sort){
+            int count = 0;
+            while(count < sort.size()){
+                int cAdd = count;
+                //count++ in for loop causes errors
+                for(int x = count + 1; x < sort.size(); x++){
+                    //compare a euclid distance to a diffrent ecuclid distance by having 2 variable 
+                    // 1 variable will always be greater than the other giving diffrent distances back
+                    if(sort.get(x).getEDistance() + sort.get(x).getHops() < sort.get(cAdd).getEDistance() + sort.get(cAdd).getHops()){
+                        cAdd = x;
+                    }
+                }
 
+                if(count != cAdd){
+					Node temp = sort.get(count);
+					sort.set(count, sort.get(cAdd));
+					sort.set(cAdd, temp);
+                }
+
+                count++;
+            }
+
+        return sort;
         }
-
-        //que is needed for A star only as A star is based of searching 
-        //the closest node to the finish
-        // public ArrayList<Node> que(ArrayList<Node> sort){
-        //     return sort;
-
-        // }
 
         public ArrayList<Node> exploreNearby(Node current, int hops) {
             //list of nodes that have been explored
@@ -560,7 +616,7 @@ public class App {
 		private int y;
 		private int lastX;
 		private int lastY;
-		private double dToEnd = 0;
+		private double distance = 0;
 	
         //CONSTRUCTOR
 		public Node(int type, int x, int y) {	
@@ -569,7 +625,17 @@ public class App {
 			this.y = y;
 			hops = -1;
 		}
-		
+
+        //Euclidean Distance caluclates the shortest distance between to co-ordinates
+        ///in this case we want it to be the current nodes position with the finish distance
+        // PS I googled the formula I havent taken this in Math Yet :)
+        public double getEDistance(){
+            //current - finish
+            int newX = Math.abs(x - finishx); //absolute value of X
+            int newY = Math.abs(y - finishy); //absolute value of Y
+            distance = Math.sqrt((newX * newX) + (newY * newY));
+            return distance;
+        }
 		
         //Getting Methods 
 		public int getX() {return x;}		
