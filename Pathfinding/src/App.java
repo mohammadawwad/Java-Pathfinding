@@ -90,14 +90,17 @@ public class App {
 
     // Loops through to reset every box
     public void cleanMap() {
-        finishx = -1; // RESET THE START AND FINISH
+        //Resets start and finish 
+        finishx = -1; 
         finishy = -1;
         startx = -1;
         starty = -1;
-        map = new Node[cells][cells]; // CREATE NEW MAP OF NODES
+        //creates new map of nodes
+        map = new Node[cells][cells]; 
         for (int x = 0; x < cells; x++) {
             for (int y = 0; y < cells; y++) {
-                map[x][y] = new Node(2, x, y); // SET ALL NODES TO EMPTY
+                map[x][y] = new Node(2, x, y); 
+                //sets all nodes to blank
             }
         }
         System.out.println("Map Has Been Cleaned...");
@@ -353,8 +356,10 @@ public class App {
                 Node current = map[x][y];
                 switch (tool) {
                     case 0: { // START NODE
-                        if (current.getType() != 1) { // IF NOT WALL
-                            if (startx > -1 && starty > -1) { // IF START EXISTS SET IT TO EMPTY
+                        //if not a wall
+                        if (current.getType() != 1) { 
+                            //if start exist sets it to blank
+                            if (startx > -1 && starty > -1) {
                                 map[startx][starty].setType(2);
                                 map[startx][starty].setHops(-1); // -1 reperesent the start node location
                             }
@@ -363,17 +368,19 @@ public class App {
                             starty = y;
                             // sets the clicked box to become the START Node
                             current.setType(0);
-                            // test(startx, starty); this is used for testing to see available slots
                         }
                         break;
                     }
                     case 3: {// FINISH NODE
-                        if (current.getType() != 1) { // IF NOT WALL
-                            if (finishx > -1 && finishy > -1) // IF FINISH EXISTS SET IT TO EMPTY
+                        //if not a wall
+                        if (current.getType() != 1) { 
+                            // if fininsh exists set it to empty
+                            if (finishx > -1 && finishy > -1) 
                                 map[finishx][finishy].setType(2);
-                            finishx = x; // SET THE FINISH X AND Y
+                            finishx = x; 
                             finishy = y;
-                            current.setType(3); // SET THE NODE CLICKED TO BE FINISH
+                            current.setType(3); 
+                            //sets clicked node to be red
                         }
                         break;
                     }
@@ -411,19 +418,16 @@ public class App {
     }
 
     class Algorithm {
-        // what Ill need - Order
-        // Dijkstra algo -5 (last since i only need one algo to start testing)
-        // A* algo -3
-        // queing method -1
-        // serching method -2
-        // backtracking method -4
 
         public void Dijkstra() {
             System.out.println("Dijkstra");
-            ArrayList<Node> priority = new ArrayList<Node>(); // CREATE A PRIORITY QUE
-            priority.add(map[startx][starty]); // ADD THE START TO THE QUE
+            //creates a priority que
+            ArrayList<Node> priority = new ArrayList<Node>(); 
+            //add the start node first to the que
+            priority.add(map[startx][starty]); 
             while (start) {
-                if (priority.size() <= 0) { // IF THE QUE IS 0 THEN NO PATH CAN BE FOUND
+                // if the que == 0 no path exists or cannot be ound
+                if (priority.size() <= 0) { 
                     start = false;
                     System.out.println("Cant Find Path");
                     JOptionPane.showMessageDialog(frame, "             No Path Found \n        Map Will be Cleared ");
@@ -431,12 +435,14 @@ public class App {
                     updateGrid();
                     break;
                 }
-                int hops = priority.get(0).getHops() + 1; // INCREMENT THE HOPS VARIABLE
-                ArrayList<Node> explored = exploreNearby(priority.get(0), hops); // CREATE AN ARRAYLIST OF NODES THAT
-                                                                                 // WERE EXPLORED
+                int hops = priority.get(0).getHops() + 1; 
+                //array list of explored nodes
+                ArrayList<Node> explored = exploreNearby(priority.get(0), hops); 
                 if (explored.size() > 0) {
-                    priority.remove(0); // REMOVE THE NODE FROM THE QUE
-                    priority.addAll(explored); // ADD ALL THE NEW NODES TO THE QUE
+                    //remove from que
+                    priority.remove(0); 
+                    //add all new nodes
+                    priority.addAll(explored); 
                     try {
                         Thread.sleep(sliderValue);
                         updateGrid();
