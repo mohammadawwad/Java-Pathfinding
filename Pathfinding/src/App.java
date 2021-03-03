@@ -480,23 +480,7 @@ public class App {
 			}
 		}
 		
-		//public ArrayList<Node> sortQue(ArrayList<Node> sort) {	//SORT PRIORITY QUE
-			// int c = 0;
-			// while(c < sort.size()) {
-			// 	int sm = c;
-			// 	for(int i = c+1; i < sort.size(); i++) {
-			// 		if(sort.get(i).getEDistance()+sort.get(i).getHops() < sort.get(sm).getEDistance()+sort.get(sm).getHops())
-			// 			sm = i;
-			// 	}
-			// 	if(c != sm) {
-			// 		Node temp = sort.get(c);
-			// 		sort.set(c, sort.get(sm));
-			// 		sort.set(sm, temp);
-			// 	}	
-			// 	c++;
-			// }
-			// return sort;
-		//}
+	
         public ArrayList<Node> sortPri(ArrayList<Node> sort){
             int count = 0;
             while(count < sort.size()){
