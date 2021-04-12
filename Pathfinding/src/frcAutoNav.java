@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -13,22 +14,30 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class App {
+public class frcAutoNav {
 
     // Speed Slider Values
     static final int minSpdSlider = 0;
@@ -37,15 +46,16 @@ public class App {
     public static int sliderValue = 30;
     // Sets frame height and width
     public static final int frameHeight = 1200;
-    public static final int frameWidth = 1200;
+    public static final int frameWidth = 1800;
     // Sets canvas grid height and width
     public static final int canvasHeight = 701;
-    public static final int canvasWidth = 701;
-    // grid dimensions 20x20
-    private static int cells = 50;
-    private final static int MSIZE = 700;
+    public static final int canvasWidth = 1501;
+    // grid dimensions cellsxcells 82x 160
+    private static int cellsWidth = 90;
+    private static int cellsHeight = 43;
+    private final static int MSIZE = 1500;
     // Canvas Size
-    private static int CSIZE = MSIZE / cells;
+    private static int CSIZE = /*MSIZE / cellsWidth;*/ 15;
     int mouseX = -10;
     int mouseY = -10;
     private static int startx = -1;
@@ -62,6 +72,8 @@ public class App {
     JComboBox toolBx = new JComboBox(tools);
 
     public boolean start = false;
+    public int check = 0;
+    public int length = 0;
 
     // intitalizing
     public static Map mapCanvas;
@@ -73,17 +85,15 @@ public class App {
     static Node[][] map;
     public int test;
     public Random ran;
-    // Algorithm algorithm = new Algorithm();
     Algorithm Algorithms = new Algorithm();
-    public int check = 0;
-    public int length = 0;
+    JScrollPane scrollArea; 
 
-    public static void main(String[] args) {
-        new App();
+    public static void main(String[] args){
+        new frcAutoNav();
     }
 
     // Constructor
-    public App() {
+    public frcAutoNav(){
         cleanMap();
         initGUI();
     }
@@ -96,9 +106,9 @@ public class App {
         startx = -1;
         starty = -1;
         //creates new map of nodes
-        map = new Node[cells][cells]; 
-        for (int x = 0; x < cells; x++) {
-            for (int y = 0; y < cells; y++) {
+        map = new Node[cellsWidth][cellsHeight]; 
+        for (int x = 0; x < cellsWidth; x++) {
+            for (int y = 0; y < cellsHeight; y++) {
                 map[x][y] = new Node(2, x, y); 
                 //sets all nodes to blank
             }
@@ -109,13 +119,13 @@ public class App {
     // Updates Canvas
     // update() is a reserved word
     public void updateGrid() {
-        CSIZE = MSIZE / cells;
+        CSIZE = /*MSIZE / cellsWidth*/ 15;
         mapCanvas.repaint();
     }
 
     // Creates New Map
     public void newMap() {
-        CSIZE = MSIZE / cells;
+        CSIZE = /*MSIZE / cellsWidth*/ 15;
         mapCanvas.repaint();
     }
 
@@ -123,9 +133,9 @@ public class App {
     public void genNewMap() {
         Node current;
         cleanMap();
-        for (int i = 0; i < (cells * cells) * .4; i++) {
-            int ranX = (int) (Math.random() * cells);
-            int ranY = (int) (Math.random() * cells);
+        for (int i = 0; i < (cellsHeight * cellsWidth) * .4; i++) {
+            int ranX = (int) (Math.random() * cellsHeight + cellsWidth / 2);
+            int ranY = (int) (Math.random() * cellsHeight + cellsWidth / 2);
             current = map[ranX][ranY]; // FIND A RANDOM NODE IN THE GRID
             current.setType(1); // SET NODE TO BE A WALL
         }
@@ -153,8 +163,9 @@ public class App {
         startFind();
     }
 
-    public void initGUI() {
+    public void initGUI(){
         System.out.println("________Starting_______");
+
         frame = new JFrame("Java Pathfinding");
         panel = new JPanel();
         popup = new JOptionPane();
@@ -264,6 +275,10 @@ public class App {
         panel.add(dropDown);
         panel.add(button4);
 
+        //Scrolling
+        JScrollPane scrPane = new JScrollPane(panel);
+        frame.add(scrPane);
+
         panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
         panel.setLayout(new GridLayout(0, 1));
         panel.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -278,6 +293,7 @@ public class App {
         frame.getContentPane().add(mapCanvas);
 
         startFind();
+        
     }
 
     
@@ -294,43 +310,60 @@ public class App {
             super.paintComponent(g);
 
             // paint parent's background
-            setBackground(Color.white);
+            setBackground(Color.WHITE);
+            setOpaque(true);
+
+            //Creates Field
+            BufferedImage image;
+            try {
+                image = ImageIO.read(new File("C:/Users/Mohammad/Documents/GitHub/Java-Pathfinding/Pathfinding/src/imgs/2021_field.png"));
+                g.drawImage(image, 0, 0, null);
+            } catch (IOException e) {e.printStackTrace();}
 
             // Creates Grid of boxes
             // goes through loop to create boxes on
-            for (int x = 0; x < cells; x++) {
-                for (int y = 0; y < cells; y++) {
+            for (int x = 0; x < cellsWidth; x++) {
+                for (int y = 0; y < cellsHeight; y++) {
 
                     int value = map[x][y].getType();
                     switch (value) {
                         case 0:
-                            g.setColor(Color.GREEN);
+                            //Green
+                            g.setColor(new Color(51, 255, 0, 85));
                             break;
                         case 1:
-                            g.setColor(Color.BLACK);
+                            //Black
+                            g.setColor(new Color(3, 3, 3, 80));
                             break;
                         case 2:
-                            g.setColor(Color.WHITE);
+                            //White
+                            g.setColor(new Color(0, 0, 0, 80));
                             break;
                         case 3:
-                            g.setColor(Color.RED);
+                            //Red
+                            g.setColor(new Color(255, 0, 0, 85));
                             break;
                         case 4:
-                            g.setColor(Color.ORANGE);
+                            //Cyan
+                            g.setColor(new Color(255, 183, 0, 80));
                             break;
                         case 5:
-                            g.setColor(Color.CYAN);
+                            //Orange
+                            g.setColor(new Color(66, 209, 245, 80));
                             break;
                         default:
-                            g.setColor(Color.WHITE);
+                            //White
+                            g.setColor(new Color(0, 0, 0, 80));
                     }
-
+                    
                     // Draws and Colours the boxes
                     g.fillRect(x * CSIZE, y * CSIZE, CSIZE, CSIZE);
                     g.setColor(Color.BLACK);
                     g.drawRect(x * CSIZE, y * CSIZE, CSIZE, CSIZE);
                 }
             }
+
+
         }
 
         // Mouse Handlers
@@ -525,7 +558,7 @@ public class App {
             for(xAxis = -1; xAxis <= 1; xAxis++){
                 int x = current.getX() + xAxis;
                 //checks to see if next X bloxk is in the grid
-                if(x > -1 && x < cells){
+                if(x > -1 && x < cellsWidth){
                     Node nearby = map[x][current.getY()];
                     if((nearby.getHops() == -1 || nearby.getHops() > hops) && (nearby.getType() != 1)){
                         //call the searching method
@@ -537,7 +570,7 @@ public class App {
             for(yAxis = -1; yAxis <= 1; yAxis++){
                 int y = current.getY() + yAxis;
                 //checks to see if next Y block is in the Grid
-                if(y > -1 && y < cells){
+                if(y > -1 && y < cellsHeight){
                     Node nearby = map[current.getX()][y];
                     //check if its not a wall
                     if((nearby.getHops() == -1 || nearby.getHops() > hops) && (nearby.getType() != 1)){
