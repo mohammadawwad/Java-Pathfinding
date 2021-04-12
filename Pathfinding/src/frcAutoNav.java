@@ -114,6 +114,7 @@ public class frcAutoNav {
             }
         }
         System.out.println("Map Has Been Cleaned...");
+        fillArea();
     }
 
     // Updates Canvas
@@ -333,7 +334,7 @@ public class frcAutoNav {
                             break;
                         case 1:
                             //Black
-                            g.setColor(new Color(3, 3, 3, 80));
+                            g.setColor(new Color(0, 0, 0));
                             break;
                         case 2:
                             //White
@@ -360,11 +361,13 @@ public class frcAutoNav {
                     g.fillRect(x * CSIZE, y * CSIZE, CSIZE, CSIZE);
                     g.setColor(Color.BLACK);
                     g.drawRect(x * CSIZE, y * CSIZE, CSIZE, CSIZE);
+                    
                 }
             }
-
+            fillArea();
 
         }
+
 
         // Mouse Handlers
         @Override
@@ -387,6 +390,7 @@ public class frcAutoNav {
                 int x = e.getX() / CSIZE;
                 int y = e.getY() / CSIZE;
                 Node current = map[x][y];
+                System.out.println("Co-ordinates:" + x + ", " + y);
                 switch (tool) {
                     case 0: { // START NODE
                         //if not a wall
@@ -448,6 +452,34 @@ public class frcAutoNav {
         public void mouseExited(MouseEvent e) {
         }
 
+    }
+
+    public void fillArea(){
+        //Multi Dimentional Array to create co-ords for walls in places you cannot go
+        int[][] blocked = {
+                           {32,16}, {32,17}, {33,16}, {33,17}, //top left post
+                           {49,9}, {50,9}, {49,10}, {50,10},   //top right post
+                           {39,31}, {40,31}, {40,32}, {39,32}, //bottom left post
+                           {56,25}, {57,25}, {56,26}, {57,26},  //bottom right post
+                           //Trench wall
+                           {41,33}, {40,33}, {39,33}, {38,33}, {37,33},
+                           //Enemy Trench
+                           {32,2}, {32,3}, {32,4}, {32,5}, {32,6}, {32,7}, 
+                           {32,8}, {33,8}, {34,8}, {35,8}, {36,8}, {37,8}, {38,8}, {39,8}, {40,8}, {41,8}, {42,8}, {43,8}, {44,8}, {45,8}, {46,8}, {47,8}, {48,8}, {49,8}, {50,8}, {51,8}, {52,8}, {53,8}, {54,8}, {55,8}, {56,8}, {57,8},
+                           {57,7}, {57,6}, {57,5}, {57,4}, {57,3}, {57,2}, 
+                           //Enemy Scoring Zone
+                           {8,11}, {9,12}, {10,13}, {9,14}, {8,15}, 
+                           //Enemy Loading Zone
+                           {81,16}, {80,15}, {79,14}, {79,13}, {80,12}, {81,11}, 
+                        };
+        int x;
+        int y;
+        for(int i = 0; blocked.length > i; i++){
+            x = blocked[i][0];
+            y = blocked[i][1]; //+1 to get the second digit in the array
+            Node current = map[x][y];
+            current.setType(1);
+        }
     }
 
     class Algorithm {
