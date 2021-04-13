@@ -62,14 +62,17 @@ public class frcAutoNav {
     private static int starty = -1;
     private static int finishx = -1;
     private static int finishy = -1;
+    private int allianceState = 0;
     private static int tool = 0;
     private int algo = 0;
     private String[] tools = { "Start", "Wall", "Erase", "Finish" };
     private String[] algoPicker = { "A*", "Dijkstra" };
+    private String[] allianceColor = { "Blue", "Red" };
 
     // drop down list
     JComboBox dropDown = new JComboBox(algoPicker);
     JComboBox toolBx = new JComboBox(tools);
+    JComboBox alliance = new JComboBox(allianceColor);
 
     public boolean start = false;
     public int check = 0;
@@ -86,7 +89,6 @@ public class frcAutoNav {
     public int test;
     public Random ran;
     Algorithm Algorithms = new Algorithm();
-    JScrollPane scrollArea; 
 
     public static void main(String[] args){
         new frcAutoNav();
@@ -114,7 +116,6 @@ public class frcAutoNav {
             }
         }
         System.out.println("Map Has Been Cleaned...");
-        fillArea();
     }
 
     // Updates Canvas
@@ -212,6 +213,7 @@ public class frcAutoNav {
             public void actionPerformed(ActionEvent e) {
                 newMap();
                 cleanMap();
+                fillArea();
             }
         });
 
@@ -239,22 +241,36 @@ public class frcAutoNav {
             }
         });
 
+        //Algorithms drop down
         dropDown.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                // changes algo box
                 algo = dropDown.getSelectedIndex();
-                System.out.println(algo);
+                System.out.println("Algorithm: " + algo);
             }
         });
 
+        //Tool box drop down 
         toolBx.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 tool = toolBx.getSelectedIndex();
-                // changes tools box
+                System.out.println("Tool: " + tool);
             }
         });
+
+        //Alliance Station Drop Down
+        alliance.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                allianceState = alliance.getSelectedIndex();
+                updateGrid();
+                cleanMap();
+                fillArea();
+                System.out.println("Alliance: " + 1);
+            }
+        });
+
 
         // Turn on labels at major tick marks.
         speedSlider.setMajorTickSpacing(10);
@@ -274,6 +290,7 @@ public class frcAutoNav {
         panel.add(button3);
         panel.add(speedSlider);
         panel.add(dropDown);
+        panel.add(alliance);
         panel.add(button4);
 
         //Scrolling
@@ -455,30 +472,64 @@ public class frcAutoNav {
     }
 
     public void fillArea(){
-        //Multi Dimentional Array to create co-ords for walls in places you cannot go
+        //Multi dimentional arrays 
+        //blocked areas that dont depend on your alliance color
         int[][] blocked = {
-                           {32,16}, {32,17}, {33,16}, {33,17}, //top left post
-                           {49,9}, {50,9}, {49,10}, {50,10},   //top right post
-                           {39,31}, {40,31}, {40,32}, {39,32}, //bottom left post
-                           {56,25}, {57,25}, {56,26}, {57,26},  //bottom right post
-                           //Trench wall
-                           {41,33}, {40,33}, {39,33}, {38,33}, {37,33},
-                           //Enemy Trench
-                           {32,2}, {32,3}, {32,4}, {32,5}, {32,6}, {32,7}, 
-                           {32,8}, {33,8}, {34,8}, {35,8}, {36,8}, {37,8}, {38,8}, {39,8}, {40,8}, {41,8}, {42,8}, {43,8}, {44,8}, {45,8}, {46,8}, {47,8}, {48,8}, {49,8}, {50,8}, {51,8}, {52,8}, {53,8}, {54,8}, {55,8}, {56,8}, {57,8},
-                           {57,7}, {57,6}, {57,5}, {57,4}, {57,3}, {57,2}, 
-                           //Enemy Scoring Zone
-                           {8,11}, {9,12}, {10,13}, {9,14}, {8,15}, 
-                           //Enemy Loading Zone
-                           {81,16}, {80,15}, {79,14}, {79,13}, {80,12}, {81,11}, 
-                        };
+            {32,16}, {32,17}, {33,16}, {33,17}, //top left post
+            {49,9}, {50,9}, {49,10}, {50,10},   //top right post
+            {39,31}, {40,31}, {40,32}, {39,32}, //bottom left post
+            {56,25}, {57,25}, {56,26}, {57,26},  //bottom right post
+            //Trench walls
+            {41,33}, {40,33}, {39,33}, {38,33}, {37,33},
+            {48,8}, {49,8}, {50,8}, {51,8}, {52,8}
+        };
+
+
+        switch(allianceState){
+            //Blue Aliance
+            case 0:
+                //blocked arreas based on your alliance color
+                int[][] blockRed = {
+                    //Enemy Trench
+                    {32,2}, {32,3}, {32,4}, {32,5}, {32,6}, {32,7}, 
+                    {32,8}, {33,8}, {34,8}, {35,8}, {36,8}, {37,8}, {38,8}, {39,8}, {40,8}, {41,8}, {42,8}, {43,8}, {44,8}, {45,8}, {46,8}, {47,8}, {48,8}, {49,8}, {50,8}, {51,8}, {52,8}, {53,8}, {54,8}, {55,8}, {56,8}, {57,8},
+                    {57,7}, {57,6}, {57,5}, {57,4}, {57,3}, {57,2}, 
+                    //Enemy Scoring Zone
+                    {8,11}, {9,12}, {10,13}, {9,14}, {8,15}, 
+                    //Enemy Loading Zone
+                    {81,16}, {80,15}, {79,14}, {79,13}, {80,12}, {81,11}, 
+                };
+                //loops through array
+                block(blockRed, 1);
+            break;
+
+            //Red Alliance
+            case 1:
+                //blocked arreas based on your alliance color
+                int[][] blockBlue = {
+                    {0,0}, {1,1}
+                };
+                //loops through array
+                block(blockBlue, 1);
+            break; 
+
+            default:
+                block(blocked, 1);
+
+        }
+
+        
+        block(blocked, 1);
+    }
+
+    public void block(int[][] array, int color){
         int x;
         int y;
-        for(int i = 0; blocked.length > i; i++){
-            x = blocked[i][0];
-            y = blocked[i][1]; //+1 to get the second digit in the array
+        for(int i = 0; array.length > i; i++){
+            x = array[i][0];
+            y = array[i][1]; 
             Node current = map[x][y];
-            current.setType(1);
+            current.setType(color);//1 for black
         }
     }
 
