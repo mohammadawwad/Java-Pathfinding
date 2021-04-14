@@ -12,15 +12,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import FRCVersion.FrcApp.Node;
+
 
 // Creates Grid Canvas
 public class Map extends JPanel implements MouseListener, MouseMotionListener {
-
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
-    frcAutoNav frc = new frcAutoNav();
 
     public Map() {
         addMouseListener(this);
@@ -44,10 +40,10 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener {
 
         // Creates Grid of boxes
         // goes through loop to create boxes on
-        for (int x = 0; x < frc.cellsWidth; x++) {
-            for (int y = 0; y < frc.cellsHeight; y++) {
+        for (int x = 0; x < FrcApp.cellsWidth; x++) {
+            for (int y = 0; y < FrcApp.cellsHeight; y++) {
 
-                int value = frc.map[x][y].getType();
+                int value = FrcApp.map[x][y].getType();
                 switch (value) {
                     case 0:
                         //Green
@@ -79,13 +75,13 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener {
                 }
                 
                 // Draws and Colours the boxes
-                g.fillRect(x * frc.CSIZE, y * frc.CSIZE, frc.CSIZE, frc.CSIZE);
+                g.fillRect(x * FrcApp.CSIZE, y * FrcApp.CSIZE, FrcApp.CSIZE, FrcApp.CSIZE);
                 g.setColor(Color.BLACK);
-                g.drawRect(x * frc.CSIZE, y * frc.CSIZE, frc.CSIZE, frc.CSIZE);
+                g.drawRect(x * FrcApp.CSIZE, y * FrcApp.CSIZE, FrcApp.CSIZE, FrcApp.CSIZE);
                 
             }
         }
-        frcAutoNav.fillArea();
+        FrcApp.fillArea();
 
     }
 
@@ -93,12 +89,12 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener {
     @Override
     public void mouseDragged(MouseEvent e) {
         try {
-            int x = e.getX() / frc.CSIZE;
-            int y = e.getY() / frc.CSIZE;
-            Node current = frc.map[x][y];
-            if ((frc.tool == 1 || frc.tool == 2) && (current.getType() != 0 && current.getType() != 3))
-                current.setType(frc.tool);
-            frc.updateGrid();
+            int x = e.getX() / FrcApp.CSIZE;
+            int y = e.getY() / FrcApp.CSIZE;
+            Node current = FrcApp.map[x][y];
+            if ((FrcApp.tool == 1 || FrcApp.tool == 2) && (current.getType() != 0 && current.getType() != 3))
+                current.setType(FrcApp.tool);
+            FrcApp.updateGrid();
         } catch (Exception z) {
         }
     }
@@ -107,22 +103,22 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener {
     public void mousePressed(MouseEvent e) {
         try {
             // Gets the X and Y value of where the mouse was clicked according to the screen
-            int x = e.getX() / frc.CSIZE;
-            int y = e.getY() / frc.CSIZE;
-            Node current = frc.map[x][y];
+            int x = e.getX() / FrcApp.CSIZE;
+            int y = e.getY() / FrcApp.CSIZE;
+            Node current = FrcApp.map[x][y];
             System.out.println("Co-ordinates:" + x + ", " + y);
-            switch (frc.tool) {
+            switch (FrcApp.tool) {
                 case 0: { // START NODE
                     //if not a wall
                     if (current.getType() != 1) { 
                         //if start exist sets it to blank
-                        if (frc.startx > -1 && frc.starty > -1) {
-                            frc.map[frc.startx][frc.starty].setType(2);
-                            frc.map[frc.startx][frc.starty].setHops(-1); // -1 reperesent the start node location
+                        if (FrcApp.startx > -1 && FrcApp.starty > -1) {
+                            FrcApp.map[FrcApp.startx][FrcApp.starty].setType(2);
+                            FrcApp.map[FrcApp.startx][FrcApp.starty].setHops(-1); // -1 reperesent the start node location
                         }
                         current.setHops(0);
-                        frc.startx = x;
-                        frc.starty = y;
+                        FrcApp.startx = x;
+                        FrcApp.starty = y;
                         // sets the clicked box to become the START Node
                         current.setType(0);
                     }
@@ -132,10 +128,10 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener {
                     //if not a wall
                     if (current.getType() != 1) { 
                         // if fininsh exists set it to empty
-                        if (frc.finishx > -1 && frc.finishy > -1) 
-                            frc.map[frc.finishx][frc.finishy].setType(2);
-                        frc.finishx = x; 
-                        frc.finishy = y;
+                        if (FrcApp.finishx > -1 && FrcApp.finishy > -1) 
+                            FrcApp.map[FrcApp.finishx][FrcApp.finishy].setType(2);
+                        FrcApp.finishx = x; 
+                        FrcApp.finishy = y;
                         current.setType(3); 
                         //sets clicked node to be red
                     }
@@ -143,10 +139,10 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener {
                 }
                 default:
                     if (current.getType() != 0 && current.getType() != 1)
-                        current.setType(frc.tool);
+                        current.setType(FrcApp.tool);
                     break;
             }
-            frc.updateGrid();
+            FrcApp.updateGrid();
             System.out.println("Type: " + current.getType());
         } catch (Exception z) {
         } // EXCEPTION HANDLER
