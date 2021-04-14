@@ -38,7 +38,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class frcAutoNav {
+public class FrcApp {
 
     
     public Algorithms Algorithm = new Algorithms();
@@ -46,7 +46,7 @@ public class frcAutoNav {
     static final int minSpdSlider = 0;
     static final int maxSpdSlider = 60;
     static final int initSpdSlider = 30;
-    public int sliderValue = 30;
+    public static int sliderValue = 30;
     // Sets frame height and width
     public static final int frameHeight = 1200;
     public static final int frameWidth = 1800;
@@ -54,17 +54,17 @@ public class frcAutoNav {
     public static final int canvasHeight = 701;
     public static final int canvasWidth = 1501;
     // grid dimensions cellsxcells 82x 160
-    public int cellsWidth = 90;
-    public int cellsHeight = 43;
+    public static int cellsWidth = 90;
+    public static int cellsHeight = 43;
     private final static int MSIZE = 1500;
     // Canvas Size
-    public int CSIZE = /*MSIZE / cellsWidth;*/ 15;
+    public static int CSIZE = /*MSIZE / cellsWidth;*/ 15;
     int mouseX = -10;
     int mouseY = -10;
-    public int startx = -1;
-    public int starty = -1;
-    public int finishx = -1;
-    public int finishy = -1;
+    public static int startx = -1;
+    public static int starty = -1;
+    public static int finishx = -1;
+    public static int finishy = -1;
     public static int allianceState = 0;
     public int tool = 0;
     public int algo = 0;
@@ -77,13 +77,13 @@ public class frcAutoNav {
     JComboBox toolBx = new JComboBox(tools);
     JComboBox alliance = new JComboBox(allianceColor);
 
-    public boolean start = false;
-    public int check = 0;
-    public int length = 0;
+    public static boolean start = false;
+    public static int check = 0;
+    public static int length = 0;
 
     // intitalizing
     public static Map mapCanvas;
-    JFrame frame;
+    static JFrame frame;
     JPanel panel;
     JOptionPane popup;
     Hashtable<Integer, JLabel> labels;
@@ -95,11 +95,14 @@ public class frcAutoNav {
     
 
     // Constructor
-    public frcAutoNav(){
+    public FrcApp(){
         cleanMap();
         initGUI();
     }
-
+    public static void staticCleanMap(){
+        FrcApp frc = new FrcApp();
+        frc.cleanMap();
+    }
     // Loops through to reset every box
     public void cleanMap() {
         //Resets start and finish 
@@ -120,7 +123,7 @@ public class frcAutoNav {
 
     // Updates Canvas
     // update() is a reserved word
-    public void updateGrid() {
+    public static void updateGrid() {
         CSIZE = /*MSIZE / cellsWidth*/ 15;
         mapCanvas.repaint();
     }
@@ -149,10 +152,10 @@ public class frcAutoNav {
         if (start){
             switch (algo) {
                 case 0:
-                    //Algorithm.AStar();
+                    Algorithm.AStar();
                     break;
                 case 1:
-                    //Algorithm.Dijkstra();
+                    Algorithm.Dijkstra();
                     break;
             }
         }  

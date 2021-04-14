@@ -2,27 +2,24 @@ package FRCVersion;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import FRCVersion.frcAutoNav.Node;
+import FRCVersion.FrcApp.Node;
 
 public class Algorithms{
-    //remove frc from here and add the class 
-    //to frcauto file but then you cant use stuff from frc auto
-    //frcAutoNav frc = new frcAutoNav();
 
     public void Dijkstra() {
         System.out.println("Dijkstra");
         //creates a priority que
         ArrayList<Node> priority = new ArrayList<Node>(); 
         //add the start node first to the que
-        priority.add(frc.map[frc.startx][frc.starty]); 
-        while (frc.start) {
+        priority.add(FrcApp.map[FrcApp.startx][FrcApp.starty]); 
+        while (FrcApp.start) {
             // if the que == 0 no path exists or cannot be ound
             if (priority.size() <= 0) { 
-                frc.start = false;
+                FrcApp.start = false;
                 System.out.println("Cant Find Path");
-                JOptionPane.showMessageDialog(frc.frame, "             No Path Found \n        Map Will be Cleared ");
-                frc.cleanMap();
-                frc.updateGrid();
+                JOptionPane.showMessageDialog(FrcApp.frame, "             No Path Found \n        Map Will be Cleared ");
+                FrcApp.staticCleanMap();
+                FrcApp.updateGrid();
                 break;
             }
             int hops = priority.get(0).getHops() + 1; 
@@ -34,8 +31,8 @@ public class Algorithms{
                 //add all new nodes
                 priority.addAll(explored); 
                 try {
-                    Thread.sleep(frc.sliderValue);
-                    frc.updateGrid();
+                    Thread.sleep(FrcApp.sliderValue);
+                    FrcApp.updateGrid();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -48,14 +45,14 @@ public class Algorithms{
     //Similar to Dijkstra Just has a sort queing method to search in the direction of the end Finish Node
     public void AStar() {
         ArrayList<Node> priority = new ArrayList<Node>();
-        priority.add(frc.map[frc.startx][frc.starty]);
-        while(frc.start) {
+        priority.add(FrcApp.map[FrcApp.startx][FrcApp.starty]);
+        while(FrcApp.start) {
             if(priority.size() <= 0) {
-                frc.start = false;
+                FrcApp.start = false;
                 System.out.println("Cant Find Path");
-                JOptionPane.showMessageDialog(frc.frame, "             No Path Found \n        Map Will be Cleared ");
-                frc.cleanMap();
-                frc.updateGrid();
+                JOptionPane.showMessageDialog(FrcApp.frame, "             No Path Found \n        Map Will be Cleared ");
+                FrcApp.staticCleanMap();
+                FrcApp.updateGrid();
                 break;
             }
             int hops = priority.get(0).getHops() + 1;
@@ -64,8 +61,8 @@ public class Algorithms{
                 priority.remove(0);
                 priority.addAll(explored);
                 try {
-                    Thread.sleep(frc.sliderValue);
-                    frc.updateGrid();
+                    Thread.sleep(FrcApp.sliderValue);
+                    FrcApp.updateGrid();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -115,8 +112,8 @@ public class Algorithms{
         for(xAxis = -1; xAxis <= 1; xAxis++){
             int x = current.getX() + xAxis;
             //checks to see if next X bloxk is in the grid
-            if(x > -1 && x < frc.cellsWidth){
-                Node nearby = frc.map[x][current.getY()];
+            if(x > -1 && x < FrcApp.cellsWidth){
+                Node nearby = FrcApp.map[x][current.getY()];
                 if((nearby.getHops() == -1 || nearby.getHops() > hops) && (nearby.getType() != 1)){
                     //call the searching method
                     searchNode(nearby, current.getX(), current.getY(), hops);
@@ -127,8 +124,8 @@ public class Algorithms{
         for(yAxis = -1; yAxis <= 1; yAxis++){
             int y = current.getY() + yAxis;
             //checks to see if next Y block is in the Grid
-            if(y > -1 && y < frc.cellsHeight){
-                Node nearby = frc.map[current.getX()][y];
+            if(y > -1 && y < FrcApp.cellsHeight){
+                Node nearby = FrcApp.map[current.getX()][y];
                 //check if its not a wall
                 if((nearby.getHops() == -1 || nearby.getHops() > hops) && (nearby.getType() != 1)){
                     //call the searching method
@@ -153,7 +150,7 @@ public class Algorithms{
         //Keeping track of the nodes and the distance
         current.setLastNode(lastX, lastY);
         current.setHops(hops);
-        frc.check++;
+        FrcApp.check++;
         if(current.getType() == 3){
             //start backtracking
             System.out.println("Finish Node Found");
@@ -163,9 +160,9 @@ public class Algorithms{
 
     //Backtracjing so it can draw the correct path
     public void backtrack(int lastX, int lastY, int hops){
-        frc.length = hops;
+        FrcApp.length = hops;
         while(hops > 1) {	
-            Node current = frc.map[lastX][lastY];
+            Node current = FrcApp.map[lastX][lastY];
             //sets it to the final path
             System.out.println("BackTracking");
             current.setType(4);
@@ -173,7 +170,7 @@ public class Algorithms{
             lastY = current.getLastY();
             hops--;
         }
-        frc.start = false;
+        FrcApp.start = false;
     }
     
 }
