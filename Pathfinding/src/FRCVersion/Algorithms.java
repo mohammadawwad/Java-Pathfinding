@@ -2,7 +2,6 @@ package FRCVersion;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import FRCVersion.FrcApp.Node;
 
 public class Algorithms{
 
