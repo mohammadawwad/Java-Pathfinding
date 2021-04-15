@@ -40,11 +40,11 @@ public class FrcApp {
     public static final int canvasHeight = 701;
     public static final int canvasWidth = 1501;
     // grid dimensions cellsxcells 82x 160
-    public static int cellsWidth = 90;
+    public static int cellsWidth = 125;
     public static int cellsHeight = 43;
     private final static int MSIZE = 1500;
     // Canvas Size
-    public static int CSIZE = /*MSIZE / cellsWidth;*/ 15;
+    public static int CSIZE = /*MSIZE / cellsWidth;*/ 10;
     int mouseX = -10;
     int mouseY = -10;
     public static int startx = -1;
