@@ -14,6 +14,7 @@ import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -62,6 +63,7 @@ public class FrcApp {
     JComboBox dropDown = new JComboBox(algoPicker);
     JComboBox toolBx = new JComboBox(tools);
     JComboBox alliance = new JComboBox(allianceColor);
+    JCheckBox diagonal = new JCheckBox("Diagonal Movement");
 
     public static boolean start = false;
     public static int check = 0;
@@ -77,6 +79,7 @@ public class FrcApp {
     public static Node[][] map;
     public int test;
     public Random ran;
+    public boolean movement;
    
     
 
@@ -260,6 +263,14 @@ public class FrcApp {
             }
         });
 
+        diagonal.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                movement = diagonal.isSelected();
+                System.out.println("Diagonal Movement: " + movement);
+            }
+        });
+
 
         // Turn on labels at major tick marks.
         speedSlider.setMajorTickSpacing(10);
@@ -281,6 +292,7 @@ public class FrcApp {
         panel.add(dropDown);
         panel.add(alliance);
         panel.add(button4);
+        panel.add(diagonal);
 
         //Scrolling
         JScrollPane scrPane = new JScrollPane(panel);
