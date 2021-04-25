@@ -107,33 +107,55 @@ public class Algorithms{
         int xAxis;
         int yAxis;
 
-        //seperate loops to avoid diagonal movements
-        for(xAxis = -1; xAxis <= 1; xAxis++){
-            int x = current.getX() + xAxis;
-            //checks to see if next X bloxk is in the grid
-            if(x > -1 && x < FrcApp.cellsWidth){
-                Node nearby = FrcApp.map[x][current.getY()];
-                if((nearby.getHops() == -1 || nearby.getHops() > hops) && (nearby.getType() != 1)){
-                    //call the searching method
-                    searchNode(nearby, current.getX(), current.getY(), hops);
-                    explored.add(nearby);// adding all nearby nodes that arnt walls to list
+        if(FrcApp.movement == false){
+            //seperate loops to avoid diagonal movements
+            for(xAxis = -1; xAxis <= 1; xAxis++){
+                int x = current.getX() + xAxis;
+                //checks to see if next X bloxk is in the grid
+                if(x > -1 && x < FrcApp.cellsWidth){
+                    Node nearby = FrcApp.map[x][current.getY()];
+                    if((nearby.getHops() == -1 || nearby.getHops() > hops) && (nearby.getType() != 1)){
+                        //call the searching method
+                        searchNode(nearby, current.getX(), current.getY(), hops);
+                        explored.add(nearby);// adding all nearby nodes that arnt walls to list
+                    }
                 }
             }
-        }
-        for(yAxis = -1; yAxis <= 1; yAxis++){
-            int y = current.getY() + yAxis;
-            //checks to see if next Y block is in the Grid
-            if(y > -1 && y < FrcApp.cellsHeight){
-                Node nearby = FrcApp.map[current.getX()][y];
-                //check if its not a wall
-                if((nearby.getHops() == -1 || nearby.getHops() > hops) && (nearby.getType() != 1)){
-                    //call the searching method
-                    searchNode(nearby, current.getX(), current.getY(), hops);
-                    explored.add(nearby);// adding all nearby nodes that arnt walls to lis
-                }
+            for(yAxis = -1; yAxis <= 1; yAxis++){
+                int y = current.getY() + yAxis;
+                //checks to see if next Y block is in the Grid
+                if(y > -1 && y < FrcApp.cellsHeight){
+                    Node nearby = FrcApp.map[current.getX()][y];
+                    //check if its not a wall
+                    if((nearby.getHops() == -1 || nearby.getHops() > hops) && (nearby.getType() != 1)){
+                        //call the searching method
+                        searchNode(nearby, current.getX(), current.getY(), hops);
+                        explored.add(nearby);// adding all nearby nodes that arnt walls to lis
+                    }
 
+                }
             }
         }
+        else if(FrcApp.movement == true){
+            //ruuning both loops togather allows for diagonal movements
+            for(xAxis = -1; xAxis <= 1; xAxis++){
+                for(yAxis = -1; yAxis <= 1; yAxis++){
+                    int x = current.getX() + xAxis;
+                    int y = current.getY() + yAxis;
+                    //checks to see if next X bloxk is in the grid
+                    if((x > -1 && x < FrcApp.cellsWidth) && (y > -1 && y < FrcApp.cellsHeight)){
+                        Node nearby = FrcApp.map[x][y];
+                        //check if its not a wall
+                        if((nearby.getHops() == -1 || nearby.getHops() > hops) && (nearby.getType() != 1)){
+                            //call the searching method
+                            searchNode(nearby, current.getX(), current.getY(), hops);
+                            explored.add(nearby);// adding all nearby nodes that arnt walls to lis
+                        }
+                    }
+                }
+            }
+        }
+        
         return explored; //returning the list value
     }
 

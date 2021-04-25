@@ -79,7 +79,7 @@ public class FrcApp {
     public static Node[][] map;
     public int test;
     public Random ran;
-    public boolean movement;
+    public static boolean movement;
    
     
 
