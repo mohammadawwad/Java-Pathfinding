@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -113,6 +114,9 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener {
                         if (FrcApp.startx > -1 && FrcApp.starty > -1) {
                             FrcApp.map[FrcApp.startx][FrcApp.starty].setType(2);
                             FrcApp.map[FrcApp.startx][FrcApp.starty].setHops(-1); // -1 reperesent the start node location
+                        
+                            //Enables Input Box for robot angle
+                            FrcApp.askAngle = true;
                         }
                         current.setHops(0);
                         FrcApp.startx = x;
@@ -142,6 +146,13 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener {
             }
             FrcApp.updateGrid();
             System.out.println("Type: " + current.getType());
+            //Asks for Robot Angle 
+            if(FrcApp.askAngle == true){
+                String robotAngle = JOptionPane.showInputDialog(FrcApp.frame, "Robot Angle", "Robot Angle",JOptionPane.PLAIN_MESSAGE);
+                FrcApp.theta = Double.parseDouble(robotAngle);
+                System.out.println("Robot Angle: " + FrcApp.theta);
+                //Add option to not add a angle if canceled
+            }
         } catch (Exception z) {
         } // EXCEPTION HANDLER
     }
@@ -224,6 +235,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener {
                     //Blue Alliance Loading Zone
                     {16,68}, {17,68}, {17,67}, {18,67}, {18,66}, {19,66}, {19,65}, {20,65}, {20,64}, {21,63}, {21,64}, {22,63}, {22,62}, {23,62}, {23,61}, {23,60}, {22,60}, {22,59}, {21,59}, {21,58}, {20,58}, {20,57}, {19,57}, {19,56}, {18,56}, {18,55}, {17,55}, {17,54}, {16,54},
                 };
+
                 //loops through array
                 block(blockBlue, 1);
             break; 

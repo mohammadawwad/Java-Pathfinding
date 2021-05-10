@@ -1,6 +1,9 @@
 package FRCVersion;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import javax.swing.JOptionPane;
 
 public class Algorithms{
@@ -182,16 +185,23 @@ public class Algorithms{
     //Backtracjing so it can draw the correct path
     public void backtrack(int lastX, int lastY, int hops){
         FrcApp.length = hops;
+        // ArrayList<Integer> path = new ArrayList<Integer>();   
+        // path.add(lastX, lastY);  
+        // for(int x : path){
+        //     System.out.println("Path: " + x);
+        // }
         while(hops > 1) {	
             Node current = FrcApp.map[lastX][lastY];
             //sets it to the final path
-            System.out.println("BackTracking");
+            System.out.println("BackTracking: " + lastX + ", " + lastY);
             current.setType(4);
             lastX = current.getLastX();
             lastY = current.getLastY();
             hops--;
         }
         FrcApp.start = false;
+
+
     }
     
 }

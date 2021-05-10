@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -65,6 +66,10 @@ public class FrcApp {
     JComboBox alliance = new JComboBox(allianceColor);
     JCheckBox diagonal = new JCheckBox("Diagonal Movement");
 
+    //Text Fields
+    public static double theta = 0.0;
+    public static boolean askAngle;
+
     public static boolean start = false;
     public static int check = 0;
     public static int length = 0;
@@ -72,7 +77,7 @@ public class FrcApp {
     // intitalizing
     public static Map mapCanvas;
     static JFrame frame;
-    JPanel panel;
+    static JPanel panel;
     JOptionPane popup;
     Hashtable<Integer, JLabel> labels;
     JSlider speedSlider;
@@ -294,6 +299,7 @@ public class FrcApp {
         panel.add(button4);
         panel.add(diagonal);
 
+
         //Scrolling
         JScrollPane scrPane = new JScrollPane(panel);
         frame.add(scrPane);
@@ -307,6 +313,8 @@ public class FrcApp {
         frame.setLayout(new FlowLayout(FlowLayout.LEFT));
         frame.setVisible(true);
 
+        
+
         // adds grid canvas to the frame last so that menu bar loads on top
         mapCanvas.setPreferredSize(new Dimension(canvasWidth, canvasHeight));
         frame.getContentPane().add(mapCanvas);
@@ -315,4 +323,5 @@ public class FrcApp {
         
     }
     
+
 }
