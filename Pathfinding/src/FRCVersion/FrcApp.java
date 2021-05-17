@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Random;
 
@@ -56,9 +58,12 @@ public class FrcApp {
     public static int allianceState = 0;
     public static int tool = 0;
     public int algo = 0;
+    public int pathNumber = 1;
     private String[] tools = { "Start", "Wall", "Erase", "Finish" };
     private String[] algoPicker = { "A*", "Dijkstra" };
     private String[] allianceColor = { "Blue", "Red" };
+    public String path = "C:\\Users\\Mohammad\\Documents\\GitHub\\Java-Pathfinding\\Pathfinding\\src\\FRCVersion\\generatedPaths\\autoPath";
+
 
     // drop down list
     JComboBox dropDown = new JComboBox(algoPicker);
@@ -180,6 +185,7 @@ public class FrcApp {
         JButton button2 = new JButton("Generate Map");
         JButton button3 = new JButton("Clear Map");
         JButton button4 = new JButton("Credits");
+        JButton button5 = new JButton("Generate Path");
         // Slider
         speedSlider = new JSlider(JSlider.HORIZONTAL, minSpdSlider, maxSpdSlider, initSpdSlider);
         labels = new Hashtable<>();
@@ -219,9 +225,35 @@ public class FrcApp {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(frame,
-                        "                        Pathfinding Project \n                       Mohammad Awwad",
-                        "Credits", JOptionPane.PLAIN_MESSAGE);
+                "                        Pathfinding Project \n                       Mohammad Awwad", "Credits", JOptionPane.PLAIN_MESSAGE);
+            }
+        });
 
+        // Path Generator Button
+        button5.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    File pathFile = new File(path + pathNumber + ".json");
+                    pathFile.createNewFile();
+                    while(pathFile.exists() == true){
+                        pathNumber++;
+                        System.out.println("Path number: " + pathNumber);
+                        File tmpDir = new File(path + pathNumber + ".json");
+                        if(tmpDir.exists() == false){
+                            pathFile = tmpDir;
+                            pathFile.createNewFile();
+                            break;
+                        }
+                    }
+
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+
+            private String toString(int pathNumber) {
+                return null;
             }
         });
 
@@ -298,6 +330,7 @@ public class FrcApp {
         panel.add(alliance);
         panel.add(button4);
         panel.add(diagonal);
+        panel.add(button5);
 
 
         //Scrolling
