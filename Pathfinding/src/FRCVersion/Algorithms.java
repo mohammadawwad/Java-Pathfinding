@@ -179,17 +179,13 @@ public class Algorithms{
             //start backtracking
             System.out.println("Finish Node Found");
             backtrack(current.getLastX(), current.getLastY(), hops);
+            reverse(current.getLastX(), current.getLastY(), hops);
         }
     }
 
     //Backtracjing so it can draw the correct path
     public void backtrack(int lastX, int lastY, int hops){
         FrcApp.length = hops;
-        // ArrayList<Integer> path = new ArrayList<Integer>();   
-        // path.add(lastX, lastY);  
-        // for(int x : path){
-        //     System.out.println("Path: " + x);
-        // }
         while(hops > 1) {	
             Node current = FrcApp.map[lastX][lastY];
             //sets it to the final path
@@ -200,8 +196,31 @@ public class Algorithms{
             hops--;
         }
         FrcApp.start = false;
-
-
     }
+
+    public void reverse(int lastX, int lastY, int hops){
+        FrcApp.length = hops;
+        List<Integer> pathX = new ArrayList<Integer>();  
+        List<Integer> pathY = new ArrayList<Integer>();    
+        while(hops > 1) {	
+            Node current = FrcApp.map[lastX][lastY];
+            lastX = current.getLastX();
+            lastY = current.getLastY();
+            pathX.add(lastX);  
+            pathY.add(lastY);  
+            hops--;
+        }
     
+        // Does the same thing
+        // for(int x = 0; x < pathX.size(); x++){
+        //     System.out.println("PathX: " + pathX.get(x));
+        // }
+        for(int x : pathX){
+            System.out.println("PathX: " + x);
+        }
+        for(int y : pathY){
+            System.out.println("PathY: " + y);
+        }
+       
+    }
 }
