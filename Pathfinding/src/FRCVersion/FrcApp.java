@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Random;
@@ -30,7 +31,6 @@ import javax.swing.event.ChangeListener;
 
 public class FrcApp {
 
-    
     public Algorithms Algorithm = new Algorithms();
     // Speed Slider Values
     static final int minSpdSlider = 0;
@@ -46,6 +46,7 @@ public class FrcApp {
     // grid dimensions cellsxcells 82 x 160
     public static int cellsWidth = 193;
     public static int cellsHeight = 92;
+    public static int theta = 1;
     private final static int MSIZE = 1500;
     // Canvas Size
     public static int CSIZE = /*MSIZE / cellsWidth;*/ 7;
@@ -72,8 +73,6 @@ public class FrcApp {
     JCheckBox diagonal = new JCheckBox("Diagonal Movement");
 
     //Text Fields
-    public static double theta = 0.0;
-    public static boolean askAngle;
 
     public static boolean start = false;
     public static int check = 0;
@@ -86,7 +85,7 @@ public class FrcApp {
     JOptionPane popup;
     Hashtable<Integer, JLabel> labels;
     JSlider speedSlider;
-    public static Node[][] map;
+    public static Node[][]/*[]*/ map;
     public int test;
     public Random ran;
     public static boolean movement;
@@ -110,11 +109,15 @@ public class FrcApp {
         startx = -1;
         starty = -1;
         //creates new map of nodes
-        map = new Node[cellsWidth][cellsHeight]; 
+        map = new Node[cellsWidth][cellsHeight]/*[theta]*/; 
         for (int x = 0; x < cellsWidth; x++) {
             for (int y = 0; y < cellsHeight; y++) {
+                // for (int angle = 0; angle < theta; angle++) {
+                //     map[x][y][angle] = new Node(2, x, y, angle); 
+                //     //sets all nodes to blank
+                // }
                 map[x][y] = new Node(2, x, y); 
-                //sets all nodes to blank
+               
             }
         }
         System.out.println("Map Has Been Cleaned...");
@@ -140,7 +143,7 @@ public class FrcApp {
         for (int i = 0; i < (cellsHeight * cellsWidth) * .4; i++) {
             int ranX = (int) (Math.random() * cellsHeight + cellsWidth / 2);
             int ranY = (int) (Math.random() * cellsHeight + cellsWidth / 2);
-            current = map[ranX][ranY]; // FIND A RANDOM NODE IN THE GRID
+            current = map[ranX][ranY]/*[0]*/; // FIND A RANDOM NODE IN THE GRID
             current.setType(1); // SET NODE TO BE A WALL
         }
         System.out.println("Random Map Has Been Generated");
@@ -231,6 +234,18 @@ public class FrcApp {
 
         // Path Generator Button
         button5.addActionListener(new ActionListener() {
+            public void 2d(){
+                for(int x = 0; x <= Algorithm.xCords().size(); x++){
+                    String xValue = Algorithm.xCords().get(x).toString();
+                    cords[x][0] = xValue;
+                }
+                for(int y = 0; y <= Algorithm.yCords().size(); y++){
+                    String yValue = Algorithm.yCords().get(y).toString();
+                    cords[1][y] = yValue;
+                }
+
+                return cords[][];
+            }
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -246,6 +261,20 @@ public class FrcApp {
                             break;
                         }
                     }
+
+                    
+                    //Write JSON file
+                    try (FileWriter file = new FileWriter(pathFile)) {
+
+                        String[][] cords;
+
+
+                        String coordinates = "{ " +  cords[0][0] + ", " + cords[1][0] + " }" + "\r\n";
+                        file.write(coordinates); 
+                       
+                        /// file.write(yValue); 
+                        file.flush();
+                    } 
 
                 } catch (IOException e1) {
                     e1.printStackTrace();

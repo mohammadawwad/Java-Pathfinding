@@ -8,12 +8,15 @@ import javax.swing.JOptionPane;
 
 public class Algorithms{
 
+    private List<Integer> pathX;
+    private List<Integer> pathY;
+
     public void Dijkstra() {
         System.out.println("Dijkstra");
         //creates a priority que
         ArrayList<Node> priority = new ArrayList<Node>(); 
         //add the start node first to the que
-        priority.add(FrcApp.map[FrcApp.startx][FrcApp.starty]); 
+        priority.add(FrcApp.map[FrcApp.startx][FrcApp.starty]/*[(int) FrcApp.theta]*/); 
         while (FrcApp.start) {
             // if the que == 0 no path exists or cannot be ound
             if (priority.size() <= 0) { 
@@ -47,7 +50,7 @@ public class Algorithms{
     //Similar to Dijkstra Just has a sort queing method to search in the direction of the end Finish Node
     public void AStar() {
         ArrayList<Node> priority = new ArrayList<Node>();
-        priority.add(FrcApp.map[FrcApp.startx][FrcApp.starty]);
+        priority.add(FrcApp.map[FrcApp.startx][FrcApp.starty]/*[(int) FrcApp.theta]*/);
         while(FrcApp.start) {
             if(priority.size() <= 0) {
                 FrcApp.start = false;
@@ -116,8 +119,8 @@ public class Algorithms{
                 int x = current.getX() + xAxis;
                 //checks to see if next X bloxk is in the grid
                 if(x > -1 && x < FrcApp.cellsWidth){
-                    Node nearby = FrcApp.map[x][current.getY()];
-                    if((nearby.getHops() == -1 || nearby.getHops() > hops) && (nearby.getType() != 1)){
+                    Node nearby = FrcApp.map[x][current.getY()]/*[(int) FrcApp.theta]*/;
+                    if((nearby.getHops() == -1 || nearby.getHops() > hops) && (nearby.getType() != 1 && nearby.getType() !=6)){
                         //call the searching method
                         searchNode(nearby, current.getX(), current.getY(), hops);
                         explored.add(nearby);// adding all nearby nodes that arnt walls to list
@@ -128,9 +131,9 @@ public class Algorithms{
                 int y = current.getY() + yAxis;
                 //checks to see if next Y block is in the Grid
                 if(y > -1 && y < FrcApp.cellsHeight){
-                    Node nearby = FrcApp.map[current.getX()][y];
+                    Node nearby = FrcApp.map[current.getX()][y]/*[(int) FrcApp.theta]*/;
                     //check if its not a wall
-                    if((nearby.getHops() == -1 || nearby.getHops() > hops) && (nearby.getType() != 1)){
+                    if((nearby.getHops() == -1 || nearby.getHops() > hops) && (nearby.getType() != 1 && nearby.getType() !=6)){
                         //call the searching method
                         searchNode(nearby, current.getX(), current.getY(), hops);
                         explored.add(nearby);// adding all nearby nodes that arnt walls to lis
@@ -147,9 +150,9 @@ public class Algorithms{
                     int y = current.getY() + yAxis;
                     //checks to see if next X bloxk is in the grid
                     if((x > -1 && x < FrcApp.cellsWidth) && (y > -1 && y < FrcApp.cellsHeight)){
-                        Node nearby = FrcApp.map[x][y];
+                        Node nearby = FrcApp.map[x][y]/*[(int) FrcApp.theta]*/;
                         //check if its not a wall
-                        if((nearby.getHops() == -1 || nearby.getHops() > hops) && (nearby.getType() != 1)){
+                        if((nearby.getHops() == -1 || nearby.getHops() > hops) && (nearby.getType() != 1 && nearby.getType() !=6)){
                             //call the searching method
                             searchNode(nearby, current.getX(), current.getY(), hops);
                             explored.add(nearby);// adding all nearby nodes that arnt walls to lis
@@ -178,36 +181,40 @@ public class Algorithms{
         if(current.getType() == 3){
             //start backtracking
             System.out.println("Finish Node Found");
-            backtrack(current.getLastX(), current.getLastY(), hops);
-            reverse(current.getLastX(), current.getLastY(), hops);
+            backtrack(current.getLastX(), current.getLastY(), /*current.getLastTheta(),*/ hops);
+            reverse(current.getLastX(), current.getLastY(), /*current.getLastTheta(),*/ hops);
         }
     }
 
     //Backtracjing so it can draw the correct path
-    public void backtrack(int lastX, int lastY, int hops){
+    public void backtrack(int lastX, int lastY, /*int lastTheta,*/ int hops){
         FrcApp.length = hops;
         while(hops > 1) {	
-            Node current = FrcApp.map[lastX][lastY];
+            Node current = FrcApp.map[lastX][lastY]/*[lastTheta]*/;
             //sets it to the final path
             System.out.println("BackTracking: " + lastX + ", " + lastY);
             current.setType(4);
             lastX = current.getLastX();
             lastY = current.getLastY();
+            //lastTheta = current.getLastTheta();
             hops--;
         }
         FrcApp.start = false;
     }
 
-    public void reverse(int lastX, int lastY, int hops){
+    public void reverse(int lastX, int lastY, /*int lastTheta,*/ int hops){
         FrcApp.length = hops;
-        List<Integer> pathX = new ArrayList<Integer>();  
-        List<Integer> pathY = new ArrayList<Integer>();    
+        pathX = new ArrayList<Integer>();  
+        pathY = new ArrayList<Integer>();   
+        // List<Integer> pathTheta = new ArrayList<Integer>();    
         while(hops > 1) {	
-            Node current = FrcApp.map[lastX][lastY];
+            Node current = FrcApp.map[lastX][lastY]/*[lastTheta]*/;
             lastX = current.getLastX();
             lastY = current.getLastY();
+            // lastTheta = current.getLastTheta();
             pathX.add(lastX);  
             pathY.add(lastY);  
+            // pathTheta.add(lastTheta);  
             hops--;
         }
     
@@ -221,6 +228,18 @@ public class Algorithms{
         for(int y : pathY){
             System.out.println("PathY: " + y);
         }
+        // for(int theta : pathTheta){
+        //     System.out.println("PathTheta: " + pathTheta);
+        // }
        
     }
+
+    public List<Integer> xCords(){
+        return pathX;
+    }
+
+    public List<Integer> yCords(){
+        return pathY;
+    }
+
 }

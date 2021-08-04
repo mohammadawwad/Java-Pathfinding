@@ -11,11 +11,14 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
+//Note: as long as second number is for angle is lower than the first it will work?????
 
 
 // Creates Grid Canvas
 public class Map extends JPanel implements MouseListener, MouseMotionListener {
+
+    double theta = FrcApp.theta;
+    int robotAngleTheta;
 
     public Map() {
         addMouseListener(this);
@@ -36,48 +39,53 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener {
             g.drawImage(image, 0, 0, null);
         } catch (IOException e) {e.printStackTrace();}
 
-
+        
         // Creates Grid of boxes
         // goes through loop to create boxes on
         for (int x = 0; x < FrcApp.cellsWidth; x++) {
             for (int y = 0; y < FrcApp.cellsHeight; y++) {
-
-                int value = FrcApp.map[x][y].getType();
-                switch (value) {
-                    case 0:
-                        //Green
-                        g.setColor(new Color(51, 255, 0, 85));
-                        break;
-                    case 1:
-                        //Black
-                        g.setColor(new Color(0, 0, 0));
-                        break;
-                    case 2:
-                        //White
-                        g.setColor(new Color(0, 0, 0, 80));
-                        break;
-                    case 3:
-                        //Red
-                        g.setColor(new Color(255, 0, 0, 85));
-                        break;
-                    case 4:
-                        //Cyan
-                        g.setColor(new Color(255, 183, 0, 80));
-                        break;
-                    case 5:
-                        //Orange
-                        g.setColor(new Color(66, 209, 245, 80));
-                        break;
-                    default:
-                        //White
-                        g.setColor(new Color(0, 0, 0, 80));
-                }
-                
-                // Draws and Colours the boxes
-                g.fillRect(x * FrcApp.CSIZE, y * FrcApp.CSIZE, FrcApp.CSIZE, FrcApp.CSIZE);
-                g.setColor(Color.BLACK);
-                g.drawRect(x * FrcApp.CSIZE, y * FrcApp.CSIZE, FrcApp.CSIZE, FrcApp.CSIZE);
-                
+                for(int angle = 0; angle < theta; angle++){
+                    
+                    int value = FrcApp.map[x][y]/*[angle]*/.getType();
+                    switch (value) {
+                        case 0:
+                            //Green
+                            g.setColor(new Color(51, 255, 0, 85));
+                            break;
+                        case 1:
+                            //Black
+                            g.setColor(new Color(0, 0, 0));
+                            break;
+                        case 2:
+                            //White
+                            g.setColor(new Color(0, 0, 0, 80));
+                            break;
+                        case 3:
+                            //Red
+                            g.setColor(new Color(255, 0, 0, 85));
+                            break;
+                        case 4:
+                            //Cyan
+                            g.setColor(new Color(255, 183, 0, 80));
+                            break;
+                        case 5:
+                            //Orange
+                            g.setColor(new Color(66, 209, 245, 80));
+                            break;
+                        case 6:
+                            //White for bounds
+                            g.setColor(new Color(89, 89, 89, 80));
+                            break;
+                        default:
+                            //White
+                            g.setColor(new Color(0, 0, 0, 80));
+                    }
+                    
+                    // Draws and Colours the boxes
+                    g.fillRect(x * FrcApp.CSIZE, y * FrcApp.CSIZE, FrcApp.CSIZE, FrcApp.CSIZE);
+                    g.setColor(Color.BLACK);
+                    g.drawRect(x * FrcApp.CSIZE, y * FrcApp.CSIZE, FrcApp.CSIZE, FrcApp.CSIZE);
+                }    
             }
         }
         fillArea();
@@ -90,7 +98,7 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener {
         try {
             int x = e.getX() / FrcApp.CSIZE;
             int y = e.getY() / FrcApp.CSIZE;
-            Node current = FrcApp.map[x][y];
+            Node current = FrcApp.map[x][y]/*[robotAngleTheta]*/;
             if ((FrcApp.tool == 1 || FrcApp.tool == 2) && (current.getType() != 0 && current.getType() != 3))
                 current.setType(FrcApp.tool);
             FrcApp.updateGrid();
@@ -104,41 +112,45 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener {
             // Gets the X and Y value of where the mouse was clicked according to the screen
             int x = e.getX() / FrcApp.CSIZE;
             int y = e.getY() / FrcApp.CSIZE;
-            Node current = FrcApp.map[x][y];
-            System.out.println("Co-ordinates:" + x + ", " + y);
+            int angle = robotAngleTheta;
+            Node current = FrcApp.map[x][y]/*[0]*/;
+            System.out.println("Co-ordinates:" + x + ", " + y + ", " + angle);
             switch (FrcApp.tool) {
-                case 0: { // START NODE
+                case 0:  // START NODE
                     //if not a wall
+                    System.out.println("Start Error: " + current.getType());
                     if (current.getType() != 1) { 
                         //if start exist sets it to blank
                         if (FrcApp.startx > -1 && FrcApp.starty > -1) {
-                            FrcApp.map[FrcApp.startx][FrcApp.starty].setType(2);
-                            FrcApp.map[FrcApp.startx][FrcApp.starty].setHops(-1); // -1 reperesent the start node location
-                        
-                            //Enables Input Box for robot angle
-                            FrcApp.askAngle = true;
+                            FrcApp.map[FrcApp.startx][FrcApp.starty]/*[angle]*/.setType(2);
+                            FrcApp.map[FrcApp.startx][FrcApp.starty]/*[angle]*/.setHops(-1); // -1 reperesent the start node location
                         }
                         current.setHops(0);
                         FrcApp.startx = x;
                         FrcApp.starty = y;
                         // sets the clicked box to become the START Node
                         current.setType(0);
+                        //Prompts for Robot Angle
+                        promptAngle();
                     }
                     break;
-                }
-                case 3: {// FINISH NODE
+                
+                case 3: // FINISH NODE
                     //if not a wall
+                    System.out.println("Finish Error: " + current.getType());
                     if (current.getType() != 1) { 
                         // if fininsh exists set it to empty
                         if (FrcApp.finishx > -1 && FrcApp.finishy > -1) 
-                            FrcApp.map[FrcApp.finishx][FrcApp.finishy].setType(2);
+                            FrcApp.map[FrcApp.finishx][FrcApp.finishy]/*[(int) theta]*/.setType(2);
                         FrcApp.finishx = x; 
                         FrcApp.finishy = y;
-                        current.setType(3); 
                         //sets clicked node to be red
+                        current.setType(3); 
+                        //Prompts for Robot Angle
+                        promptAngle();
                     }
                     break;
-                }
+                
                 default:
                     if (current.getType() != 0 && current.getType() != 1)
                         current.setType(FrcApp.tool);
@@ -146,13 +158,6 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener {
             }
             FrcApp.updateGrid();
             System.out.println("Type: " + current.getType());
-            //Asks for Robot Angle 
-            if(FrcApp.askAngle == true){
-                String robotAngle = JOptionPane.showInputDialog(FrcApp.frame, "Robot Angle", "Robot Angle",JOptionPane.PLAIN_MESSAGE);
-                FrcApp.theta = Double.parseDouble(robotAngle);
-                System.out.println("Robot Angle: " + FrcApp.theta);
-                //Add option to not add a angle if canceled
-            }
         } catch (Exception z) {
         } // EXCEPTION HANDLER
     }
@@ -175,6 +180,15 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
+    }
+
+    //Asks for Robot Angle 
+    public void promptAngle(){
+        String robotAngle = JOptionPane.showInputDialog(FrcApp.frame, "Robot Angle", "Robot Angle",JOptionPane.PLAIN_MESSAGE);
+        // FrcApp.theta = Double.parseDouble(robotAngle);
+        FrcApp.theta = Integer.parseInt(robotAngle);
+        robotAngleTheta = Integer.parseInt(robotAngle);
+        System.out.println("Robot Angle: " + FrcApp.theta);
     }
 
     public static void fillArea(){
@@ -219,7 +233,9 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener {
                     {176,22}, {176,23}, {175,24}, {174,25}, {173,25}, {173,26}, {172,26}, {172,27}, {171,27}, {171,28}, {170,28}, {170,29}, {169,29},  {174,24}, {175,23}, {169,30}, {170,30}, {170,31}, {171,31}, {171,32}, {172,32}, {172,33}, {173,33}, {173,34}, {174,34}, {174,35}, {175,35}, {175,36}, {176,36}, {176,37}, 
                 };
                 //loops through array
+                bounds(blockRed, 6);
                 block(blockRed, 1);
+
             break;
 
             //Red Alliance
@@ -237,15 +253,18 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener {
                 };
 
                 //loops through array
+                bounds(blockBlue, 6);
                 block(blockBlue, 1);
+
             break; 
 
             default:
+                bounds(blocked, 6);
                 block(blocked, 1);
-
         }
 
         
+        bounds(blocked, 6);
         block(blocked, 1);
     }
 
@@ -255,8 +274,49 @@ public class Map extends JPanel implements MouseListener, MouseMotionListener {
         for(int i = 0; array.length > i; i++){
             x = array[i][0];
             y = array[i][1]; 
-            Node current = FrcApp.map[x][y];
+            Node current = FrcApp.map[x][y]/*[0]*/;
             current.setType(color);//1 for black
+        }
+    }
+
+    public static void bounds(int[][] array, int color){
+        int x;
+        int y;
+        for(int i = 0; array.length > i; i++){
+            x = array[i][0];
+            y = array[i][1];
+            for(int counter = 0; counter <= 3; counter++){
+                y++;
+                Node current = FrcApp.map[x][y]/*[0]*/;
+                current.setType(color);//6 for grey
+            }
+        }
+        for(int i = 0; array.length > i; i++){
+            x = array[i][0];
+            y = array[i][1]; 
+            for(int counter = 0; counter <= 3; counter++){
+                y--;
+                Node current = FrcApp.map[x][y]/*[0]*/;
+                current.setType(color);//6 for grey
+            }
+        }
+        for(int i = 0; array.length > i; i++){
+            x = array[i][0];
+            y = array[i][1]; 
+            for(int counter = 0; counter <= 3; counter++){
+                x++;
+                Node current = FrcApp.map[x][y]/*[0]*/;
+                current.setType(color);//6 for grey
+            }
+        }
+        for(int i = 0; array.length > i; i++){
+            x = array[i][0];
+            y = array[i][1]; 
+            for(int counter = 0; counter <= 3; counter++){
+                x--;
+                Node current = FrcApp.map[x][y]/*[0]*/;
+                current.setType(color);//6 for grey
+            }
         }
     }
 }

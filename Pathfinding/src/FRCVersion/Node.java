@@ -7,21 +7,23 @@ public class Node {
         // 1 = wall
         // 2 = erase
         // 4 = finish
-        // 4 = checked
         // 5 = finalpath
 		private int boxType = 0;
 		private int hops;
 		private int x;
 		private int y;
+		// private int theta;
 		private int lastX;
 		private int lastY;
+		// private int lastTheta;
 		private double distance = 0;
 	
         //CONSTRUCTOR
-		public Node(int type, int x, int y) {	
+		public Node(int type, int x, int y/*, int theta*/) {	
 			boxType = type;
 			this.x = x;
 			this.y = y;
+			// this.theta = theta;
 			hops = -1;
 		}
 
@@ -41,11 +43,12 @@ public class Node {
 		public int getY() {return y;}
 		public int getLastX() {return lastX;}
 		public int getLastY() {return lastY;}
+		// public int getLastTheta() {return lastTheta;}
 		public int getType() {return boxType;}
 		public int getHops() {return hops;}
 		
         //Setting Methods 
 		public void setType(int type) {boxType = type;}		
-		public void setLastNode(int x, int y) {lastX = x; lastY = y;}
+		public void setLastNode(int x, int y) {lastX = x; lastY = y; /*lastTheta = theta;*/}
 		public void setHops(int hops) {this.hops = hops;}
 	}
