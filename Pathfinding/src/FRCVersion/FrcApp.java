@@ -234,18 +234,6 @@ public class FrcApp {
 
         // Path Generator Button
         button5.addActionListener(new ActionListener() {
-            public void 2d(){
-                for(int x = 0; x <= Algorithm.xCords().size(); x++){
-                    String xValue = Algorithm.xCords().get(x).toString();
-                    cords[x][0] = xValue;
-                }
-                for(int y = 0; y <= Algorithm.yCords().size(); y++){
-                    String yValue = Algorithm.yCords().get(y).toString();
-                    cords[1][y] = yValue;
-                }
-
-                return cords[][];
-            }
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -266,13 +254,7 @@ public class FrcApp {
                     //Write JSON file
                     try (FileWriter file = new FileWriter(pathFile)) {
 
-                        String[][] cords;
-
-
-                        String coordinates = "{ " +  cords[0][0] + ", " + cords[1][0] + " }" + "\r\n";
-                        file.write(coordinates); 
-                       
-                        /// file.write(yValue); 
+                        // file.write(coordinates); 
                         file.flush();
                     } 
 
