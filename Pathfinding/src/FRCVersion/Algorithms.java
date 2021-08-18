@@ -8,8 +8,8 @@ import javax.swing.JOptionPane;
 
 public class Algorithms{
 
-    private List<Integer> pathX;
-    private List<Integer> pathY;
+    private List<Double> pathX;
+    private List<Double> pathY;
 
     public void Dijkstra() {
         System.out.println("Dijkstra");
@@ -182,63 +182,49 @@ public class Algorithms{
             //start backtracking
             System.out.println("Finish Node Found");
             backtrack(current.getLastX(), current.getLastY(), /*current.getLastTheta(),*/ hops);
-            reverse(current.getLastX(), current.getLastY(), /*current.getLastTheta(),*/ hops);
+            // reverse(current.getLastX(), current.getLastY(), /*current.getLastTheta(),*/ hops);
         }
     }
 
     //Backtracjing so it can draw the correct path
     public void backtrack(int lastX, int lastY, /*int lastTheta,*/ int hops){
         FrcApp.length = hops;
+        pathX = new ArrayList<Double>();  
+        pathY = new ArrayList<Double>(); 
+
         while(hops > 1) {	
             Node current = FrcApp.map[lastX][lastY]/*[lastTheta]*/;
             //sets it to the final path
             System.out.println("BackTracking: " + lastX + ", " + lastY);
+            pathX.add((lastX - FrcApp.startx) * 0.1);  
+            pathY.add((lastY - FrcApp.starty) * 0.1);  
             current.setType(4);
             lastX = current.getLastX();
             lastY = current.getLastY();
-            //lastTheta = current.getLastTheta();
             hops--;
         }
+        //Reversing the lists
+        Collections.reverse(pathX);
+        Collections.reverse(pathY);
+        System.out.println("Path X list:" + pathX);
+        System.out.println("Path Y list:" + pathY);
+
+        // for(int x : pathX){
+        //     System.out.println("PathX: " + x);
+        // }
+        // for(int y : pathY){
+        //     System.out.println("PathY: " + y);
+        // }
+
         FrcApp.start = false;
     }
 
-    public void reverse(int lastX, int lastY, /*int lastTheta,*/ int hops){
-        FrcApp.length = hops;
-        pathX = new ArrayList<Integer>();  
-        pathY = new ArrayList<Integer>();   
-        // List<Integer> pathTheta = new ArrayList<Integer>();    
-        while(hops > 1) {	
-            Node current = FrcApp.map[lastX][lastY]/*[lastTheta]*/;
-            lastX = current.getLastX();
-            lastY = current.getLastY();
-            // lastTheta = current.getLastTheta();
-            pathX.add(lastX);  
-            pathY.add(lastY);  
-            // pathTheta.add(lastTheta);  
-            hops--;
-        }
-    
-        // Does the same thing
-        // for(int x = 0; x < pathX.size(); x++){
-        //     System.out.println("PathX: " + pathX.get(x));
-        // }
-        for(int x : pathX){
-            System.out.println("PathX: " + x);
-        }
-        for(int y : pathY){
-            System.out.println("PathY: " + y);
-        }
-        // for(int theta : pathTheta){
-        //     System.out.println("PathTheta: " + pathTheta);
-        // }
-       
-    }
 
-    public List<Integer> xCords(){
+    public List<Double> xCords(){
         return pathX;
     }
 
-    public List<Integer> yCords(){
+    public List<Double> yCords(){
         return pathY;
     }
 
