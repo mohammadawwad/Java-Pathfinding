@@ -1,5 +1,6 @@
 package FRCVersion;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -182,12 +183,12 @@ public class Algorithms{
             //start backtracking
             System.out.println("Finish Node Found");
             backtrack(current.getLastX(), current.getLastY(), /*current.getLastTheta(),*/ hops);
-            // reverse(current.getLastX(), current.getLastY(), /*current.getLastTheta(),*/ hops);
         }
     }
 
     //Backtracjing so it can draw the correct path
     public void backtrack(int lastX, int lastY, /*int lastTheta,*/ int hops){
+        DecimalFormat df = new DecimalFormat("0.0");
         FrcApp.length = hops;
         pathX = new ArrayList<Double>();  
         pathY = new ArrayList<Double>(); 
@@ -196,29 +197,24 @@ public class Algorithms{
             Node current = FrcApp.map[lastX][lastY]/*[lastTheta]*/;
             //sets it to the final path
             System.out.println("BackTracking: " + lastX + ", " + lastY);
-            pathX.add((lastX - FrcApp.startx) * 0.1);  
-            pathY.add((lastY - FrcApp.starty) * 0.1);  
+            pathX.add(Double.parseDouble(df.format((lastX - FrcApp.startx) * 0.1)));  
+            pathY.add(Double.parseDouble(df.format((lastY - FrcApp.starty) * 0.1)));  
             current.setType(4);
             lastX = current.getLastX();
             lastY = current.getLastY();
             hops--;
         }
         //Reversing the lists
+        pathX.add(0.0);
+        pathY.add(0.0);
+        pathX.add(0, (FrcApp.finishx - FrcApp.startx) * 0.1);
+        pathY.add(0, (FrcApp.finishy - FrcApp.starty) * 0.1);
         Collections.reverse(pathX);
         Collections.reverse(pathY);
         System.out.println("Path X list:" + pathX);
         System.out.println("Path Y list:" + pathY);
-
-        // for(int x : pathX){
-        //     System.out.println("PathX: " + x);
-        // }
-        // for(int y : pathY){
-        //     System.out.println("PathY: " + y);
-        // }
-
         FrcApp.start = false;
     }
-
 
     public List<Double> xCords(){
         return pathX;

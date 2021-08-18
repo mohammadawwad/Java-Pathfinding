@@ -262,10 +262,6 @@ public class FrcApp {
                     e1.printStackTrace();
                 }
             }
-
-            private String toString(int pathNumber) {
-                return null;
-            }
         });
 
         // For slider use
