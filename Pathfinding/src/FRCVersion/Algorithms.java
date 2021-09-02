@@ -214,6 +214,7 @@ public class Algorithms{
         System.out.println("Path X list:" + pathX);
         System.out.println("Path Y list:" + pathY);
         FrcApp.start = false;
+        cordMerge();
     }
 
     public List<Double> xCords(){
@@ -224,4 +225,9 @@ public class Algorithms{
         return pathY;
     }
 
+    //sorting algorithm that merges coords
+    public void cordMerge(){
+        System.out.println(pathX.get(0));
+    
+    }
 }
