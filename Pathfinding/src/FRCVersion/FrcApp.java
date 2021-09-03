@@ -258,44 +258,49 @@ public class FrcApp {
                     try (FileWriter file = new FileWriter(pathFile)) {
 
                         // creating JSONObject
-                        JSONObject jo = new JSONObject();
-                        // putting data to JSONObject
-                        jo.put("firstName", "John");
-                        jo.put("lastName", "Smith");
-                        jo.put("age", 25);
+                        JSONObject jsonObj = new JSONObject();
+                        
+                        // creating JSONArray's
+                        JSONArray jaPos = new JSONArray();
+                        JSONArray jaDrive = new JSONArray();
+                        JSONArray jaRotation = new JSONArray();
 
-                        // for address data, first create LinkedHashMap
-                        LinkedHashMap m = new LinkedHashMap(4);
-                        m.put("streetAddress", "21 2nd Street");
-                        m.put("city", "New York");
-                        m.put("state", "NY");
-                        m.put("postalCode", 10021);
+                        LinkedHashMap m;
+                        
+                        //add for loop to create obj based off list size
+                        for(int i = 0; i < Algorithm.xCords().size(); i++){
+                            //Cords and Drive/Rotation Arrays
+                            m = new LinkedHashMap(2);
+                            m.put("x", Algorithm.xCords().get(i));
+                            m.put("y", Algorithm.yCords().get(i));
+                            m.put("theta", 0.0);
+                            m.put("drive", jaDrive);
+                            m.put("rotation", jaRotation);
+                            jaPos.add(m);
+                            
+                        }
+                        //Drive 
+                        m = new LinkedHashMap();
+                        m.put("p", 0.0);
+                        m.put("i", 0.0);
+                        m.put("d", 0.0);
+                        m.put("iLimit", 0.0);
+                        m.put("threshold", 0.0);
+                        jaDrive.add(m);
 
-                        // putting address to JSONObject
-                        jo.put("address", m);
+                        //Rotation
+                        m = new LinkedHashMap();
+                        m.put("p", 0.0);
+                        m.put("i", 0.0);
+                        m.put("d", 0.0);
+                        m.put("iLimit", 0.0);
+                        m.put("threshold", 0.0);
+                        jaRotation.add(m);
                         
-                        // for phone numbers, first create JSONArray 
-                        JSONArray ja = new JSONArray();
                         
-                        m = new LinkedHashMap(2);
-                        m.put("type", "home");
-                        m.put("number", "212 555-1234");
-                        
-                        // adding map to list
-                        ja.add(m);
-                        
-                        m = new LinkedHashMap(2);
-                        m.put("type", "fax");
-                        m.put("number", "212 555-1234");
-                        
-                        // adding map to list
-                        ja.add(m);
-                        
-                        // putting phoneNumbers to JSONObject
-                        jo.put("phoneNumbers", ja);
-                        final String inputJson = "{\"one\":\"AAA\",\"two\":[\"BBB\",\"CCC\"],\"three\":{\"four\":\"DDD\",\"five\":[\"EEE\",\"FFF\"]}}";
+                        jsonObj.put("pos", jaPos);
 
-                        System.out.println(new JSONObject().toString(4));
+                        file.write(jsonObj.toJSONString());
                         file.flush();
                         file.close();
                     } 
