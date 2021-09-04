@@ -11,6 +11,8 @@ public class Algorithms{
 
     private List<Double> pathX;
     private List<Double> pathY;
+    private List<Double> realPathX;
+    private List<Double> realPathY;
 
     public void Dijkstra() {
         System.out.println("Dijkstra");
@@ -225,9 +227,30 @@ public class Algorithms{
         return pathY;
     }
 
+    public List<Double> realXCords(){
+        return realPathX;
+    }
+
+    public List<Double> realYCords(){
+        return realPathY;
+    }
+
     //sorting algorithm that merges coords
     public void cordMerge(){
-        System.out.println(pathX.get(0));
-    
+        DecimalFormat df = new DecimalFormat("0.0");
+        realPathX = new ArrayList<Double>();  
+        realPathY = new ArrayList<Double>(); 
+
+        for(int x = 0; x < xCords().size() - 1; x++){
+            System.out.println("Test: " + x);
+            if(Double.parseDouble(df.format(xCords().get(x) - xCords().get(x + 1))) == -0.1){
+                realPathX.add(Double.parseDouble(df.format(xCords().get(x) + xCords().get(x + 1) - 0.1)));
+            }
+        }
+
+        System.out.println("Real PathX Size: " + realPathX.size());
+        for(int x = 0; x < realPathX.size(); x++){
+            System.out.println("Real PathX :" + realPathX.get(x));
+        }
     }
 }

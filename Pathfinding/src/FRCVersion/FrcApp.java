@@ -16,6 +16,7 @@ import java.util.Hashtable;
 import java.util.Random;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -75,16 +76,16 @@ public class FrcApp {
     JComboBox alliance = new JComboBox(allianceColor);
     JCheckBox diagonal = new JCheckBox("Diagonal Movement");
 
-    //Text Fields
-
     public static boolean start = false;
     public static int check = 0;
     public static int length = 0;
 
     // intitalizing
+    public static String drivePStr, driveIStr, driveDStr, driveILimitStr, driveThresholdStr;
+    public static String rotationPStr, rotationIStr, rotationDStr, rotationILimitStr, rotationThresholdStr;
     public static Map mapCanvas;
     static JFrame frame;
-    static JPanel panel;
+    static JPanel topPanel, midPanel, bottomPanel;
     JOptionPane popup;
     Hashtable<Integer, JLabel> labels;
     JSlider speedSlider;
@@ -177,7 +178,9 @@ public class FrcApp {
         System.out.println("________Starting_______");
 
         frame = new JFrame("Java Pathfinding");
-        panel = new JPanel();
+        topPanel = new JPanel();
+        midPanel = new JPanel();
+        bottomPanel = new JPanel();
         popup = new JOptionPane();
         mapCanvas = new Map();
 
@@ -192,6 +195,23 @@ public class FrcApp {
         JButton button3 = new JButton("Clear Map");
         JButton button4 = new JButton("Credits");
         JButton button5 = new JButton("Generate Path");
+
+        //PID Settings For Drive
+        JLabel driveLabel = new JLabel("Drive Settings");
+        JTextField driveP = new JTextField("P Value: 0.045", 15);
+        JTextField driveI = new JTextField("I Value: 0.03", 15);
+        JTextField driveD = new JTextField("D Value: 0.00000000008", 15);
+        JTextField driveILimit = new JTextField("ILimit Value: 0.2", 15);
+        JTextField driveThreshold = new JTextField("Threshold Value: 0.025", 15);
+
+        //PID Settings For Rotation
+        JLabel rotationLabel = new JLabel("Rotation Settings");
+        JTextField rotationP = new JTextField("P Value: 0.0015", 15);
+        JTextField rotationI = new JTextField("I Value: 0.005", 15);
+        JTextField rotationD = new JTextField("D Value: 0.0", 15);
+        JTextField rotationILimit = new JTextField("ILimit Value: 10.0", 15);
+        JTextField rotationThreshold = new JTextField("Threshold Value: 0.2", 15);
+
         // Slider
         speedSlider = new JSlider(JSlider.HORIZONTAL, minSpdSlider, maxSpdSlider, initSpdSlider);
         labels = new Hashtable<>();
@@ -266,7 +286,7 @@ public class FrcApp {
                         JSONArray jaRotation = new JSONArray();
 
                         LinkedHashMap m;
-                        
+
                         //add for loop to create obj based off list size
                         for(int i = 0; i < Algorithm.xCords().size(); i++){
                             //Cords and Drive/Rotation Arrays
@@ -277,24 +297,48 @@ public class FrcApp {
                             m.put("drive", jaDrive);
                             m.put("rotation", jaRotation);
                             jaPos.add(m);
-                            
                         }
-                        //Drive 
+
+                        //Drive
+                        drivePStr = drivePStr.replaceAll("[^\\d.]", "");
+                        driveIStr = driveIStr.replaceAll("[^\\d.]", "");
+                        driveDStr = driveDStr.replaceAll("[^\\d.]", "");
+                        driveILimitStr = driveILimitStr.replaceAll("[^\\d.]", "");
+                        driveThresholdStr = driveThresholdStr.replaceAll("[^\\d.]", "");
+
+                        double driveP = Double.parseDouble(drivePStr);
+                        double driveI = Double.parseDouble(driveIStr);
+                        double driveD = Double.parseDouble(driveDStr);
+                        double driveILimit = Double.parseDouble(driveILimitStr);
+                        double driveThreshold = Double.parseDouble(driveThresholdStr);
+
                         m = new LinkedHashMap();
-                        m.put("p", 0.0);
-                        m.put("i", 0.0);
-                        m.put("d", 0.0);
-                        m.put("iLimit", 0.0);
-                        m.put("threshold", 0.0);
+                        m.put("p", driveP);
+                        m.put("i", driveI);
+                        m.put("d", driveD);
+                        m.put("iLimit", driveILimit);
+                        m.put("threshold", driveThreshold);
                         jaDrive.add(m);
 
                         //Rotation
+                        rotationPStr = rotationPStr.replaceAll("[^\\d.]", "");
+                        rotationIStr = rotationIStr.replaceAll("[^\\d.]", "");
+                        rotationDStr = rotationDStr.replaceAll("[^\\d.]", "");
+                        rotationILimitStr = rotationILimitStr.replaceAll("[^\\d.]", "");
+                        rotationThresholdStr = rotationThresholdStr.replaceAll("[^\\d.]", "");
+
+                        double rotationP = Double.parseDouble(rotationPStr);
+                        double rotationI = Double.parseDouble(rotationIStr);
+                        double rotationD = Double.parseDouble(rotationDStr);
+                        double rotationILimit = Double.parseDouble(rotationILimitStr);
+                        double rotationThreshold = Double.parseDouble(rotationThresholdStr);
+
                         m = new LinkedHashMap();
-                        m.put("p", 0.0);
-                        m.put("i", 0.0);
-                        m.put("d", 0.0);
-                        m.put("iLimit", 0.0);
-                        m.put("threshold", 0.0);
+                        m.put("p", rotationP);
+                        m.put("i", rotationI);
+                        m.put("d", rotationD);
+                        m.put("iLimit", rotationILimit);
+                        m.put("threshold", rotationThreshold);
                         jaRotation.add(m);
                         
                         
@@ -363,6 +407,19 @@ public class FrcApp {
         });
 
 
+        //taking input from drive and rotation Settings
+        drivePStr = driveP.getText();
+        driveIStr = driveI.getText();
+        driveDStr = driveD.getText();
+        driveILimitStr = driveILimit.getText();
+        driveThresholdStr = driveThreshold.getText();
+
+        rotationPStr = rotationP.getText();
+        rotationIStr = rotationI.getText();
+        rotationDStr = rotationD.getText();
+        rotationILimitStr = rotationILimit.getText();
+        rotationThresholdStr = rotationThreshold.getText();
+
         // Turn on labels at major tick marks.
         speedSlider.setMajorTickSpacing(10);
         speedSlider.setMinorTickSpacing(5);
@@ -375,36 +432,63 @@ public class FrcApp {
         speedSlider.setLabelTable(labels);
 
         // Menu Bar for Controls
-        panel.add(toolBx);
-        panel.add(button1);
-        panel.add(button2);
-        panel.add(button3);
-        panel.add(speedSlider);
-        panel.add(dropDown);
-        panel.add(alliance);
-        panel.add(button4);
-        panel.add(diagonal);
-        panel.add(button5);
+        topPanel.add(toolBx);
+        topPanel.add(button1);
+        topPanel.add(button2);
+        topPanel.add(button3);
+        topPanel.add(speedSlider);
+        topPanel.add(dropDown);
+        topPanel.add(alliance);
+        topPanel.add(button4);
+        topPanel.add(diagonal);
+        topPanel.add(button5);
+
+        midPanel.add(driveLabel);
+        midPanel.add(driveP);
+        midPanel.add(driveI);
+        midPanel.add(driveD);
+        midPanel.add(driveILimit);
+        midPanel.add(driveThreshold);
+
+        bottomPanel.add(rotationLabel);
+        bottomPanel.add(rotationP);
+        bottomPanel.add(rotationI);
+        bottomPanel.add(rotationD);
+        bottomPanel.add(rotationILimit);
+        bottomPanel.add(rotationThreshold);
 
 
         //Scrolling
-        JScrollPane scrPane = new JScrollPane(panel);
-        frame.add(scrPane);
+        // JScrollPane scrPane = new JScrollPane(panel);
+        // frame.add(scrPane);
 
-        panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
-        panel.setLayout(new GridLayout(0, 1));
-        panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        topPanel.setBorder(BorderFactory.createEmptyBorder(0, 30, 10, 30));
+        topPanel.setLayout(new GridLayout(0, 1));
+        topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        midPanel.setBorder(BorderFactory.createEmptyBorder(0, 30, 10, 30));
+        midPanel.setLayout(new GridLayout(0, 1));
+        midPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 30, 10, 30));
+        bottomPanel.setLayout(new GridLayout(0, 1));
+        bottomPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(frameWidth, frameHeight);
-        frame.add(panel, BorderLayout.CENTER);
+        frame.add(topPanel, BorderLayout.NORTH);
+        frame.add(midPanel, BorderLayout.CENTER);
+        frame.add(bottomPanel, BorderLayout.PAGE_END);
         frame.setLayout(new FlowLayout(FlowLayout.LEFT));
         frame.setVisible(true);
 
-        
-
-        // adds grid canvas to the frame last so that menu bar loads on top
+        // adds grid canvas in the
         mapCanvas.setPreferredSize(new Dimension(canvasWidth, canvasHeight));
         frame.getContentPane().add(mapCanvas);
+
+        
+
 
         startFind();
         
