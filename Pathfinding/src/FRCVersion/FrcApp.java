@@ -90,7 +90,6 @@ public class FrcApp {
     Hashtable<Integer, JLabel> labels;
     JSlider speedSlider;
     public static Node[][]/*[]*/ map;
-    public int test;
     public Random ran;
     public static boolean movement;
    
