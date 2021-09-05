@@ -243,14 +243,25 @@ public class Algorithms{
 
         for(int x = 0; x < xCords().size() - 1; x++){
             System.out.println("Test: " + x);
-            if(Double.parseDouble(df.format(xCords().get(x) - xCords().get(x + 1))) == -0.1){
-                realPathX.add(Double.parseDouble(df.format(xCords().get(x) + xCords().get(x + 1) - 0.1)));
+            if((Double.parseDouble(df.format(xCords().get(x) - xCords().get(x + 1))) == -0.1) && (Double.parseDouble(df.format(yCords().get(x) - yCords().get(x + 1))) == 0.0)){
+                realPathX.add(Double.parseDouble(df.format(xCords().get(x))));
+                realPathY.add(Double.parseDouble(df.format(yCords().get(x))));
+                System.out.println("Size: " + realPathX.size());
+                // while (realPathX.size() > 0){
+                //     realPathX.remove(0);
+                // }
+                for(int ySize = 0; ySize <= realPathY.size(); ySize++){
+                    realPathY.remove(ySize);
+                }
             }
         }
 
         System.out.println("Real PathX Size: " + realPathX.size());
         for(int x = 0; x < realPathX.size(); x++){
             System.out.println("Real PathX :" + realPathX.get(x));
+        }
+        for(int y = 0; y < realPathY.size(); y++){
+            System.out.println("Real PathY :" + realPathX.get(y));
         }
     }
 }
