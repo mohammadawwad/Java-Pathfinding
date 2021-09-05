@@ -4,8 +4,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.swing.JOptionPane;
+import javax.swing.text.html.HTMLDocument.Iterator;
 
 public class Algorithms{
 
@@ -240,21 +242,41 @@ public class Algorithms{
         DecimalFormat df = new DecimalFormat("0.0");
         realPathX = new ArrayList<Double>();  
         realPathY = new ArrayList<Double>(); 
+        ListIterator<Double> xIterator = xCords().listIterator();
 
-        for(int x = 0; x < xCords().size() - 1; x++){
-            System.out.println("Test: " + x);
-            if((Double.parseDouble(df.format(xCords().get(x) - xCords().get(x + 1))) == -0.1) && (Double.parseDouble(df.format(yCords().get(x) - yCords().get(x + 1))) == 0.0)){
-                realPathX.add(Double.parseDouble(df.format(xCords().get(x))));
-                realPathY.add(Double.parseDouble(df.format(yCords().get(x))));
-                System.out.println("Size: " + realPathX.size());
-                // while (realPathX.size() > 0){
-                //     realPathX.remove(0);
-                // }
-                for(int ySize = 0; ySize <= realPathY.size(); ySize++){
-                    realPathY.remove(ySize);
+        for(int x = 0; x < xCords().size(); x++){
+            if (xCords().size() > x + 1) {
+                System.out.println("Next True");
+                if((Double.parseDouble(df.format(xCords().get(x) - xCords().get(x + 1))) == -0.1) && (Double.parseDouble(df.format(yCords().get(x) - yCords().get(x + 1))) == 0.0)){
+                    realPathX.add(Double.parseDouble(df.format(xCords().get(x))));
+                    // realPathY.add(Double.parseDouble(df.format(yCords().get(x))));
+                    System.out.println("Test: " + realPathX.size());
+                    // for(int ySize = 0; ySize <= realPathY.size(); ySize++){
+                    //     realPathY.remove(ySize);
+                    // }
                 }
             }
+            else{
+                System.out.println("Next False");
+                if((Double.parseDouble(df.format(xCords().get(x) - xCords().get(x - 1))) == 0.1) && (Double.parseDouble(df.format(yCords().get(x) - yCords().get(x - 1))) == 0.0)){
+                    realPathX.add(Double.parseDouble(df.format(xCords().get(x))));
+                    // realPathY.add(Double.parseDouble(df.format(yCords().get(x))));
+                    System.out.println("Test: " + realPathX.size());
+                    // for(int ySize = 0; ySize <= realPathY.size(); ySize++){
+                    //     realPathY.remove(ySize);
+                    // }
+                }
+            }
+
+            Collections.reverse(realPathX);
+            for(int xItr = realPathX.size() - 1; xItr >= 1 ; xItr--){
+                System.out.println("removing: " + realPathX.get(xItr));
+                realPathX.remove(xItr);
+            }
         }
+        
+
+        
 
         System.out.println("Real PathX Size: " + realPathX.size());
         for(int x = 0; x < realPathX.size(); x++){
