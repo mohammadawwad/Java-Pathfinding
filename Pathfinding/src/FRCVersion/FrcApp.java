@@ -13,10 +13,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Hashtable;
-import java.util.Random;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -74,7 +72,7 @@ public class FrcApp {
     JComboBox dropDown = new JComboBox(algoPicker);
     JComboBox toolBx = new JComboBox(tools);
     JComboBox alliance = new JComboBox(allianceColor);
-    JCheckBox diagonal = new JCheckBox("Diagonal Movement");
+    JCheckBox diagonal = new JCheckBox("Diagonal Movement", true);
 
     public static boolean start = false;
     public static int check = 0;
@@ -90,8 +88,7 @@ public class FrcApp {
     Hashtable<Integer, JLabel> labels;
     JSlider speedSlider;
     public static Node[][]/*[]*/ map;
-    public Random ran;
-    public static boolean movement;
+    public static boolean movement = true;
    
     
 
@@ -139,19 +136,6 @@ public class FrcApp {
         mapCanvas.repaint();
     }
 
-    // Generates Map with Random walls
-    public void genNewMap() {
-        Node current;
-        cleanMap();
-        for (int i = 0; i < (cellsHeight * cellsWidth) * .4; i++) {
-            int ranX = (int) (Math.random() * cellsHeight + cellsWidth / 2);
-            int ranY = (int) (Math.random() * cellsHeight + cellsWidth / 2);
-            current = map[ranX][ranY]/*[0]*/; // FIND A RANDOM NODE IN THE GRID
-            current.setType(1); // SET NODE TO BE A WALL
-        }
-        System.out.println("Random Map Has Been Generated");
-    }
-
     // starts searching for end node
     public void startFind() {
         if (start){
@@ -190,7 +174,6 @@ public class FrcApp {
 
         // Buttons
         JButton button1 = new JButton("Start");
-        JButton button2 = new JButton("Generate Map");
         JButton button3 = new JButton("Clear Map");
         JButton button4 = new JButton("Credits");
         JButton button5 = new JButton("Generate Path");
@@ -222,16 +205,6 @@ public class FrcApp {
                 System.out.println("Starting Search");
                 //sets boolean to true allowing algorithim to
                 start = true;
-            }
-        });
-        
-
-        // Generate new Map button
-        button2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                genNewMap();
-                updateGrid();
             }
         });
 
@@ -433,7 +406,6 @@ public class FrcApp {
         // Menu Bar for Controls
         topPanel.add(toolBx);
         topPanel.add(button1);
-        topPanel.add(button2);
         topPanel.add(button3);
         topPanel.add(speedSlider);
         topPanel.add(dropDown);
