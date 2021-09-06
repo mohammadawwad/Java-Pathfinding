@@ -262,22 +262,27 @@ public class Algorithms{
                 System.out.println("Next True");
 
                 //Right Path Mege Algorithm
-                if((Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == -0.1) && (Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == 0.0)){
-                    addValues(i);
-                }
+                // if((Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == -0.1) && (Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == 0.0)){
+                //     addValues(i);
+                // }
 
                 //Left Path Mege Algorithm
-                if((Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == 0.1) && (Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == 0.0)){
-                    addValues(i);
-                }
+                // if((Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == 0.1) && (Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == 0.0)){
+                //     addValues(i);
+                // }
 
                 //Down Path Mege Algorithm
-                if((Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == -0.1) && (Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == 0.0)){
-                    addValues(i);
-                }
+                // if((Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == -0.1) && (Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == 0.0)){
+                //     addValues(i);
+                // }
 
                 //Up Path Mege Algorithm
-                if((Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == 0.1) && (Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == 0.0)){
+                // if((Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == 0.1) && (Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == 0.0)){
+                //     addValues(i);
+                // }
+
+                //Diagonal Path Mege Algorithm
+                if((Double.parseDouble(df.format(xCords().get(i))) == Double.parseDouble(df.format(yCords().get(i)))) || (Double.parseDouble(df.format(xCords().get(i) * -1)) == Double.parseDouble(df.format(yCords().get(i))))){
                     addValues(i);
                 }
             }
@@ -285,22 +290,27 @@ public class Algorithms{
                 System.out.println("Next False");
 
                 //Right Path Mege Algorithm
-                if((Double.parseDouble(df.format(xCords().get(i) - xCords().get(i - 1))) == 0.1) && (Double.parseDouble(df.format(yCords().get(i) - yCords().get(i - 1))) == 0.0)){
-                    addValues(i);
-                }
+                // if((Double.parseDouble(df.format(xCords().get(i) - xCords().get(i - 1))) == 0.1) && (Double.parseDouble(df.format(yCords().get(i) - yCords().get(i - 1))) == 0.0)){
+                //     addValues(i);
+                // }
 
                 //Left Path Mege Algorithm
-                if((Double.parseDouble(df.format(xCords().get(i) - xCords().get(i - 1))) == -0.1) && (Double.parseDouble(df.format(yCords().get(i) - yCords().get(i - 1))) == 0.0)){
-                    addValues(i);
-                }
+                // if((Double.parseDouble(df.format(xCords().get(i) - xCords().get(i - 1))) == -0.1) && (Double.parseDouble(df.format(yCords().get(i) - yCords().get(i - 1))) == 0.0)){
+                //     addValues(i);
+                // }
 
                 //Down Path Mege Algorithm
-                if((Double.parseDouble(df.format(yCords().get(i) - yCords().get(i - 1))) == 0.1) && (Double.parseDouble(df.format(xCords().get(i) - xCords().get(i - 1))) == 0.0)){
-                    addValues(i);
-                }
+                // if((Double.parseDouble(df.format(yCords().get(i) - yCords().get(i - 1))) == 0.1) && (Double.parseDouble(df.format(xCords().get(i) - xCords().get(i - 1))) == 0.0)){
+                //     addValues(i);
+                // }
 
                 //Up Path Mege Algorithm
-                if((Double.parseDouble(df.format(yCords().get(i) - yCords().get(i - 1))) == -0.1) && (Double.parseDouble(df.format(xCords().get(i) - xCords().get(i - 1))) == 0.0)){
+                // if((Double.parseDouble(df.format(yCords().get(i) - yCords().get(i - 1))) == -0.1) && (Double.parseDouble(df.format(xCords().get(i) - xCords().get(i - 1))) == 0.0)){
+                //     addValues(i);
+                // }
+
+                //Diagonol Path Mege Algorithm
+                if((Double.parseDouble(df.format(xCords().get(i))) == Double.parseDouble(df.format(yCords().get(i)))) || (Double.parseDouble(df.format(xCords().get(i) * -0.1)) == Double.parseDouble(df.format(yCords().get(i))))){
                     addValues(i);
                 }
             }
