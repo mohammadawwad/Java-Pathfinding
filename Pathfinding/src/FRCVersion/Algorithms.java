@@ -15,6 +15,8 @@ public class Algorithms{
     private List<Double> pathY;
     private List<Double> realPathX;
     private List<Double> realPathY;
+    private List<Double> tempPathX;
+    private List<Double> tempPathY;
 
     public void Dijkstra() {
         System.out.println("Dijkstra");
@@ -229,6 +231,14 @@ public class Algorithms{
         return pathY;
     }
 
+    public List<Double> tempXCords(){
+        return tempPathX;
+    }
+
+    public List<Double> tempYCords(){
+        return tempPathY;
+    }
+
     public List<Double> realXCords(){
         return realPathX;
     }
@@ -237,53 +247,73 @@ public class Algorithms{
         return realPathY;
     }
 
+    //reverse remove List 
+    public void rrList(List<Double> list) {
+        Collections.reverse(list);
+        for(int itr = list.size() - 1; itr >= 1 ; itr--){
+            list.remove(itr);
+        }
+    }
+
+
     //sorting algorithm that merges coords
     public void cordMerge(){
         DecimalFormat df = new DecimalFormat("0.0");
         realPathX = new ArrayList<Double>();  
         realPathY = new ArrayList<Double>(); 
-        ListIterator<Double> xIterator = xCords().listIterator();
+        tempPathX = new ArrayList<Double>();  
+        tempPathY = new ArrayList<Double>(); 
 
         for(int x = 0; x < xCords().size(); x++){
+            //Checks to see if there is another element in list
             if (xCords().size() > x + 1) {
                 System.out.println("Next True");
+
+                //Left Path Mege Algorithm
                 if((Double.parseDouble(df.format(xCords().get(x) - xCords().get(x + 1))) == -0.1) && (Double.parseDouble(df.format(yCords().get(x) - yCords().get(x + 1))) == 0.0)){
-                    realPathX.add(Double.parseDouble(df.format(xCords().get(x))));
-                    // realPathY.add(Double.parseDouble(df.format(yCords().get(x))));
-                    System.out.println("Test: " + realPathX.size());
-                    // for(int ySize = 0; ySize <= realPathY.size(); ySize++){
-                    //     realPathY.remove(ySize);
-                    // }
+                    tempPathX.add(Double.parseDouble(df.format(xCords().get(x))));
+                    tempPathY.add(Double.parseDouble(df.format(yCords().get(x))));
+
+                    rrList(tempPathX);
+                    rrList(tempPathY);
+
+                    realPathX.add(tempPathX.get(0));
+                    realPathY.add(tempPathY.get(0));
                 }
             }
             else{
                 System.out.println("Next False");
+
+                //Left Path Mege Algorithm
                 if((Double.parseDouble(df.format(xCords().get(x) - xCords().get(x - 1))) == 0.1) && (Double.parseDouble(df.format(yCords().get(x) - yCords().get(x - 1))) == 0.0)){
-                    realPathX.add(Double.parseDouble(df.format(xCords().get(x))));
-                    // realPathY.add(Double.parseDouble(df.format(yCords().get(x))));
-                    System.out.println("Test: " + realPathX.size());
-                    // for(int ySize = 0; ySize <= realPathY.size(); ySize++){
-                    //     realPathY.remove(ySize);
-                    // }
+                    tempPathX.add(Double.parseDouble(df.format(xCords().get(x))));
+                    tempPathY.add(Double.parseDouble(df.format(yCords().get(x))));
+                    
+                    rrList(tempPathX);
+                    rrList(tempPathY);
+
+                    realPathX.add(tempPathX.get(0));
+                    realPathY.add(tempPathY.get(0));
                 }
             }
-
-            Collections.reverse(realPathX);
-            for(int xItr = realPathX.size() - 1; xItr >= 1 ; xItr--){
-                System.out.println("removing: " + realPathX.get(xItr));
-                realPathX.remove(xItr);
-            }
         }
         
 
         
-
-        System.out.println("Real PathX Size: " + realPathX.size());
-        for(int x = 0; x < realPathX.size(); x++){
-            System.out.println("Real PathX :" + realPathX.get(x));
+        //prints temp path lists 
+        for(int x = 0; x < tempPathX.size(); x++){
+            System.out.println("temp PathX :" + tempPathX.get(x));
         }
-        for(int y = 0; y < realPathY.size(); y++){
-            System.out.println("Real PathY :" + realPathX.get(y));
+        for(int y = 0; y < tempPathY.size(); y++){
+            System.out.println("temp PathY :" + tempPathY.get(y));
+        }
+
+        //prints real path lists
+        for(int x = 0; x < tempPathX.size(); x++){
+            System.out.println("temp PathX :" + tempPathX.get(x));
+        }
+        for(int y = 0; y < tempPathY.size(); y++){
+            System.out.println("temp PathY :" + tempPathY.get(y));
         }
     }
 }
