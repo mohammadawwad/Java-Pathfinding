@@ -292,6 +292,18 @@ public class Algorithms{
                     realPathX.add(tempPathX.get(0));
                     realPathY.add(tempPathY.get(0));
                 }
+
+                //Down Path Mege Algorithm
+                if((Double.parseDouble(df.format(yCords().get(x) - yCords().get(x + 1))) == -0.1) && (Double.parseDouble(df.format(xCords().get(x) - xCords().get(x + 1))) == 0.0)){
+                    tempPathX.add(Double.parseDouble(df.format(xCords().get(x))));
+                    tempPathY.add(Double.parseDouble(df.format(yCords().get(x))));
+
+                    rrList(tempPathX);
+                    rrList(tempPathY);
+
+                    realPathX.add(tempPathX.get(0));
+                    realPathY.add(tempPathY.get(0));
+                }
             }
             else{
                 System.out.println("Next False");
@@ -310,6 +322,18 @@ public class Algorithms{
 
                 //Left Path Mege Algorithm
                 if((Double.parseDouble(df.format(xCords().get(x) - xCords().get(x - 1))) == -0.1) && (Double.parseDouble(df.format(yCords().get(x) - yCords().get(x - 1))) == 0.0)){
+                    tempPathX.add(Double.parseDouble(df.format(xCords().get(x))));
+                    tempPathY.add(Double.parseDouble(df.format(yCords().get(x))));
+                    
+                    rrList(tempPathX);
+                    rrList(tempPathY);
+
+                    realPathX.add(tempPathX.get(0));
+                    realPathY.add(tempPathY.get(0));
+                }
+
+                //Down Path Mege Algorithm
+                if((Double.parseDouble(df.format(yCords().get(x) - yCords().get(x - 1))) == 0.1) && (Double.parseDouble(df.format(xCords().get(x) - xCords().get(x - 1))) == 0.0)){
                     tempPathX.add(Double.parseDouble(df.format(xCords().get(x))));
                     tempPathY.add(Double.parseDouble(df.format(yCords().get(x))));
                     
