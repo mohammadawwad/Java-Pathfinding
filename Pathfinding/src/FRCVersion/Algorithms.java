@@ -256,57 +256,81 @@ public class Algorithms{
         tempPathX = new ArrayList<Double>();  
         tempPathY = new ArrayList<Double>(); 
 
-        for(int i = 0; i < xCords().size(); i++){
+        try {
+            for(int i = 0; i < xCords().size(); i++){
             //Checks to see if there is another element in list
             if (xCords().size() > i + 1) {
                 System.out.println("Next True");
 
                 //Right Path Mege Algorithm
                 if((Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == -0.1) && (Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == 0.0)){
-                    while((Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == -0.1) && (Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == 0.0) && (xCords().size() > i + 1)){
-                        addValues(i);
-                        i++;
+                    try {
+                        while((Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == -0.1) && (Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == 0.0) && (xCords().size() > i + 1)){
+                            addValues(i);
+                            i++;
+                        }
                     }
+                    catch (IndexOutOfBoundsException e) {}
+                   
                     realPathX.add(tempPathX.get(0));
                     realPathY.add(tempPathY.get(0));
                 }
 
                 //Left Path Mege Algorithm
                 if((Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == 0.1) && (Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == 0.0)){
-                    while((Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == 0.1) && (Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == 0.0) && (xCords().size() > i + 1)){
-                        addValues(i);
-                        i++;
+                    
+                    try {
+                        while((Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == 0.1) && (Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == 0.0) && (xCords().size() > i + 1)){
+                            addValues(i);
+                            i++;
+                        }
                     }
+                    catch(IndexOutOfBoundsException e) {}
+
                     realPathX.add(tempPathX.get(0));
                     realPathY.add(tempPathY.get(0));
                 }
 
                 //Down Path Mege Algorithm
                 if((Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == -0.1) && (Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == 0.0)){
-                    while((Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == -0.1) && (Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == 0.0) && (xCords().size() > i + 1)){
-                        addValues(i);
-                        i++;
+                    
+                    try {
+                        while((Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == -0.1) && (Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == 0.0) && (xCords().size() > i + 1)){
+                            addValues(i);
+                            i++;
+                        }
                     }
+                    catch(IndexOutOfBoundsException e) {}
+
                     realPathX.add(tempPathX.get(0));
                     realPathY.add(tempPathY.get(0));
                 }
 
                 //Up Path Mege Algorithm
                 if((Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == 0.1) && (Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == 0.0)){
-                    while((Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == 0.1) && (Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == 0.0) && (xCords().size() > i + 1)){
-                        addValues(i);
-                        i++;
+                    try {
+                        while((Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == 0.1) && (Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == 0.0) && (xCords().size() > i + 1)){
+                            addValues(i);
+                            i++;
+                        }
                     }
+                    catch(IndexOutOfBoundsException e) {}
+                   
                     realPathX.add(tempPathX.get(0));
                     realPathY.add(tempPathY.get(0));
                 }
 
                 //Diagonal Path Mege Algorithm
                 if((Double.parseDouble(df.format(xCords().get(i))) == Double.parseDouble(df.format(yCords().get(i)))) || (Double.parseDouble(df.format(xCords().get(i) * -1)) == Double.parseDouble(df.format(yCords().get(i))))){
-                    while((Double.parseDouble(df.format(xCords().get(i))) == Double.parseDouble(df.format(yCords().get(i)))) || (Double.parseDouble(df.format(xCords().get(i) * -1)) == Double.parseDouble(df.format(yCords().get(i)))) && (xCords().size() > i + 1)){
-                        addValues(i);
-                        i++;
+                    try {
+                        while(((Double.parseDouble(df.format(xCords().get(i))) == Double.parseDouble(df.format(yCords().get(i)))) || (Double.parseDouble(df.format(xCords().get(i) * -1)) == Double.parseDouble(df.format(yCords().get(i))))) && (xCords().size() > i + 1)){
+                            addValues(i);
+                            i++;
+                        }
                     }
+                    catch (IndexOutOfBoundsException e) {
+                    }
+
                     realPathX.add(tempPathX.get(0));
                     realPathY.add(tempPathY.get(0));
                 }
@@ -350,6 +374,9 @@ public class Algorithms{
                 }
             }
         }
+        }
+        catch(IndexOutOfBoundsException e) {}
+        
         
         //prints temp path lists 
         System.out.println("Temp Path X : " + tempPathX);
@@ -371,6 +398,7 @@ public class Algorithms{
     //adds x and y values
     public void addValues(int x){
         DecimalFormat df = new DecimalFormat("0.0");
+
         tempPathX.add(Double.parseDouble(df.format(xCords().get(x))));
         tempPathY.add(Double.parseDouble(df.format(yCords().get(x))));
         
