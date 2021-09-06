@@ -256,52 +256,52 @@ public class Algorithms{
         tempPathX = new ArrayList<Double>();  
         tempPathY = new ArrayList<Double>(); 
 
-        for(int x = 0; x < xCords().size(); x++){
+        for(int i = 0; i < xCords().size(); i++){
             //Checks to see if there is another element in list
-            if (xCords().size() > x + 1) {
+            if (xCords().size() > i + 1) {
                 System.out.println("Next True");
 
                 //Right Path Mege Algorithm
-                if((Double.parseDouble(df.format(xCords().get(x) - xCords().get(x + 1))) == -0.1) && (Double.parseDouble(df.format(yCords().get(x) - yCords().get(x + 1))) == 0.0)){
-                    addValues(x);
+                if((Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == -0.1) && (Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == 0.0)){
+                    addValues(i);
                 }
 
                 //Left Path Mege Algorithm
-                if((Double.parseDouble(df.format(xCords().get(x) - xCords().get(x + 1))) == 0.1) && (Double.parseDouble(df.format(yCords().get(x) - yCords().get(x + 1))) == 0.0)){
-                    addValues(x);
+                if((Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == 0.1) && (Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == 0.0)){
+                    addValues(i);
                 }
 
                 //Down Path Mege Algorithm
-                if((Double.parseDouble(df.format(yCords().get(x) - yCords().get(x + 1))) == -0.1) && (Double.parseDouble(df.format(xCords().get(x) - xCords().get(x + 1))) == 0.0)){
-                    addValues(x);
+                if((Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == -0.1) && (Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == 0.0)){
+                    addValues(i);
                 }
 
                 //Up Path Mege Algorithm
-                if((Double.parseDouble(df.format(yCords().get(x) - yCords().get(x + 1))) == 0.1) && (Double.parseDouble(df.format(xCords().get(x) - xCords().get(x + 1))) == 0.0)){
-                    addValues(x);
+                if((Double.parseDouble(df.format(yCords().get(i) - yCords().get(i + 1))) == 0.1) && (Double.parseDouble(df.format(xCords().get(i) - xCords().get(i + 1))) == 0.0)){
+                    addValues(i);
                 }
             }
             else{
                 System.out.println("Next False");
 
                 //Right Path Mege Algorithm
-                if((Double.parseDouble(df.format(xCords().get(x) - xCords().get(x - 1))) == 0.1) && (Double.parseDouble(df.format(yCords().get(x) - yCords().get(x - 1))) == 0.0)){
-                    addValues(x);
+                if((Double.parseDouble(df.format(xCords().get(i) - xCords().get(i - 1))) == 0.1) && (Double.parseDouble(df.format(yCords().get(i) - yCords().get(i - 1))) == 0.0)){
+                    addValues(i);
                 }
 
                 //Left Path Mege Algorithm
-                if((Double.parseDouble(df.format(xCords().get(x) - xCords().get(x - 1))) == -0.1) && (Double.parseDouble(df.format(yCords().get(x) - yCords().get(x - 1))) == 0.0)){
-                    addValues(x);
+                if((Double.parseDouble(df.format(xCords().get(i) - xCords().get(i - 1))) == -0.1) && (Double.parseDouble(df.format(yCords().get(i) - yCords().get(i - 1))) == 0.0)){
+                    addValues(i);
                 }
 
                 //Down Path Mege Algorithm
-                if((Double.parseDouble(df.format(yCords().get(x) - yCords().get(x - 1))) == 0.1) && (Double.parseDouble(df.format(xCords().get(x) - xCords().get(x - 1))) == 0.0)){
-                    addValues(x);
+                if((Double.parseDouble(df.format(yCords().get(i) - yCords().get(i - 1))) == 0.1) && (Double.parseDouble(df.format(xCords().get(i) - xCords().get(i - 1))) == 0.0)){
+                    addValues(i);
                 }
 
                 //Up Path Mege Algorithm
-                if((Double.parseDouble(df.format(yCords().get(x) - yCords().get(x - 1))) == -0.1) && (Double.parseDouble(df.format(xCords().get(x) - xCords().get(x - 1))) == 0.0)){
-                    addValues(x);
+                if((Double.parseDouble(df.format(yCords().get(i) - yCords().get(i - 1))) == -0.1) && (Double.parseDouble(df.format(xCords().get(i) - xCords().get(i - 1))) == 0.0)){
+                    addValues(i);
                 }
             }
         }
