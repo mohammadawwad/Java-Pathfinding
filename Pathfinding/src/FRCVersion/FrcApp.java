@@ -259,12 +259,14 @@ public class FrcApp {
 
                         LinkedHashMap m;
 
+                        //test read real cords code 
+
                         //add for loop to create obj based off list size
-                        for(int i = 0; i < Algorithm.xCords().size(); i++){
+                        for(int i = 0; i < Algorithm.realXCords().size(); i++){
                             //Cords and Drive/Rotation Arrays
                             m = new LinkedHashMap(2);
-                            m.put("x", Algorithm.xCords().get(i));
-                            m.put("y", Algorithm.yCords().get(i));
+                            m.put("x", Algorithm.realXCords().get(i));
+                            m.put("y", Algorithm.realYCords().get(i));
                             m.put("theta", 0.0);
                             m.put("drive", jaDrive);
                             m.put("rotation", jaRotation);
