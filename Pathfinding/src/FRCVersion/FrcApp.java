@@ -12,6 +12,7 @@ import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.Buffer;
 import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
