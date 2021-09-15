@@ -318,7 +318,7 @@ public class FrcApp {
                         
                         jsonObj.put("pos", jaPos);
 
-                        file.write(jsonObj.toJSONString());
+                        file.write(jsonObj.toString(4));
                         file.flush();
                         file.close();
                     } 
