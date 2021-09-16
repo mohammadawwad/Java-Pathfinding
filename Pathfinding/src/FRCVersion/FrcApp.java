@@ -228,6 +228,7 @@ public class FrcApp {
             }
         });
 
+        // add waypoints with for loops system so that coords are saved in list and can be looped through as if they are multiple start and ends
         // Path Generator Button
         button5.addActionListener(new ActionListener() {
             @Override
@@ -259,8 +260,6 @@ public class FrcApp {
                         JSONArray jaRotation = new JSONArray();
 
                         LinkedHashMap m;
-
-                        //test read real cords code 
 
                         //add for loop to create obj based off list size
                         for(int i = 0; i < Algorithm.realXCords().size(); i++){

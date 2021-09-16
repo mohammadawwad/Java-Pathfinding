@@ -1,4 +1,4 @@
-package com.application.frcversion;
+package FRCVersion;
 
 public class Main {
     public static void main(String[] args){
