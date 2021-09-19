@@ -92,7 +92,7 @@ public class FrcApp {
     public static boolean movement = true;
    
     
-
+//
     // Constructor
     public FrcApp(){
         cleanMap();
