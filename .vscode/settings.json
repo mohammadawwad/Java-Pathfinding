@@ -4,7 +4,7 @@
         "Pathfinding/src/FRCVersion/json-simple-1.1.jar"
     ],
     "java.project.sourcePaths": [
-        "Pathfinding/src/FRCVersion"
+        "Pathfinding/src"
     ]
    
 }

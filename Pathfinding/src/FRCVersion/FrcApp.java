@@ -35,6 +35,7 @@ import org.json.simple.JSONArray;
 public class FrcApp {
 
     public Algorithms Algorithm = new Algorithms();
+    public FieldMap Maps = new FieldMap();
     // Speed Slider Values
     static final int minSpdSlider = 0;
     static final int maxSpdSlider = 60;
@@ -49,7 +50,7 @@ public class FrcApp {
     // grid dimensions cellsxcells 82 x 160
     public static int cellsWidth = 193;
     public static int cellsHeight = 92;
-    public static int theta = 1;
+    public static double theta = 0.0;
     private final static int MSIZE = 1500;
     // Canvas Size
     public static int CSIZE = /*MSIZE / cellsWidth;*/ 7;
@@ -82,7 +83,7 @@ public class FrcApp {
     // intitalizing
     public static String drivePStr, driveIStr, driveDStr, driveILimitStr, driveThresholdStr;
     public static String rotationPStr, rotationIStr, rotationDStr, rotationILimitStr, rotationThresholdStr;
-    public static Map mapCanvas;
+    public static FieldMap mapCanvas;
     static JFrame frame;
     static JPanel topPanel, midPanel, bottomPanel;
     JOptionPane popup;
@@ -166,7 +167,7 @@ public class FrcApp {
         midPanel = new JPanel();
         bottomPanel = new JPanel();
         popup = new JOptionPane();
-        mapCanvas = new Map();
+        mapCanvas = new FieldMap();
 
         // Project Icon
         Image icon = Toolkit.getDefaultToolkit()
@@ -215,7 +216,7 @@ public class FrcApp {
             public void actionPerformed(ActionEvent e) {
                 newMap();
                 cleanMap();
-                Map.fillArea();
+                FieldMap.fillArea();
             }
         });
 
@@ -263,11 +264,11 @@ public class FrcApp {
 
                         //add for loop to create obj based off list size
                         for(int i = 0; i < Algorithm.realXCords().size(); i++){
-                            //Cords and Drive/Rotation Arrays
+                            //Cords and DriveArrays
                             m = new LinkedHashMap(2);
                             m.put("x", Algorithm.realXCords().get(i));
                             m.put("y", Algorithm.realYCords().get(i));
-                            m.put("theta", 0.0);
+                            m.put("theta", Maps.realThetaCords().get(i));
                             m.put("drive", jaDrive);
                             m.put("rotation", jaRotation);
                             jaPos.add(m);
@@ -367,7 +368,7 @@ public class FrcApp {
                 allianceState = alliance.getSelectedIndex();
                 updateGrid();
                 cleanMap();
-                Map.fillArea();
+                FieldMap.fillArea();
                 System.out.println("Alliance: " + 1);
             }
         });
