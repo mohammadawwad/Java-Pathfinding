@@ -2,6 +2,8 @@ package FRCVersion;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 //Note: as long as second number is for angle is lower than the first it will work?????
@@ -23,6 +26,7 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
     double theta = FrcApp.theta;
     double robotAngleTheta;
     private List<Double> realPathTheta;
+    public int xySelected;
 
     public FieldMap() {
         addMouseListener(this);
@@ -188,7 +192,32 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
     //Asks for Robot Angle 
     public void promptAngle(){
         realPathTheta = new ArrayList<Double>(); 
-        String robotAngle = JOptionPane.showInputDialog(FrcApp.frame, "Robot Angle", "Robot Angle",JOptionPane.PLAIN_MESSAGE);
+        JCheckBox xThenY = new JCheckBox("X then Y");
+        JCheckBox yThenX = new JCheckBox("Y then X");
+
+        xThenY.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                if(xThenY.isSelected() == true){
+                    yThenX.setSelected(false);
+                }
+                xySelected = 0;
+            }
+        });
+
+        yThenX.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                if(yThenX.isSelected() == true){
+                    xThenY.setSelected(false);
+                }
+                xySelected = 1;
+            }
+        });
+
+        String msg = "Enter Robot Angle"; 
+        Object[] msgContent = {xThenY, yThenX, msg}; 
+        String robotAngle =  JOptionPane.showInputDialog( FrcApp.frame,  msgContent,  "Title", JOptionPane.PLAIN_MESSAGE); 
         FrcApp.theta = Double.parseDouble(robotAngle);
         robotAngleTheta = Double.parseDouble(robotAngle);
         realPathTheta.add(robotAngleTheta); 
