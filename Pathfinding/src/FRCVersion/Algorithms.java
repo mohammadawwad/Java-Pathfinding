@@ -11,6 +11,7 @@ import javax.swing.text.html.HTMLDocument.Iterator;
 
 public class Algorithms{
 
+    public FieldMap Maps = new FieldMap();
     private List<Double> pathX;
     private List<Double> pathY;
     private List<Double> realPathX;
@@ -246,6 +247,7 @@ public class Algorithms{
     public List<Double> realYCords(){
         return realPathY;
     }
+
 
 
     //sorting algorithm that merges coords

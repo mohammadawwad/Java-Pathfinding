@@ -22,7 +22,7 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
 
     double theta = FrcApp.theta;
     double robotAngleTheta;
-    private List<Double> realPathTheta = new ArrayList<Double>(); 
+    private List<Double> realPathTheta;
 
     public FieldMap() {
         addMouseListener(this);
@@ -184,8 +184,10 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
     public void mouseExited(MouseEvent e) {
     }
 
+    
     //Asks for Robot Angle 
     public void promptAngle(){
+        realPathTheta = new ArrayList<Double>(); 
         String robotAngle = JOptionPane.showInputDialog(FrcApp.frame, "Robot Angle", "Robot Angle",JOptionPane.PLAIN_MESSAGE);
         FrcApp.theta = Double.parseDouble(robotAngle);
         robotAngleTheta = Double.parseDouble(robotAngle);
