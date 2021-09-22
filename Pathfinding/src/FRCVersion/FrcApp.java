@@ -269,6 +269,7 @@ public class FrcApp {
                             m.put("x", Algorithm.realXCords().get(i));
                             m.put("y", Algorithm.realYCords().get(i));
                             m.put("theta", Maps.realThetaCords().get(i));
+                            m.put("xthenY", Maps.xThenYDetails().get(i));
                             m.put("drive", jaDrive);
                             m.put("rotation", jaRotation);
                             jaPos.add(m);

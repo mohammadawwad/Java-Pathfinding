@@ -26,7 +26,8 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
     double theta = FrcApp.theta;
     double robotAngleTheta;
     private List<Double> realPathTheta;
-    public int xySelected;
+    private List<Boolean> xThenYList;
+    public boolean xySelected;
 
     public FieldMap() {
         addMouseListener(this);
@@ -195,13 +196,21 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
         JCheckBox xThenY = new JCheckBox("X then Y");
         JCheckBox yThenX = new JCheckBox("Y then X");
 
+        String msg = "Enter Robot Angle"; 
+        Object[] msgContent = {xThenY, yThenX, msg}; 
+        String robotAngle =  JOptionPane.showInputDialog( FrcApp.frame,  msgContent,  "Title", JOptionPane.PLAIN_MESSAGE); 
+        FrcApp.theta = Double.parseDouble(robotAngle);
+        robotAngleTheta = Double.parseDouble(robotAngle);
+        realPathTheta.add(robotAngleTheta); 
+        System.out.println("Robot Angle: " + realPathTheta);
+
         xThenY.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e){
                 if(xThenY.isSelected() == true){
                     yThenX.setSelected(false);
                 }
-                xySelected = 0;
+                xySelected = true;
             }
         });
 
@@ -211,21 +220,20 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
                 if(yThenX.isSelected() == true){
                     xThenY.setSelected(false);
                 }
-                xySelected = 1;
+                xySelected = false;
             }
         });
 
-        String msg = "Enter Robot Angle"; 
-        Object[] msgContent = {xThenY, yThenX, msg}; 
-        String robotAngle =  JOptionPane.showInputDialog( FrcApp.frame,  msgContent,  "Title", JOptionPane.PLAIN_MESSAGE); 
-        FrcApp.theta = Double.parseDouble(robotAngle);
-        robotAngleTheta = Double.parseDouble(robotAngle);
-        realPathTheta.add(robotAngleTheta); 
-        System.out.println("Robot Angle: " + realPathTheta);
+        //add it to the "OK" action listener
+        xThenYList.add(xySelected);
+
     }
 
     public List<Double> realThetaCords(){
         return realPathTheta;
+    }
+    public List<Boolean> xThenYDetails(){
+        return xThenYList;
     }
 
     public static void fillArea(){
