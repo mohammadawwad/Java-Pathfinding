@@ -25,7 +25,7 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
 
     double theta = FrcApp.theta;
     double robotAngleTheta;
-    private List<Double> realPathTheta;
+    private List<Double> realPathTheta = new ArrayList<Double>(); ;
     private List<Boolean> xThenYList;
     public boolean xySelected;
 
@@ -192,7 +192,6 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
     
     //Asks for Robot Angle 
     public void promptAngle(){
-        realPathTheta = new ArrayList<Double>(); 
         JCheckBox xThenY = new JCheckBox("X then Y");
         JCheckBox yThenX = new JCheckBox("Y then X");
 
@@ -208,9 +207,10 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
             @Override
             public void itemStateChanged(ItemEvent e){
                 if(xThenY.isSelected() == true){
+                    xThenY.setSelected(true);
                     yThenX.setSelected(false);
+                    // xySelected = true;
                 }
-                xySelected = true;
             }
         });
 
@@ -218,14 +218,15 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
             @Override
             public void itemStateChanged(ItemEvent e){
                 if(yThenX.isSelected() == true){
+                    yThenX.setSelected(true);
                     xThenY.setSelected(false);
+                    // xySelected = false;
                 }
-                xySelected = false;
             }
         });
 
         //add it to the "OK" action listener
-        xThenYList.add(xySelected);
+        // xThenYList.add(xySelected);
 
     }
 
