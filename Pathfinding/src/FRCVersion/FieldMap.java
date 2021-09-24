@@ -203,6 +203,7 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
         realPathTheta.add(robotAngleTheta); 
         System.out.println("Robot Angle: " + realPathTheta);
 
+        //its not working still
         xThenY.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e){
