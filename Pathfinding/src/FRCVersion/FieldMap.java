@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -192,39 +194,14 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
     
     //Asks for Robot Angle 
     public void promptAngle(){
-        JCheckBox xThenY = new JCheckBox("X then Y");
-        JCheckBox yThenX = new JCheckBox("Y then X");
 
         String msg = "Enter Robot Angle"; 
-        Object[] msgContent = {xThenY, yThenX, msg}; 
-        String robotAngle =  JOptionPane.showInputDialog( FrcApp.frame,  msgContent,  "Title", JOptionPane.PLAIN_MESSAGE); 
+        Object[] msgContent = {FrcApp.xThenY, FrcApp.yThenX, msg}; 
+        String robotAngle =  JOptionPane.showInputDialog( FrcApp.frame,  msgContent,  "Settings", JOptionPane.PLAIN_MESSAGE); 
         FrcApp.theta = Double.parseDouble(robotAngle);
         robotAngleTheta = Double.parseDouble(robotAngle);
         realPathTheta.add(robotAngleTheta); 
         System.out.println("Robot Angle: " + realPathTheta);
-
-        //its not working still
-        xThenY.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e){
-                if(xThenY.isSelected() == true){
-                    xThenY.setSelected(true);
-                    yThenX.setSelected(false);
-                    // xySelected = true;
-                }
-            }
-        });
-
-        yThenX.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e){
-                if(yThenX.isSelected() == true){
-                    yThenX.setSelected(true);
-                    xThenY.setSelected(false);
-                    // xySelected = false;
-                }
-            }
-        });
 
         //add it to the "OK" action listener
         // xThenYList.add(xySelected);

@@ -75,6 +75,8 @@ public class FrcApp {
     JComboBox toolBx = new JComboBox(tools);
     JComboBox alliance = new JComboBox(allianceColor);
     JCheckBox diagonal = new JCheckBox("Diagonal Movement", true);
+    static JCheckBox xThenY = new JCheckBox("X then Y");
+    static JCheckBox yThenX = new JCheckBox("Y then X");
 
     public static boolean start = false;
     public static int check = 0;
@@ -379,6 +381,28 @@ public class FrcApp {
             public void itemStateChanged(ItemEvent e){
                 movement = diagonal.isSelected();
                 System.out.println("Diagonal Movement: " + movement);
+            }
+        });
+
+        xThenY.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                if(xThenY.isSelected() == true){
+                    xThenY.setSelected(true);
+                    yThenX.setSelected(false);
+                    // xySelected = true;
+                }
+            }
+        });
+
+        yThenX.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                if(yThenX.isSelected() == true){
+                    yThenX.setSelected(true);
+                    xThenY.setSelected(false);
+                    // xySelected = false;
+                }
             }
         });
 
