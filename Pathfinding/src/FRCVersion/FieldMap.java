@@ -27,9 +27,8 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
 
     double theta = FrcApp.theta;
     double robotAngleTheta;
-    private List<Double> realPathTheta = new ArrayList<Double>(); ;
-    private List<Boolean> xThenYList;
-    public boolean xySelected;
+    private List<Double> realPathTheta = new ArrayList<Double>(); 
+    private List<Boolean> xThenYList = new ArrayList<Boolean>();
 
     public FieldMap() {
         addMouseListener(this);
@@ -133,6 +132,10 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
                         if (FrcApp.startx > -1 && FrcApp.starty > -1) {
                             FrcApp.map[FrcApp.startx][FrcApp.starty]/*[angle]*/.setType(2);
                             FrcApp.map[FrcApp.startx][FrcApp.starty]/*[angle]*/.setHops(-1); // -1 reperesent the start node location
+                            
+                            //remove theta and xtheny
+                            realPathTheta.remove(0);
+                            xThenYList.remove(0);
                         }
                         current.setHops(0);
                         FrcApp.startx = x;
@@ -149,8 +152,13 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
                     System.out.println("Finish Error: " + current.getType());
                     if (current.getType() != 1) { 
                         // if fininsh exists set it to empty
-                        if (FrcApp.finishx > -1 && FrcApp.finishy > -1) 
+                        if (FrcApp.finishx > -1 && FrcApp.finishy > -1){
                             FrcApp.map[FrcApp.finishx][FrcApp.finishy]/*[(int) theta]*/.setType(2);
+
+                            //remove theta and xtheny
+                            realPathTheta.remove(realPathTheta.size() - 1);
+                            xThenYList.remove(xThenYList.size() - 1);
+                        }
                         FrcApp.finishx = x; 
                         FrcApp.finishy = y;
                         //sets clicked node to be red
@@ -194,18 +202,15 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
     
     //Asks for Robot Angle 
     public void promptAngle(){
-
         String msg = "Enter Robot Angle"; 
         Object[] msgContent = {FrcApp.xThenY, FrcApp.yThenX, msg}; 
         String robotAngle =  JOptionPane.showInputDialog( FrcApp.frame,  msgContent,  "Settings", JOptionPane.PLAIN_MESSAGE); 
         FrcApp.theta = Double.parseDouble(robotAngle);
         robotAngleTheta = Double.parseDouble(robotAngle);
         realPathTheta.add(robotAngleTheta); 
+        xThenYList.add(FrcApp.returnXYBool());
         System.out.println("Robot Angle: " + realPathTheta);
-
-        //add it to the "OK" action listener
-        // xThenYList.add(xySelected);
-
+        System.out.println("xySelected " + xThenYList);
     }
 
     public List<Double> realThetaCords(){
@@ -213,6 +218,14 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
     }
     public List<Boolean> xThenYDetails(){
         return xThenYList;
+    }
+    public boolean retutnXYSelected(boolean bool){
+        if(bool == true){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public static void fillArea(){

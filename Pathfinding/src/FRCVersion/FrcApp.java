@@ -77,6 +77,7 @@ public class FrcApp {
     JCheckBox diagonal = new JCheckBox("Diagonal Movement", true);
     static JCheckBox xThenY = new JCheckBox("X then Y");
     static JCheckBox yThenX = new JCheckBox("Y then X");
+    public static boolean xyBool;
 
     public static boolean start = false;
     public static int check = 0;
@@ -384,13 +385,18 @@ public class FrcApp {
             }
         });
 
+        
+        
         xThenY.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e){
                 if(xThenY.isSelected() == true){
                     xThenY.setSelected(true);
                     yThenX.setSelected(false);
-                    // xySelected = true;
+                    xyBool = true;
+                    returnXYBool();
+                    // Maps.retutnXYSelected(Maps.xySelected);
+                    System.out.println(xyBool);
                 }
             }
         });
@@ -401,10 +407,14 @@ public class FrcApp {
                 if(yThenX.isSelected() == true){
                     yThenX.setSelected(true);
                     xThenY.setSelected(false);
-                    // xySelected = false;
+                    xyBool = false;
+                    returnXYBool();
+                    // Maps.retutnXYSelected(Maps.xySelected);
+                    System.out.println(xyBool);
                 }
             }
         });
+
 
 
         //taking input from drive and rotation Settings
@@ -493,5 +503,9 @@ public class FrcApp {
         
     }
     
+    public static Boolean returnXYBool(){
+        return xyBool;
+    }
+
 
 }
