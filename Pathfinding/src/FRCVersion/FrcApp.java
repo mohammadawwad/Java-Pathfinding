@@ -232,7 +232,7 @@ public class FrcApp {
             }
         });
 
-        // add waypoints with for loops system so that coords are saved in list and can be looped through as if they are multiple start and ends
+        // add waypoints with for loops system so that coords are saved in list and can be looped through as if they are multiple start and end points
         // Path Generator Button
         button5.addActionListener(new ActionListener() {
             @Override
