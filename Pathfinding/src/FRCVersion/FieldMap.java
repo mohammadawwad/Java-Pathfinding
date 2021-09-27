@@ -35,7 +35,6 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
         addMouseMotionListener(this);
     }
 
-    //Github Push Demo 1
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 

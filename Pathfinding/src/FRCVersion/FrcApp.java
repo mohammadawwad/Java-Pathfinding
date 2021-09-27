@@ -200,7 +200,6 @@ public class FrcApp {
         JTextField rotationThreshold = new JTextField("Threshold Value: 0.2", 15);
 
         // Slider
-        //Github Push Demo 2
         speedSlider = new JSlider(JSlider.HORIZONTAL, minSpdSlider, maxSpdSlider, initSpdSlider);
         labels = new Hashtable<>();
 
