@@ -60,12 +60,14 @@ public class FrcApp {
     public static int starty = -1;
     public static int finishx = -1;
     public static int finishy = -1;
+    public static int fieldState = 0;
     public static int allianceState = 0;
     public static int tool = 0;
     public int algo = 0;
     public int pathNumber = 1;
     private String[] tools = { "Start", "Wall", "Erase", "Finish" };
     private String[] algoPicker = { "A*", "Dijkstra" };
+    private String[] fieldType = { "2022", "2021" };
     private String[] allianceColor = { "Blue", "Red" };
     public String path = "C:\\Users\\Mohammad\\Documents\\GitHub\\Java-Pathfinding\\Pathfinding\\src\\FRCVersion\\generatedPaths\\autoPath";
 
@@ -73,6 +75,7 @@ public class FrcApp {
     // drop down list
     JComboBox dropDown = new JComboBox(algoPicker);
     JComboBox toolBx = new JComboBox(tools);
+    JComboBox field = new JComboBox(fieldType);
     JComboBox alliance = new JComboBox(allianceColor);
     JCheckBox diagonal = new JCheckBox("Diagonal Movement", true);
     static JCheckBox xThenY = new JCheckBox("X then Y");
@@ -365,6 +368,18 @@ public class FrcApp {
             }
         });
 
+        //Field Type by year Station Drop Down
+        field.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                fieldState = field.getSelectedIndex();
+                updateGrid();
+                cleanMap();
+                FieldMap.fillArea();
+                System.out.println("Alliance: " + 1);
+            }
+        });
+
         //Alliance Station Drop Down
         alliance.addItemListener(new ItemListener() {
             @Override
@@ -447,6 +462,7 @@ public class FrcApp {
         topPanel.add(button3);
         topPanel.add(speedSlider);
         topPanel.add(dropDown);
+        topPanel.add(field);
         topPanel.add(alliance);
         topPanel.add(button4);
         topPanel.add(diagonal);
