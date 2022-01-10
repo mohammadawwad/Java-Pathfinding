@@ -239,16 +239,22 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
     public static void fillArea(){
         //Multi dimentional arrays 
         //blocked areas that does not depend on your alliance color
-        int[][] blocked = {};
+        int[][] blocked;
 
         switch(FrcApp.fieldState){
             //for 2022 field
             case 0: 
                 int[][] blocked2022 = {
-                
+                    //bottom wall
+                    {31, 88}, {32, 88}, {33, 88}, {34, 88}, {35, 88}, {36, 88}, {37, 88}, {38, 88}, {39, 88}, {40, 88}, {41, 88}, {42, 88}, {43, 88}, {44, 88}, {45, 88}, {46, 88}, {47, 88}, {48, 88}, {49, 88}, {50, 88}, {51, 88}, {52, 88}, {53, 88}, {54, 88}, {55, 88}, {56, 88}, {57, 88}, {58, 88}, {59, 88}, {60, 88}, {61, 88}, {62, 88}, {63, 88}, {64, 88}, {65, 88}, {66, 88}, {67, 88}, {68, 88}, {69, 88}, {70, 88}, {71, 88}, {72, 88}, {73, 88}, {74, 88}, {75, 88}, {76, 88}, {77, 88}, {78, 88}, {79, 88}, {80, 88}, {81, 88}, {82, 88}, {83, 88}, {84, 88}, {85, 88}, {86, 88}, {87, 88}, {88, 88}, {89, 88}, {90, 88}, {91, 88}, {92, 88}, {93, 88}, {94, 88}, {95, 88}, {96, 88}, {97, 88}, {98, 88}, {99, 88}, {100, 88}, {101, 88}, {102, 88}, {103, 88}, {104, 88}, {105, 88}, {106, 88}, {107, 88}, {108, 88}, {109, 88}, {110, 88}, {111, 88}, {112, 88}, {113, 88}, {114, 88}, {115, 88}, {116, 88}, {117, 88}, {118, 88}, {119, 88}, {120, 88}, {121, 88}, {122, 88}, {123, 88}, {124, 88}, {125, 88}, {126, 88}, {127, 88}, {128, 88}, {129, 88}, {130, 88}, {131, 88}, {132, 88}, {133, 88}, {134, 88}, {135, 88}, {136, 88}, {137, 88}, {138, 88}, {139, 88}, {140, 88}, {141, 88}, {142, 88}, {143, 88}, {144, 88}, {145, 88}, {146, 88}, {147, 88}, {148, 88}, {149, 88}, {150, 88}, {151, 88}, {152, 88}, {153, 88}, {154, 88}, {155, 88}, {156, 88}, {157, 88}, {158, 88}, {159, 88}, {160, 88}, {161, 88}, {162, 88}, {163, 88}, {164, 88}, {165, 88}, {166, 88}, {167, 88}, {168, 88}, {169, 88}, {170, 88}, {171, 88}, {172, 88}, {173, 88}, {174, 88}, {175, 88}, {176, 88}, {177, 88}, {178, 88},
+
                 };
 
+
+                blocked = null;
                 blocked = blocked2022;
+                bounds(blocked, 6);
+                block(blocked, 1);
 
             break;
 
@@ -277,10 +283,14 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
                     {170,4}, {170,5}, {170,6}, {171,6}, {171,7}, {171,8}, {171,9}, {172,9}, {172,10}, {172,11}, {172,12}, {173,12}, {173,13}, {173,14}, {173,15}, {174,15}, {174,16}, {174,17}, {175,17}, {175,18}, {175,19}, {176,19}, {176,20}, {176,20}, {176,21}, {176,22}, {176,23}, {176,24}, {176,25}, {176,26}, {176,27}, {176,28}, {176,29}, {176,30}, {176,31}, {176,32}, {176,33}, {176,34}, {176,35}, {176,36}, {176,37}, {176,38}, {176,39}, {176,40}, {176,41}, {176,42}, {176,43}, {176,44}, {176,45}, {176,46}, {176,47}, {176,48}, {176,49}, {176,50}, {176,51}, {176,52}, {176,53}, {176,54}, {176,55}, {176,56}, {176,57},  {176,58}, {176,59}, {176,60}, {176,61}, {176,62}, {176,63}, {176,64}, {176,65}, {176,66}, {176,67}, {176,68}, {176,69}, {176,70}, {176,71}, {175,71}, {175,71}, {175,72}, {175,73}, {175,74}, {174,74}, {174,75}, {174,76}, {174,77}, {173,77}, {173,78}, {173,79}, {173,80}, {172,80}, {172,81}, {172,82}, {172,83}, {171,83}, {171,84}, {171,85}, {170,85}, {170,86}, {170,87}, 
                 };
 
+                blocked= null;
                 blocked = blocked2021;
+                bounds(blocked, 6);
+                block(blocked, 1);
                 
             break;
         }
+
 
 
 
@@ -355,15 +365,7 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
                     break;
                 }
             break; 
-
-            default:
-                bounds(blocked, 6);
-                block(blocked, 1);
         }
-
-        
-        bounds(blocked, 6);
-        block(blocked, 1);
     }
 
     public static void block(int[][] array, int color){
@@ -383,7 +385,7 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
         for(int i = 0; array.length > i; i++){
             x = array[i][0];
             y = array[i][1];
-            for(int counter = 0; counter <= 3; counter++){
+            for(int counter = 0; counter <= 2; counter++){
                 y++;
                 Node current = FrcApp.map[x][y]/*[0]*/;
                 current.setType(color);//6 for grey
@@ -392,7 +394,7 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
         for(int i = 0; array.length > i; i++){
             x = array[i][0];
             y = array[i][1]; 
-            for(int counter = 0; counter <= 3; counter++){
+            for(int counter = 0; counter <= 2; counter++){
                 y--;
                 Node current = FrcApp.map[x][y]/*[0]*/;
                 current.setType(color);//6 for grey
@@ -401,7 +403,7 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
         for(int i = 0; array.length > i; i++){
             x = array[i][0];
             y = array[i][1]; 
-            for(int counter = 0; counter <= 3; counter++){
+            for(int counter = 0; counter <= 2; counter++){
                 x++;
                 Node current = FrcApp.map[x][y]/*[0]*/;
                 current.setType(color);//6 for grey
@@ -410,7 +412,7 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
         for(int i = 0; array.length > i; i++){
             x = array[i][0];
             y = array[i][1]; 
-            for(int counter = 0; counter <= 3; counter++){
+            for(int counter = 0; counter <= 2; counter++){
                 x--;
                 Node current = FrcApp.map[x][y]/*[0]*/;
                 current.setType(color);//6 for grey
