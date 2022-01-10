@@ -27,7 +27,7 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
 
     double theta = FrcApp.theta;
     double robotAngleTheta;
-    private List<Double> realPathTheta = new ArrayList<Double>(); 
+    public List<Double> realPathTheta = new ArrayList<Double>(); 
     private List<Boolean> xThenYList = new ArrayList<Boolean>();
 
     public FieldMap() {
