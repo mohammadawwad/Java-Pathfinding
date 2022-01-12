@@ -99,7 +99,6 @@ public class FrcApp {
     public static boolean movement = true;
    
     
-//
     // Constructor
     public FrcApp(){
         cleanMap();
@@ -241,6 +240,7 @@ public class FrcApp {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    System.out.println("TEST: " + Maps.realThetaCords);
                     File pathFile = new File(path + pathNumber + ".json");
                     pathFile.createNewFile();
                     while(pathFile.exists() == true){
@@ -274,7 +274,7 @@ public class FrcApp {
                             m = new LinkedHashMap(2);
                             m.put("x", Algorithm.realXCords().get(i));
                             m.put("y", Algorithm.realYCords().get(i));
-                            m.put("theta", Maps.realPathTheta.get(i)); //error here both return null
+                            m.put("theta", Maps.realThetaCords.get(i)); //error here both return null
                             // m.put("xthenY", Maps.xThenYDetails().get(i)); error here
                             m.put("drive", jaDrive);
                             m.put("rotation", jaRotation);

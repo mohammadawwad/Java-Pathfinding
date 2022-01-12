@@ -27,7 +27,9 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
 
     double theta = FrcApp.theta;
     double robotAngleTheta;
-    public List<Double> realPathTheta = new ArrayList<Double>(); 
+    private List<Double> realPathTheta = new ArrayList<Double>(); 
+    public List<Double> realThetaCords = new ArrayList<Double>(); 
+    
     private List<Boolean> xThenYList = new ArrayList<Boolean>();
 
     public FieldMap() {
@@ -219,11 +221,20 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
         xThenYList.add(FrcApp.returnXYBool());
         System.out.println("Robot Angle: " + realPathTheta);
         System.out.println("xySelected " + xThenYList);
+
+        for(int i = 0; i <= realPathTheta.size() - 1; i++) {
+            realThetaCords.add(realPathTheta.get(i));
+            System.out.println("THETA: " + realThetaCords);
+        }
+
     }
 
-    public List<Double> realThetaCords(){
-        return realPathTheta;
-    }
+    
+
+    // public List<Double> realThetaCords(){
+    //     System.out.println("TEEEEEEEEEEEST: " + realPathTheta);
+    //     return realPathTheta;
+    // }
     public List<Boolean> xThenYDetails(){
         return xThenYList;
     }
