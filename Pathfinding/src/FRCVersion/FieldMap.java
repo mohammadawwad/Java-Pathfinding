@@ -293,6 +293,9 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
                
                     //top left blue post
                     {18, 9}, {17, 9}, {16, 9}, {18, 8}, {17, 8}, {16, 8}, {18, 7}, {17, 7}, {16, 7}, {18, 6}, {17, 6}, {16, 6},
+
+                    //top left red post 
+                    {146, 61}, {147, 61}, {148, 61}, {146, 60}, {147, 60}, {148, 60}, {146, 59}, {147, 59}, {148, 59}, {146, 58}, {147, 58}, {148, 58},
                 };
 
 
