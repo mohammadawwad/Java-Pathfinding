@@ -27,10 +27,8 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
 
     double theta = FrcApp.theta;
     double robotAngleTheta;
-    private List<Double> realPathTheta = new ArrayList<Double>(); 
-    // public List<Double> realThetaCords = new ArrayList<Double>(); 
-    
-    private List<Boolean> xThenYList = new ArrayList<Boolean>();
+    private static List<Double> realPathTheta = new ArrayList<Double>();
+    private static List<Integer> xThenYList = new ArrayList<Integer>();
 
     public FieldMap() {
         addMouseListener(this);
@@ -213,7 +211,7 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
     //Asks for Robot Angle 
     public void promptAngle(){
         String msg = "Enter Robot Angle"; 
-        Object[] msgContent = {FrcApp.xThenY, FrcApp.yThenX, msg}; 
+        Object[] msgContent = {FrcApp.xThenY, FrcApp.yThenX, FrcApp.xAndY, msg}; 
         String robotAngle =  JOptionPane.showInputDialog( FrcApp.frame,  msgContent,  "Settings", JOptionPane.PLAIN_MESSAGE); 
         FrcApp.theta = Double.parseDouble(robotAngle);
         robotAngleTheta = Double.parseDouble(robotAngle);
@@ -227,18 +225,20 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
     
 
     public List<Double> realThetaCords(){
-        System.out.println("TEEEEEEEEEEEST: " + realPathTheta);
         return realPathTheta;
     }
-    public List<Boolean> xThenYDetails(){
+    public List<Integer> xThenYDetails(){
         return xThenYList;
     }
-    public boolean retutnXYSelected(boolean bool){
-        if(bool == true){
-            return true;
+    public Integer retutnXYSelected(int intSelected){
+        if(intSelected == 1){
+            return 1;
+        }
+        else if(intSelected == 2){
+            return 2;
         }
         else{
-            return false;
+            return 3;
         }
     }
 

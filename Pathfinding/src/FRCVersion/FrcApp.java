@@ -80,7 +80,8 @@ public class FrcApp {
     JCheckBox diagonal = new JCheckBox("Diagonal Movement", true);
     static JCheckBox xThenY = new JCheckBox("X then Y");
     static JCheckBox yThenX = new JCheckBox("Y then X");
-    public static boolean xyBool;
+    static JCheckBox xAndY = new JCheckBox("X and Y");
+    public static int xyType;
 
     public static boolean start = false;
     public static int check = 0;
@@ -240,7 +241,6 @@ public class FrcApp {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    System.out.println("TEST: " + Maps.realThetaCords);
                     File pathFile = new File(path + pathNumber + ".json");
                     pathFile.createNewFile();
                     while(pathFile.exists() == true){
@@ -274,8 +274,8 @@ public class FrcApp {
                             m = new LinkedHashMap(2);
                             m.put("x", Algorithm.realXCords().get(i));
                             m.put("y", Algorithm.realYCords().get(i));
-                            m.put("theta", Maps.realThetaCords.get(i)); //error here both return null
-                            // m.put("xthenY", Maps.xThenYDetails().get(i)); error here
+                            m.put("theta", Maps.realThetaCords().get(i));
+                            m.put("xthenY", Maps.xThenYDetails().get(i)); 
                             m.put("drive", jaDrive);
                             m.put("rotation", jaRotation);
                             jaPos.add(m);
@@ -408,10 +408,11 @@ public class FrcApp {
                 if(xThenY.isSelected() == true){
                     xThenY.setSelected(true);
                     yThenX.setSelected(false);
-                    xyBool = true;
+                    xAndY.setSelected(false);
+                    xyType = 1;
                     returnXYBool();
                     // Maps.retutnXYSelected(Maps.xySelected);
-                    System.out.println(xyBool);
+                    System.out.println(xyType);
                 }
             }
         });
@@ -422,10 +423,27 @@ public class FrcApp {
                 if(yThenX.isSelected() == true){
                     yThenX.setSelected(true);
                     xThenY.setSelected(false);
-                    xyBool = false;
+                    xAndY.setSelected(false);
+                    xyType = 2;
                     returnXYBool();
                     // Maps.retutnXYSelected(Maps.xySelected);
-                    System.out.println(xyBool);
+                    System.out.println(xyType);
+                }
+            }
+        });
+
+        xAndY.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                if(xAndY.isSelected() == true){
+                    
+                    xAndY.setSelected(true);
+                    yThenX.setSelected(false);
+                    xThenY.setSelected(false);
+                    xyType = 3;
+                    returnXYBool();
+                    // Maps.retutnXYSelected(Maps.xySelected);
+                    System.out.println(xyType);
                 }
             }
         });
@@ -519,8 +537,8 @@ public class FrcApp {
         
     }
     
-    public static Boolean returnXYBool(){
-        return xyBool;
+    public static Integer returnXYBool(){
+        return xyType;
     }
 
 
