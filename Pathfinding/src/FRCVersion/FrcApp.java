@@ -432,7 +432,7 @@ public class FrcApp {
             }
         });
 
-        //add rotate first and ifnore settings
+        //add rotate first and ignore settings
         xAndY.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e){
