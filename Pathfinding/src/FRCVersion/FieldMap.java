@@ -208,7 +208,7 @@ public class FieldMap extends JPanel implements MouseListener, MouseMotionListen
     }
 
     
-    //Asks for Robot Angle 
+    //Asks for Robot Angle and movement type 
     public void promptAngle(){
         String msg = "Enter Robot Angle"; 
         Object[] msgContent = {FrcApp.xThenY, FrcApp.yThenX, FrcApp.xAndY, msg}; 
